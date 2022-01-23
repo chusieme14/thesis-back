@@ -1,16 +1,13 @@
 <?php
 
-use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\BackOffice\AuthController;
 
-// Route::get('/admin/api/checkuser',[AuthController::class,'checkuser']);
-// Route::post('/admin/api/loginrequest',[AuthController::class,'login']);
+Route::get('checkuser',[AuthController::class,'checkUser']);
+Route::post('login',[AuthController::class,'login']);
 Route::group(['middleware'=>['auth:sanctum']],function(){
-
+    Route::get('logout',[AuthController::class,'logout']);
 });
-Route::get('/{any?}',function(){
-    return view('welcome');
-})->where('any','.*');

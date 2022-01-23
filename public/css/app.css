@@ -25,9 +25,7 @@
     padding: 15px;
     background:#FFF;
     margin:40px auto;
-    -webkit-box-shadow: 0 10px 6px -6px #777;
-     -moz-box-shadow: 0 10px 6px -6px #777;
-          box-shadow: 0 10px 6px -6px #777;
+    box-shadow: 0 10px 6px -6px #777;
 }
 .left-container{
     width: calc(100% - 450px);

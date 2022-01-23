@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[6],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["organization"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/organization/index.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************************************************************************************************!*\

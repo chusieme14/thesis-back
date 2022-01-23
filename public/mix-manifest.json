@@ -1,3 +1,13 @@
 {
-    "/js/app.js": "/js/app.js"
+    "/js/chunks/404.js": "/js/chunks/404.js",
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/js/chunks/admin.js": "/js/chunks/admin.js",
+    "/js/chunks/alumni.js": "/js/chunks/alumni.js",
+    "/js/chunks/dashboard.js": "/js/chunks/dashboard.js",
+    "/js/chunks/event.js": "/js/chunks/event.js",
+    "/js/chunks/news.js": "/js/chunks/news.js",
+    "/js/chunks/organization.js": "/js/chunks/organization.js",
+    "/js/chunks/roles.js": "/js/chunks/roles.js",
+    "/js/chunks/vendors~dashboard.js": "/js/chunks/vendors~dashboard.js"
 }

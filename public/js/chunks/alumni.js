@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[2],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["alumni"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/index.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************!*\

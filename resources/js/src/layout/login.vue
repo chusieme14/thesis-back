@@ -1,52 +1,38 @@
 <template>
-    <v-app>
-        <v-container grid-list-md>
-            <v-layout class="class-container" justify-center row>
-                <v-flex class="class-input-container" md4>
-                    <v-layout justify-center wrap row>
-                        <v-flex md12>
-                            <v-card
-                            elevation="2"
-                            :loading="isloading"
-                            >
-                                <v-card-title>Log in</v-card-title>
-                                <v-card-text>
-                                    <v-layout justify-center row>
-                                        <v-flex md10>
-                                            <v-label>Emial</v-label>
-                                            <v-text-field
-                                                v-model="credential.email"
-                                                solo
-                                                dense
-                                                color="success"
-                                            ></v-text-field>
-                                        </v-flex>
-                                        <v-flex md10>
-                                            <v-label>Password</v-label>
-                                            <v-text-field
-                                                v-model="credential.password"
-                                                solo
-                                                type="password"
-                                                dense
-                                                color="success"
-                                            ></v-text-field>
-                                        </v-flex>
-                                        <v-flex class="class-text" md10>
-                                            <small v-if="iserror" class="errormessege">Invalid email or password</small>
-                                        </v-flex>
-                                    </v-layout>
-                                </v-card-text>
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn @click="login">login</v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-flex>
-                    </v-layout>
-                </v-flex>
-            </v-layout>
-        </v-container>
-    </v-app>
+    <div class="login-main-container">
+        <div class="left-container">
+        </div>
+        <div class="right-container">
+            <div class="right-inner-container">
+                <h2>SE CONNECTER</h2>
+                <v-layout justify-center row>
+                    <v-flex md10>
+                        <v-label>Emial</v-label>
+                        <v-text-field
+                            v-model="credential.email"
+                            solo
+                            dense
+                            color="success"
+                        ></v-text-field>
+                    </v-flex>
+                    <v-flex md10>
+                        <v-label>Password</v-label>
+                        <v-text-field
+                            v-model="credential.password"
+                            solo
+                            type="password"
+                            dense
+                            color="success"
+                        ></v-text-field>
+                    </v-flex>
+                    <v-flex class="class-text" md10>
+                        <small v-if="iserror" class="errormessege">Invalid email or password</small>
+                    </v-flex>
+                    <v-btn color="#89ABB5" @click="login">VALIDER</v-btn>
+                </v-layout>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
 export default {
@@ -59,14 +45,10 @@ export default {
     },
     methods:{
         login(){
-            this.$router.push({name:'dashboard'})
-            return
-            this.isloading=true
             let payload = this.credential
-            // axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.post(`/admin/api/loginrequest`,{...payload}).then(({data})=>{
+                axios.post(`/admin/login`,{...payload}).then(({data})=>{
                     if(!data.error_message){
-                        this.$router.push({name:'waiting'})
+                        this.$router.push({name:'dashboard'})
                     }else {
                         this.iserror = true
                         setTimeout(() => {
@@ -77,7 +59,6 @@ export default {
                 .finally(()=>{
                     this.isloading = false
                 })
-            // })
         }
     }
 }

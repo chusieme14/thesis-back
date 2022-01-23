@@ -1,83 +1,65 @@
 import Axios from 'axios'
 import Vue from 'vue'
 import Router from 'vue-router'
+import dashboard from './dashboard'
+import alumni from './alumni'
+import news from './news'
+import event from './event'
+import organization from './organization'
+import role from './role'
+import admin from './admin'
 
 Vue.use(Router)
 
 const router = new Router({
     mode: 'history',
-    base: '/',
+    base: '',
     scrollBehavior (){
         return {x: 0, y: 0}
     },
 
     routes: [
+        ...dashboard,
+        ...alumni,
+        ...news,
+        ...event,
+        ...organization,
+        ...role,
+        ...admin,
         {
-            path:'/dashboard',
-            component: () => import('../pages/dashboard/index.vue'),
-            // meta:{ requiresAuth:true },
-            name:'dashboard'
-        },
-        {
-            path:'/alumni',
-            component: () => import('../pages/alumni/index.vue'),
-            // meta:{ requiresAuth:true },
-            name:'alumni'
-        },
-        {
-            path:'/news',
-            component: () => import('../pages/news/index.vue'),
-            // meta:{ requiresAuth:true },
-            name:'news'
-        },
-        {
-            path:'/events',
-            component: () => import('../pages/events/index.vue'),
-            // meta:{ requiresAuth:true },
-            name:'events'
-        },
-        {
-            path:'/organization-chart',
-            component: () => import('../pages/organization/index.vue'),
-            // meta:{ requiresAuth:true },
-            name:'organization-chart'
-        },
-        {
-            path:'/roles',
-            component: () => import('../pages/roles/index.vue'),
-            // meta:{ requiresAuth:true },
-            name:'roles'
-        },
-        {
-            path:'/admin-user',
-            component: () => import('../pages/admins/index.vue'),
-            // meta:{ requiresAuth:true },
-            name:'admins'
-        },
-        {
-            path:'/',
-            component: () => import('@back/layout/login.vue'),
+            path:'/login',
+            component: () => import(/* webpackChunkName: "login" */'@/layout/login.vue'),
             name:'login'
+        },
+        {
+            path:'*',
+            component: () => import(/* webpackChunkName: "404" */'@/layout/404.vue'),
+            name:'not-found'
         }
     ]
 })
-// router.beforeEach((to, from, next) => {
-//     Axios.get(`/admin/api/checkuser`).then(({data})=>{
-//         if (to.matched.some(record => record.meta.requiresAuth)) {
-//           // this route requires auth, check if logged in
-//           // if not, redirect to login page.
-//           if (!data) {
-//             next({
-//               name: 'login',
-//               query: { redirect: to.fullPath }
-//             })
-//           } else {
-//             next()
-//           }
-//         } else {
-//           next() // make sure to always call next()!
-//         }
-//     })
-//   })
+router.beforeEach((to, from, next) => {
+    Axios.get(`/admin/checkuser`).then(({data})=>{
+        if(to.name=='login' && data){
+            next({
+                name: 'not-found',
+                query: { redirect: to.fullPath }
+              })
+            return 
+        } 
+        if (to.matched.some(record => record.meta.requiresAuth)) {
+            if (!data) {
+                next({
+                    name: 'login',
+                    query: { redirect: to.fullPath }
+                })
+            } else {
+            next()
+            }
+        } else {
+            next()
+        }
+    })
+  })
 
 export default router

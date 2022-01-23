@@ -4,9 +4,17 @@ mix.webpackConfig({
     resolve:{
        extensions: ['.js', '.vue', '.ts'],
        alias: {
-          '@back': path.resolve(__dirname, 'resources/js/src')
+          '@': path.resolve(__dirname, 'resources/js/src')
        }
-    }
+    },
+    output: {
+      chunkFilename: "js/chunks/[name].js"
+   },
+   devServer: {
+         headers: {
+            "Access-Control-Allow-Origin": "*"
+         }
+   }
  });
 /*
  |--------------------------------------------------------------------------
@@ -21,6 +29,9 @@ mix.webpackConfig({
 
 mix
 .js('resources/js/app.js', 'js')
+.postCss('resources/css/app.css', 'public/css', [
+   //
+]);
 // .sass('resources/backoffice/sass/app.scss', 'backoffice/css')
 
 // mix.js('resources/js/app.js', 'public/js')
