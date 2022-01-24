@@ -22389,7 +22389,7 @@ var render = function () {
         "div",
         { staticClass: "right-inner-container" },
         [
-          _c("h2", [_vm._v("SE CONNECTER")]),
+          _c("h2", [_vm._v("Sign in")]),
           _vm._v(" "),
           _c(
             "v-layout",

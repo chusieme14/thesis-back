@@ -4,7 +4,7 @@
         </div>
         <div class="right-container">
             <div class="right-inner-container">
-                <h2>SE CONNECTER</h2>
+                <h2>Sign in</h2>
                 <v-layout justify-center row>
                     <v-flex md10>
                         <v-label>Emial</v-label>
