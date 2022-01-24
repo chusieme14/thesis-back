@@ -5,4 +5,10 @@ export default[
         meta:{ requiresAuth:true },
         name:'alumni'
     },
+    {
+        path:'/alumni/create',
+        component: () => import(/* webpackChunkName: "alumni" */'../pages/alumni/form.vue'),
+        meta:{ requiresAuth:true },
+        name:'alumni-create'
+    },
 ]

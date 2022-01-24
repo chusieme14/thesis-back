@@ -33,3 +33,26 @@
     width: calc(100% - 450px);
     background-color: #161616;
 }
+.table-header-main-container{
+    display: flex;
+}
+.table-header-search{
+    width: 96%;
+}
+.filter-main-container{
+    width: 500px;
+    display: block;
+}
+.filter-main-container div{
+    display: flex;
+}
+.hidden{
+    display: none;
+}
+.sidebar-menu{
+    overflow-y:scroll;
+    height: 80vh;
+}
+.sidebar-menu::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}

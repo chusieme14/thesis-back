@@ -9,6 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _filter_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./filter.vue */ "./resources/js/src/pages/events/filter.vue");
 //
 //
 //
@@ -52,106 +53,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    GraduateFilter: _filter_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
-      search: '',
-      headers: [{
-        text: 'Dessert (100g serving)',
-        align: 'start',
-        sortable: false,
-        value: 'name'
-      }, {
-        text: 'Calories',
-        value: 'calories'
-      }, {
-        text: 'Fat (g)',
-        value: 'fat'
-      }, {
-        text: 'Carbs (g)',
-        value: 'carbs'
-      }, {
-        text: 'Protein (g)',
-        value: 'protein'
-      }, {
-        text: 'Iron (%)',
-        value: 'iron'
-      }, {
-        text: 'actions',
-        value: 'actions'
-      }],
-      desserts: [{
-        name: 'Frozen Yogurt',
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        iron: '1%'
-      }, {
-        name: 'Ice cream sandwich',
-        calories: 237,
-        fat: 9.0,
-        carbs: 37,
-        protein: 4.3,
-        iron: '1%'
-      }, {
-        name: 'Eclair',
-        calories: 262,
-        fat: 16.0,
-        carbs: 23,
-        protein: 6.0,
-        iron: '7%'
-      }, {
-        name: 'Cupcake',
-        calories: 305,
-        fat: 3.7,
-        carbs: 67,
-        protein: 4.3,
-        iron: '8%'
-      }, {
-        name: 'Gingerbread',
-        calories: 356,
-        fat: 16.0,
-        carbs: 49,
-        protein: 3.9,
-        iron: '16%'
-      }, {
-        name: 'Jelly bean',
-        calories: 375,
-        fat: 0.0,
-        carbs: 94,
-        protein: 0.0,
-        iron: '0%'
-      }, {
-        name: 'Lollipop',
-        calories: 392,
-        fat: 0.2,
-        carbs: 98,
-        protein: 0,
-        iron: '2%'
-      }, {
-        name: 'Honeycomb',
-        calories: 408,
-        fat: 3.2,
-        carbs: 87,
-        protein: 6.5,
-        iron: '45%'
-      }, {
-        name: 'Donut',
-        calories: 452,
-        fat: 25.0,
-        carbs: 51,
-        protein: 4.9,
-        iron: '22%'
-      }, {
-        name: 'KitKat',
-        calories: 518,
-        fat: 26.0,
-        carbs: 65,
-        protein: 7,
-        iron: '6%'
-      }]
+      payload: {},
+      showForm: false,
+      graduates: [],
+      data: {
+        title: "Guns",
+        isFetching: false,
+        keyword: "",
+        filter: {}
+      },
+      footerPages: {
+        "items-per-page-options": [5, 10, 15, 20, 30, 40, 50, 100, -1]
+      },
+      options: {
+        itemsPerPage: 15
+      },
+      total: 0,
+      headers: []
     };
+  },
+  methods: {
+    addNew: function addNew() {},
+    fetchPage: function fetchPage() {},
+    resetFilter: function resetFilter() {}
   }
 });
 
@@ -173,127 +111,129 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    "v-card",
+    { attrs: { elevation: "1", "max-height": "90vh" } },
     [
-      [
-        _c(
-          "v-card",
-          [
-            _c(
-              "v-card-title",
-              [
-                _vm._v("\n            Alumni\n            "),
-                _c("v-spacer"),
-                _vm._v(" "),
-                _c("v-text-field", {
-                  attrs: {
-                    "append-icon": "mdi-magnify",
-                    label: "Search",
-                    "single-line": "",
-                    "hide-details": "",
-                  },
-                  model: {
-                    value: _vm.search,
-                    callback: function ($$v) {
-                      _vm.search = $$v
-                    },
-                    expression: "search",
-                  },
-                }),
-                _vm._v(" "),
-                _c(
-                  "v-btn",
-                  { staticClass: "ml-2", attrs: { color: "success" } },
-                  [_vm._v("Add data")]
-                ),
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("v-data-table", {
-              attrs: {
-                headers: _vm.headers,
-                items: _vm.desserts,
-                search: _vm.search,
-              },
-              scopedSlots: _vm._u([
-                {
-                  key: "item.actions",
-                  fn: function (ref) {
-                    var item = ref.item
-                    return [
-                      _c(
-                        "v-btn",
-                        _vm._g(
-                          _vm._b(
-                            {
-                              attrs: {
-                                fab: "",
-                                icon: "",
-                                small: "",
-                                color: "primary",
-                              },
-                            },
-                            "v-btn",
-                            _vm.attrs,
-                            false
-                          ),
-                          _vm.on
-                        ),
-                        [
-                          _c("v-icon", { attrs: { dark: "" } }, [
-                            _vm._v(
-                              "\n                        edit\n                    "
-                            ),
-                          ]),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        _vm._g(
-                          _vm._b(
-                            {
-                              attrs: {
-                                fab: "",
-                                icon: "",
-                                small: "",
-                                color: "error",
-                              },
-                            },
-                            "v-btn",
-                            _vm.attrs,
-                            false
-                          ),
-                          _vm.on
-                        ),
-                        [
-                          _c("v-icon", { attrs: { dark: "" } }, [
-                            _vm._v(
-                              "\n                        delete\n                    "
-                            ),
-                          ]),
-                        ],
-                        1
-                      ),
-                    ]
-                  },
+      _c(
+        "v-card-text",
+        [
+          _c("table-header", {
+            attrs: { data: _vm.data },
+            on: {
+              addNew: _vm.addNew,
+              refresh: _vm.fetchPage,
+              search: _vm.fetchPage,
+              resetFilters: _vm.resetFilter,
+              filterRecord: _vm.fetchPage,
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "custom_filter",
+                fn: function () {
+                  return [
+                    _c("graduate-filter", {
+                      attrs: { filter: _vm.data.filter },
+                    }),
+                  ]
                 },
-              ]),
-            }),
-          ],
-          1
-        ),
-      ],
+                proxy: true,
+              },
+            ]),
+          }),
+          _vm._v(" "),
+          _c("v-data-table", {
+            staticClass: "cursor-pointer table-fix-height",
+            attrs: {
+              headers: _vm.headers,
+              items: _vm.graduates,
+              "max-height": "100%",
+              "single-select": false,
+              "show-select": "",
+              search: _vm.data.keyword,
+              loading: _vm.data.isFetching,
+              "server-items-length": _vm.total,
+              "footer-props": _vm.footerPages,
+              options: _vm.options,
+              "items-per-page": _vm.options.itemsPerPage,
+              "fixed-header": "",
+            },
+            on: {
+              "update:options": [
+                function ($event) {
+                  _vm.options = $event
+                },
+                _vm.fetchPage,
+              ],
+            },
+          }),
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "600px" },
+          model: {
+            value: _vm.showForm,
+            callback: function ($$v) {
+              _vm.showForm = $$v
+            },
+            expression: "showForm",
+          },
+        },
+        [
+          _c("gun-form", {
+            attrs: { payload: _vm.payload },
+            on: {
+              cancel: function ($event) {
+                _vm.showForm = false
+              },
+            },
+          }),
+        ],
+        1
+      ),
     ],
-    2
+    1
   )
 }
 var staticRenderFns = []
 render._withStripped = true
 
 
+
+/***/ }),
+
+/***/ "./resources/js/src/pages/events/filter.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/src/pages/events/filter.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+var render, staticRenderFns
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__["default"])(
+  script,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+component.options.__file = "resources/js/src/pages/events/filter.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
