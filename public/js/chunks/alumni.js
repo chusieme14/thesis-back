@@ -30,6 +30,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
@@ -179,7 +200,45 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "v-card",
+    { attrs: { elevation: "2", height: "95vh" } },
+    [
+      _c(
+        "v-card-title",
+        [_c("v-btn"), _vm._v(" "), _c("v-spacer"), _vm._v(" "), _c("v-btn")],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-card-text",
+        [
+          _c(
+            "v-container",
+            [
+              _c(
+                "v-row",
+                { attrs: { align: _vm.align, "no-gutters": "" } },
+                [
+                  _c("v-col", { attrs: { cols: "12", sm: "6", md: "8" } }, [
+                    _vm._v(
+                      "\n                    sdsssssssaaaaaaa\n                "
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("v-col", { attrs: { cols: "6", md: "4" } }),
+                ],
+                1
+              ),
+            ],
+            1
+          ),
+        ],
+        1
+      ),
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
