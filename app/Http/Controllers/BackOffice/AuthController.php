@@ -26,21 +26,19 @@ class AuthController extends Controller
             return response(['error_message' => 'Incorrect credentials']);
         }
         Auth::login($admin);
-        // }
-        $token = $admin->createToken('ACCESS TOKEN')->accessToken;
 
-        return response(['user' => auth()->user(), 'token' => $token]);
+
+        return response()->json('success', 200);
     }
 
     public function checkUser(Request $request){
-        // return Auth::guard('web')->user();
-        if($request->user()) return true;
-        else return false; 
+        return Auth::check();
     }
 
     public function logout(Request $request){
-        $request->user()->tokens()->delete();
-        Cookie::queue(Cookie::forget('alumni_session'));
-        return $request->user();
+        auth()->guard('web')->logout();
+        $request->session()->invalidate();
+
+        return "success";
     }
 }
