@@ -53,6 +53,20 @@
     overflow-y:scroll;
     height: 80vh;
 }
-.sidebar-menu::-webkit-scrollbar {
-    display: none; /* for Chrome, Safari, and Opera */
+*::-webkit-scrollbar {
+    display: none;
+}
+.graduate-avatar{
+    border-radius: 50% !important;
+    height: 200px;
+    width: 200px;
+    object-fit: contain;
+    justify-content: center;
+}
+.graduate-image-container{
+    display: flex;
+    justify-content: center;
+}
+.text-danger{
+    color: red !important;
 }

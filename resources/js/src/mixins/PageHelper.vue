@@ -4,7 +4,7 @@
 export default {
     data(vm) {
         return {
-            // active_route: "/",
+            active_route: "/",
             // currentlang: language,
             // footerPages: {
             //     "items-per-page-options": [5, 10, 15, 20, 30, 40, 50, 100], 
@@ -12,7 +12,7 @@ export default {
             // isCode: 0,
             // openedMenu: [],
             // processing: false,
-            // selected: []
+            selected: []
         };
     },
     methods: {
@@ -24,6 +24,15 @@ export default {
         },
         _commit(key, value) {
             this.$store.commit(key, value);
+        },
+        _createFilterParams(filters){
+            let params = "";
+            for (const item in filters){
+                if(filters[item])
+                    params = params + '&' + item + '=' + filters[item]
+            }
+            return params;
+
         },
         _createParams(params,old_params) {
             let param = "";
@@ -224,7 +233,14 @@ export default {
             //     content: this._lang("record_updated_successfully")
             // });
             this.$toast.success(this._lang("record_updated_successfully"));
-        }
+        },
+        _notExist(val) {
+            if (val == "") return true;
+            if (val == null) return true;
+            if (val == undefined) return true;
+
+            return false;
+        },
     },
     watch: {
         _currentlang(newValue) {
@@ -269,6 +285,7 @@ export default {
         ucase(value) {
             if (value) return value.toUpperCase();
         }
-    }
+    },
+    
 };
 </script>

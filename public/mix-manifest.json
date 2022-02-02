@@ -9,5 +9,6 @@
     "/js/chunks/news.js": "/js/chunks/news.js",
     "/js/chunks/organization.js": "/js/chunks/organization.js",
     "/js/chunks/roles.js": "/js/chunks/roles.js",
+    "/js/chunks/vendors~alumni.js": "/js/chunks/vendors~alumni.js",
     "/js/chunks/vendors~dashboard.js": "/js/chunks/vendors~dashboard.js"
 }
