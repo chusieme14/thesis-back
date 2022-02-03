@@ -412,6 +412,57 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     show: {
@@ -438,7 +489,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         civil_status: 'Single',
         gender: 'Male',
         employed: 'No',
-        employment_date: null
+        employment_date: null,
+        highest_attainment: 'Baccalaureate Degree',
+        year_Graduated: null
       },
       footerPages: {
         "items-per-page-options": [5, 10]
@@ -460,7 +513,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       civil_status: ['Single', 'Married', 'Separated', 'Widowed'],
       genders: ['Male', 'Famale'],
-      booleanOptions: ['No', 'Yes']
+      booleanOptions: ['No', 'Yes'],
+      attainmentOptions: ['Baccalaureate Degree', 'Masteral', 'Doctorate'],
+      employmentStatus: ['Contractual', 'Permanent', 'Self-employed', 'Casual', 'Not Applicable']
     };
   },
   methods: {
@@ -590,6 +645,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }
       },
       immediate: true
+    }
+  },
+  computed: {
+    years: function years() {
+      var schoolYear = [];
+      var year = new Date().getFullYear();
+      var startYear = year - 5;
+
+      for (var start = year - 1; start >= startYear; start--) {
+        schoolYear.push("".concat(start, " - ").concat(start + 1));
+      }
+
+      return schoolYear;
     }
   }
 });
@@ -1948,12 +2016,12 @@ var render = function () {
                                           { staticClass: "text-danger" },
                                           [_vm._v("*")]
                                         ),
-                                        _vm._v(" Employed "),
+                                        _vm._v(" Status of Employment "),
                                       ]),
                                       _vm._v(" "),
                                       _c("v-autocomplete", {
                                         attrs: {
-                                          items: _vm.booleanOptions,
+                                          items: _vm.employmentStatus,
                                           "hide-details": "auto",
                                           "background-color": _vm.isdark
                                             ? "#777"
@@ -1967,15 +2035,16 @@ var render = function () {
                                           required: "",
                                         },
                                         model: {
-                                          value: _vm.payload.employed,
+                                          value: _vm.payload.employment_status,
                                           callback: function ($$v) {
                                             _vm.$set(
                                               _vm.payload,
-                                              "employed",
+                                              "employment_status",
                                               $$v
                                             )
                                           },
-                                          expression: "payload.employed",
+                                          expression:
+                                            "payload.employment_status",
                                         },
                                       }),
                                     ],
@@ -1998,6 +2067,7 @@ var render = function () {
                         [
                           _c(
                             "v-row",
+                            { staticClass: "mb-3" },
                             [
                               _c("v-col", { attrs: { cols: "12", sm: "12" } }, [
                                 _c("h2", [_vm._v("Educational Informations")]),
@@ -2006,7 +2076,167 @@ var render = function () {
                             1
                           ),
                           _vm._v(" "),
-                          _c("v-row"),
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "7", md: "5" },
+                                },
+                                [
+                                  _c("label", [
+                                    _vm._v(" High educational attainment "),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-autocomplete", {
+                                    attrs: {
+                                      items: _vm.attainmentOptions,
+                                      "hide-details": "auto",
+                                      "background-color": _vm.isdark
+                                        ? "#777"
+                                        : "",
+                                      "menu-props": {
+                                        "background-color": "#777",
+                                      },
+                                      filled: "",
+                                      dense: "",
+                                      solo: "",
+                                      required: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.highest_attainment,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.payload,
+                                          "highest_attainment",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "payload.highest_attainment",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "5", md: "3" },
+                                },
+                                [
+                                  _c("label", [_vm._v(" Year Graduated ")]),
+                                  _vm._v(" "),
+                                  _c("v-autocomplete", {
+                                    attrs: {
+                                      items: _vm.years,
+                                      "hide-details": "auto",
+                                      "background-color": _vm.isdark
+                                        ? "#777"
+                                        : "",
+                                      "menu-props": {
+                                        "background-color": "#777",
+                                      },
+                                      filled: "",
+                                      dense: "",
+                                      solo: "",
+                                      required: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.year_Graduated,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.payload,
+                                          "year_Graduated",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "payload.year_Graduated",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "4" },
+                                },
+                                [
+                                  _c("label", [_vm._v(" Award(s) ")]),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      required: "",
+                                      "background-color": _vm.isdark
+                                        ? "#777"
+                                        : "",
+                                      solo: "",
+                                      dense: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.awards,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.payload, "awards", $$v)
+                                      },
+                                      expression: "payload.awards",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "5", md: "5" },
+                                },
+                                [
+                                  _c("label", [
+                                    _vm._v(
+                                      " Professional Examination Passed  "
+                                    ),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-autocomplete", {
+                                    attrs: {
+                                      items: _vm.booleanOptions,
+                                      "hide-details": "auto",
+                                      "background-color": _vm.isdark
+                                        ? "#777"
+                                        : "",
+                                      "menu-props": {
+                                        "background-color": "#777",
+                                      },
+                                      filled: "",
+                                      dense: "",
+                                      solo: "",
+                                      required: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.prof_exam_passed,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.payload,
+                                          "prof_exam_passed",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "payload.prof_exam_passed",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                            ],
+                            1
+                          ),
                         ],
                         1
                       ),

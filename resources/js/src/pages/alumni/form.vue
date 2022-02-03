@@ -231,10 +231,10 @@
                                     </v-menu>
                                 </v-col>
                                 <v-col v-if="payload.employed=='Yes'" class="image-text-field" cols="12" sm="5">
-                                    <label><span class="text-danger">*</span> Employed </label>
+                                    <label><span class="text-danger">*</span> Status of Employment </label>
                                     <v-autocomplete
-                                        v-model="payload.employed"
-                                        :items="booleanOptions"
+                                        v-model="payload.employment_status"
+                                        :items="employmentStatus"
                                         hide-details="auto"
                                         :background-color="isdark?'#777':''"
                                         :menu-props="{'background-color':'#777'}"
@@ -247,11 +247,62 @@
                             </v-row>
                         </v-col>
                         <v-col class="image-text-field" cols="12" sm="6">
-                            <v-row>
+                            <v-row class="mb-3">
                                 <v-col cols="12" sm="12"><h2>Educational Informations</h2></v-col>
                             </v-row>
                             <v-row>
-
+                                <v-col class="image-text-field" cols="12" sm="7" md="5">
+                                    <label> High educational attainment </label>
+                                    <v-autocomplete
+                                        v-model="payload.highest_attainment"
+                                        :items="attainmentOptions"
+                                        hide-details="auto"
+                                        :background-color="isdark?'#777':''"
+                                        :menu-props="{'background-color':'#777'}"
+                                        filled
+                                        dense
+                                        solo
+                                        required
+                                    ></v-autocomplete>
+                                </v-col>
+                                <v-col class="image-text-field" cols="12" sm="5" md="3">
+                                    <label> Year Graduated </label>
+                                    <v-autocomplete
+                                        v-model="payload.year_Graduated"
+                                        :items="years"
+                                        hide-details="auto"
+                                        :background-color="isdark?'#777':''"
+                                        :menu-props="{'background-color':'#777'}"
+                                        filled
+                                        dense
+                                        solo
+                                        required
+                                    ></v-autocomplete>
+                                </v-col>
+                                <v-col class="image-text-field" cols="12" sm="4">
+                                    <label> Award(s) </label>
+                                    <v-text-field
+                                        v-model="payload.awards"
+                                        required
+                                        :background-color="isdark?'#777':''"
+                                        solo
+                                        dense
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col class="image-text-field" cols="12" sm="5" md="5">
+                                    <label> Professional Examination Passed  </label>
+                                    <v-autocomplete
+                                        v-model="payload.prof_exam_passed"
+                                        :items="booleanOptions"
+                                        hide-details="auto"
+                                        :background-color="isdark?'#777':''"
+                                        :menu-props="{'background-color':'#777'}"
+                                        filled
+                                        dense
+                                        solo
+                                        required
+                                    ></v-autocomplete>
+                                </v-col>
                             </v-row>
                         </v-col>
                     </v-row>
@@ -291,7 +342,9 @@ export default {
                 civil_status:'Single',
                 gender:'Male',
                 employed:'No',
-                employment_date:null
+                employment_date:null,
+                highest_attainment:'Baccalaureate Degree',
+                year_Graduated:null,
             },
             footerPages: {
                 "items-per-page-options": [5,10], 
@@ -327,6 +380,18 @@ export default {
             booleanOptions:[
                 'No',
                 'Yes'
+            ],
+            attainmentOptions:[
+                'Baccalaureate Degree',
+                'Masteral',
+                'Doctorate',
+            ],
+            employmentStatus:[
+                'Contractual',
+                'Permanent',
+                'Self-employed',
+                'Casual',
+                'Not Applicable',
             ]
         }
     },
@@ -422,6 +487,17 @@ export default {
                 }
             },immediate:true
         },
+    },
+    computed:{
+        years(){
+            let schoolYear = []
+            let year = new Date().getFullYear()
+            let startYear = year - 5
+            for (let start = year-1; start >= startYear; start--) {
+                schoolYear.push(`${start} - ${start+1}`)
+            }
+            return schoolYear
+        }
     }
     
 }
