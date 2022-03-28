@@ -1,7 +1,9 @@
 <template>
-    <v-card height="95vh">
+    <v-card max-height="92vh">
         <v-card-title>
             <span class="text-h5">Graduate Informations</span>
+            <v-spacer></v-spacer>
+            <v-btn color="success">Multiple add</v-btn>
         </v-card-title>
         <v-card-text>
             <v-form ref="form">
@@ -31,42 +33,33 @@
                                     <v-col class="image-text-field" cols="12" sm="4">
                                         <label><span class="text-danger">*</span> First name </label>
                                         <v-text-field
-                                            :rules="[() => !!payload.first_name ||  'this field is required']"
-                                            ref="first_name"
-                                            :error-messages="errorMessages"
                                             v-model="payload.first_name"
-                                            required
+                                            :rules="[() => !!payload.first_name ||  '']"
                                             :background-color="isdark?'#777':''"
                                             hide-details="auto"
-                                            solo
                                             dense
+                                            filled
                                         ></v-text-field>
                                     </v-col>
                                     <v-col class="image-text-field" cols="12" sm="4">
                                         <label><span class="text-danger">*</span> Last name </label>
                                         <v-text-field
-                                            :rules="[() => !!payload.last_name ||  'this field is required']"
-                                            ref="last_name"
-                                            :error-messages="errorMessages"
                                             v-model="payload.last_name"
-                                            required
+                                            :rules="[() => !!payload.last_name ||  '']"
                                             :background-color="isdark?'#777':''"
                                             hide-details="auto"
-                                            solo
                                             dense
+                                            filled
                                         ></v-text-field>
                                     </v-col>
                                     <v-col class="image-text-field" cols="12" sm="4">
                                         <label><span class="text-danger">*</span> Middle name </label>
                                         <v-text-field
-                                            :rules="[() => !!payload.middle_name ||  'this field is required']"
-                                            ref="middle_name"
-                                            :error-messages="errorMessages"
                                             v-model="payload.middle_name"
-                                            required
+                                            :rules="[() => !!payload.middle_name ||  '']"
                                             :background-color="isdark?'#777':''"
-                                            solo
                                             dense
+                                            filled
                                         ></v-text-field>
                                     </v-col>
                                 </v-row>
@@ -74,45 +67,36 @@
                                     <v-col class="image-text-field" cols="12" sm="3">
                                         <label><span class="text-danger">*</span> Student number </label>
                                         <v-text-field
-                                            :rules="[() => !!payload.student_number ||  'this field is required']"
-                                            ref="student_number"
-                                            :error-messages="errorMessages"
+                                            :rules="[() => !!payload.student_number ||  '']"
                                             v-model="payload.student_number"
-                                            required
                                             :background-color="isdark?'#777':''"
-                                            solo
                                             dense
+                                            filled
                                         ></v-text-field>
                                     </v-col>
                                     <v-col class="image-text-field" cols="12" sm="4">
                                         <label><span class="text-danger">*</span> Email </label>
                                         <v-text-field
-                                            :rules="[() => !!payload.email ||  'this field is required']"
-                                            ref="email"
-                                            :error-messages="errorMessages"
+                                            :rules="[() => !!payload.email ||  '']"
                                             v-model="payload.email"
-                                            required
                                             :background-color="isdark?'#777':''"
-                                            solo
                                             dense
+                                            filled
                                         ></v-text-field>
                                     </v-col>
                                     <v-col class="image-text-field" cols="12" sm="3">
                                         <label><span class="text-danger">*</span> Contact number </label>
                                         <v-text-field
-                                            :rules="[() => !!payload.contact_number ||  'this field is required']"
-                                            ref="contact_number"
-                                            :error-messages="errorMessages"
+                                            :rules="[() => !!payload.contact_number ||  '']"
                                             v-model="payload.contact_number"
-                                            required
                                             :background-color="isdark?'#777':''"
-                                            solo
                                             dense
+                                            filled
                                             type="number"
                                         ></v-text-field>
                                     </v-col>
                                     <v-col class="image-text-field" cols="12" sm="2">
-                                        <label><span class="text-danger">*</span> Civil status </label>
+                                        <label>Civil status </label>
                                         <v-autocomplete
                                             v-model="payload.civil_status"
                                             :items="civil_status"
@@ -121,14 +105,12 @@
                                             :menu-props="{'background-color':'#777'}"
                                             filled
                                             dense
-                                            solo
-                                            required
                                         ></v-autocomplete>
                                     </v-col>
                                 </v-row>
                                 <v-row>
                                     <v-col class="image-text-field" cols="12" sm="3">
-                                        <label><span class="text-danger">*</span> Birthday </label>
+                                        <label>Birthday </label>
                                         <v-menu
                                             :close-on-content-click="true"
                                             transition="scale-transition"
@@ -141,8 +123,8 @@
                                                     readonly
                                                     v-bind="attrs"
                                                     v-on="on"
-                                                    solo
                                                     dense
+                                                    filled
                                                 ></v-text-field>
                                             </template>
                                             <v-date-picker
@@ -154,20 +136,17 @@
                                         </v-menu>
                                     </v-col>
                                     <v-col class="image-text-field" cols="12" sm="4">
-                                        <label><span class="text-danger">*</span> Location of Residence </label>
+                                        <label> Location of Residence </label>
                                         <v-text-field
-                                            :rules="[() => !!payload.residence ||  'this field is required']"
-                                            ref="residence"
                                             :error-messages="errorMessages"
                                             v-model="payload.residence"
-                                            required
                                             :background-color="isdark?'#777':''"
-                                            solo
+                                            filled
                                             dense
                                         ></v-text-field>
                                     </v-col>
                                     <v-col class="image-text-field" cols="12" sm="2">
-                                        <label><span class="text-danger">*</span> Gender </label>
+                                        <label> Gender </label>
                                         <v-autocomplete
                                             v-model="payload.gender"
                                             :items="genders"
@@ -176,8 +155,6 @@
                                             :menu-props="{'background-color':'#777'}"
                                             filled
                                             dense
-                                            solo
-                                            required
                                         ></v-autocomplete>
                                     </v-col>
                                 </v-row>
@@ -187,11 +164,93 @@
                     <v-row>
                         <v-col class="image-text-field" cols="12" sm="6">
                             <v-row class="mb-3">
+                                <v-col cols="12" sm="12"><h2>Educational Informations</h2></v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col class="image-text-field" cols="12" sm="7" md="5">
+                                    <label>High educational attainment </label>
+                                    <v-autocomplete
+                                        v-model="payload.attainment"
+                                        :items="attainmentOptions"
+                                        hide-details="auto"
+                                        :background-color="isdark?'#777':''"
+                                        :menu-props="{'background-color':'#777'}"
+                                        item-text="name"
+                                        item-value="id"
+                                        filled
+                                        dense
+                                    ></v-autocomplete>
+                                </v-col>
+                                <v-col class="image-text-field" cols="12" sm="5" md="3">
+                                    <label> Prof. Exam Passed  </label>
+                                    <v-autocomplete
+                                        v-model="payload.prof_exam_passed"
+                                        :items="booleanOptions"
+                                        hide-details="auto"
+                                        :background-color="isdark?'#777':''"
+                                        :menu-props="{'background-color':'#777'}"
+                                        filled
+                                        dense
+                                    ></v-autocomplete>
+                                </v-col>
+                                <v-col class="image-text-field" cols="12" sm="4">
+                                    <label> Award(s) </label>
+                                    <v-text-field
+                                        v-model="payload.awards"
+                                        :background-color="isdark?'#777':''"
+                                        dense
+                                        filled
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col class="image-text-field" cols="12" sm="5" md="7">
+                                    <label><span class="text-danger">*</span> Course  </label>
+                                    <v-autocomplete
+                                        v-model="payload.course_id"
+                                        :rules="[() => !!payload.course_id || '']"
+                                        :items="courses"
+                                        item-text="display_name"
+                                        item-value="id"
+                                        hide-details="auto"
+                                        :background-color="isdark?'#777':''"
+                                        :menu-props="{'background-color':'#777'}"
+                                        filled
+                                        dense
+                                    ></v-autocomplete>
+                                </v-col>
+                                <v-col class="image-text-field" cols="12" sm="5" md="2">
+                                    <label><span class="text-danger">*</span> Section  </label>
+                                    <v-text-field
+                                        v-model="payload.section"
+                                        :rules="[() => !!payload.section || '']"
+                                        hide-details="auto"
+                                        :background-color="isdark?'#777':''"
+                                        :menu-props="{'background-color':'#777'}"
+                                        filled
+                                        dense
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col class="image-text-field" cols="12" sm="5" md="3">
+                                    <label><span class="text-danger">*</span> Year Graduated </label>
+                                    <v-autocomplete
+                                        v-model="payload.batch"
+                                        :rules="[() => !!payload.batch ||  '']"
+                                        :items="years"
+                                        hide-details="auto"
+                                        :background-color="isdark?'#777':''"
+                                        :menu-props="{'background-color':'#777'}"
+                                        filled
+                                        dense
+                                    ></v-autocomplete>
+                                </v-col>
+                            </v-row>
+                        </v-col>
+                        <v-col class="image-text-field" cols="12" sm="6">
+                            <v-row class="mb-3">
                                 <v-col cols="12" sm="12"><h2>Employment Informations</h2></v-col>
                             </v-row>
                             <v-row>
                                 <v-col class="image-text-field" cols="12" sm="2">
-                                    <label><span class="text-danger">*</span> Employed </label>
+                                    <label>Employed </label>
                                     <v-autocomplete
                                         v-model="payload.employed"
                                         :items="booleanOptions"
@@ -200,8 +259,6 @@
                                         :menu-props="{'background-color':'#777'}"
                                         filled
                                         dense
-                                        solo
-                                        required
                                     ></v-autocomplete>
                                 </v-col>
                                 <v-col v-if="payload.employed=='Yes'" class="image-text-field" cols="12" sm="5">
@@ -218,7 +275,6 @@
                                                 readonly
                                                 v-bind="attrs"
                                                 v-on="on"
-                                                solo
                                                 dense
                                             ></v-text-field>
                                         </template>
@@ -231,7 +287,7 @@
                                     </v-menu>
                                 </v-col>
                                 <v-col v-if="payload.employed=='Yes'" class="image-text-field" cols="12" sm="5">
-                                    <label><span class="text-danger">*</span> Status of Employment </label>
+                                    <label>Status of Employment </label>
                                     <v-autocomplete
                                         v-model="payload.employment_status"
                                         :items="employmentStatus"
@@ -240,67 +296,6 @@
                                         :menu-props="{'background-color':'#777'}"
                                         filled
                                         dense
-                                        solo
-                                        required
-                                    ></v-autocomplete>
-                                </v-col>
-                            </v-row>
-                        </v-col>
-                        <v-col class="image-text-field" cols="12" sm="6">
-                            <v-row class="mb-3">
-                                <v-col cols="12" sm="12"><h2>Educational Informations</h2></v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col class="image-text-field" cols="12" sm="7" md="5">
-                                    <label> High educational attainment </label>
-                                    <v-autocomplete
-                                        v-model="payload.highest_attainment"
-                                        :items="attainmentOptions"
-                                        hide-details="auto"
-                                        :background-color="isdark?'#777':''"
-                                        :menu-props="{'background-color':'#777'}"
-                                        filled
-                                        dense
-                                        solo
-                                        required
-                                    ></v-autocomplete>
-                                </v-col>
-                                <v-col class="image-text-field" cols="12" sm="5" md="3">
-                                    <label> Year Graduated </label>
-                                    <v-autocomplete
-                                        v-model="payload.year_Graduated"
-                                        :items="years"
-                                        hide-details="auto"
-                                        :background-color="isdark?'#777':''"
-                                        :menu-props="{'background-color':'#777'}"
-                                        filled
-                                        dense
-                                        solo
-                                        required
-                                    ></v-autocomplete>
-                                </v-col>
-                                <v-col class="image-text-field" cols="12" sm="4">
-                                    <label> Award(s) </label>
-                                    <v-text-field
-                                        v-model="payload.awards"
-                                        required
-                                        :background-color="isdark?'#777':''"
-                                        solo
-                                        dense
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col class="image-text-field" cols="12" sm="5" md="5">
-                                    <label> Professional Examination Passed  </label>
-                                    <v-autocomplete
-                                        v-model="payload.prof_exam_passed"
-                                        :items="booleanOptions"
-                                        hide-details="auto"
-                                        :background-color="isdark?'#777':''"
-                                        :menu-props="{'background-color':'#777'}"
-                                        filled
-                                        dense
-                                        solo
-                                        required
                                     ></v-autocomplete>
                                 </v-col>
                             </v-row>
@@ -309,6 +304,10 @@
                 </v-container>
             </v-form>
         </v-card-text>
+        <v-card-actions class="custom-card-action mr-5">
+            <v-btn color="error" class="mr-2">Cancel</v-btn>
+            <v-btn @click="save" color="success">Save</v-btn>
+        </v-card-actions>
     </v-card>
 </template>
 <script>
@@ -337,14 +336,11 @@ export default {
             errorMessages:'',
             unlimited:false,
             gunTypes:[],
+            courses:[],
             defualt_image:"/sample/gun.png",
             payload:{
-                civil_status:'Single',
-                gender:'Male',
-                employed:'No',
-                employment_date:null,
-                highest_attainment:'Baccalaureate Degree',
-                year_Graduated:null,
+                prof_exam_passed:'No',
+                details:{}
             },
             footerPages: {
                 "items-per-page-options": [5,10], 
@@ -382,9 +378,18 @@ export default {
                 'Yes'
             ],
             attainmentOptions:[
-                'Baccalaureate Degree',
-                'Masteral',
-                'Doctorate',
+                {
+                    id:1,
+                    name:'Baccalaureate Degree',
+                },
+                {
+                    id:2,
+                    name:'Masteral',
+                },
+                {
+                    id:3,
+                    name:'Doctorate',
+                }
             ],
             employmentStatus:[
                 'Contractual',
@@ -444,13 +449,17 @@ export default {
             this.$emit('cancel')
         },
         save(){
-          if(!this.$refs.form.validate()) return;
-            this.payload.ammunition_ids = this.pluck(this.seleted, 'id')
-            if(this.isedit){
-                this.$emit('edit',this.payload)
-                return
-            }
-            this.$emit('save',this.payload)
+            if(!this.$refs.form.validate()) return;
+            console.log(this.payload,"save payload")
+            // if(this.isedit){
+            //     this.$emit('edit',this.payload)
+            //     return
+            // }
+            // this.$emit('save',this.payload)
+            this.payload.password = 'password'
+            axios.post(`/admin/graduates`,this.payload).then(({data})=>{
+                this.$router.push({name:'graduates'})
+            })
         },
         reset(){
             this.seleted = []
@@ -513,5 +522,9 @@ export default {
     }
     .image-text-field{
         margin-top: -19px !important;
+    }
+    .custom-card-action{
+        display: flex;
+        justify-content: flex-end;
     }
 </style>

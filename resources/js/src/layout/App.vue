@@ -1,10 +1,10 @@
 <template>
     <v-app v-if="!isfetching">
         <div v-if="isAuth && $route.name!='not-found'" class="d-flex class-main-container">
-            <side-bar @logout="logout"></side-bar>
+            <side-bar :drawer="drawer" @logout="logout"></side-bar>
             <div class="class-content">
-                <!-- <main-header></main-header> -->
-                <router-view class="class-main-content"></router-view>
+                <main-header :drawer="drawer" @setDrawer="setDrawer"></main-header>
+                <router-view class="ma-3"></router-view>
             </div>
         </div>
         <router-view v-else-if="$route.name=='not-found'"></router-view>
@@ -25,10 +25,16 @@ export default {
         return{
             isSuperAdmin:false,
             isAuth:false,
-            isfetching:true
+            isfetching:true,
+            drawer:false
         }
     },
     methods:{
+        setDrawer(val){
+            this.drawer = val
+            localStorage.setItem("drawer", val);
+            console.log(val,"asjdhsakjdh")
+        },
         logout(){
             axios.get(`/admin/logout`).then(({data})=>{
                 this.$router.push({name:'login'})
@@ -43,16 +49,11 @@ export default {
             })
         }
     },
-    created(){
-        // console.log(this.$route,"skdjskdj")
-        // this.getAuthuser()
+    mounted(){
+        this.drawer = localStorage.getItem('drawer')=="true"?true:false
     },
     computed:{
-        getCurrentUrl() {
-            let url = this.$route.fullPath
-            let parts = url.split("/")
-            return parts[1]
-        },
+
     },
     watch:{
         $route (to, from){
@@ -62,9 +63,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.class-main-content{
-    margin: 20px;
-}
 .class-header{
     width: 100%;
 }
@@ -75,29 +73,14 @@ export default {
     height: 100%;
 }
 .class-content{
-    // margin: 40px;
-    width: 85%;
+    width: 100%;
     background-color: rgb(236, 231, 231);
 }
 .active {
 	color: #070707 !important;
     background-color: rgb(35, 107, 17);
 }
-.class-title{
-    // margin-left: 65px;
-}
 .v-list-item__content {
     cursor: pointer;
 }
-// .class-sub-list{
-//     align-items: center;
-//     align-self: center;
-//     display: flex;
-//     flex-wrap: wrap;
-//     flex: 1 1;
-//     overflow: hidden;
-//     padding: 2px 0 !important;
-//     margin-top: 13px;
-//     margin-left: 62px;
-// }
 </style>

@@ -1,14 +1,14 @@
 export default[
     {
-        path:'/alumni',
+        path:'/graduates',
         component: () => import(/* webpackChunkName: "alumni" */'../pages/alumni/index.vue'),
         meta:{ requiresAuth:true },
-        name:'alumni'
+        name:'graduates'
     },
     {
-        path:'/alumni/create',
+        path:'/graduates/create',
         component: () => import(/* webpackChunkName: "alumni" */'../pages/alumni/form.vue'),
         meta:{ requiresAuth:true },
-        name:'alumni-create'
+        name:'graduates-create'
     },
 ]

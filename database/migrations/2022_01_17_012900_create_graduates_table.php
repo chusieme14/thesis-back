@@ -17,12 +17,14 @@ class CreateGraduatesTable extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('middle_name');
             $table->string('student_number')->unique();
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->string('password');
             $table->text('avatar')->nullable();
             $table->string('batch');
             $table->string('section');
+            $table->string('contact_number')->nullable();
             $table->unsignedBigInteger('course_id');
             $table->timestamps();
         });
@@ -35,6 +37,6 @@ class CreateGraduatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('alumnae');
+        Schema::dropIfExists('graduates');
     }
 }

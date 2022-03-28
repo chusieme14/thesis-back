@@ -3,10 +3,11 @@
         class=" accent-4"
         dark
         width=300
+        :mini-variant="drawer"
         color="success"
         permanent
     >
-        <v-list rounded>
+        <v-list>
             <v-img
                 lazy-src="/sample/sample_logo.png"
                 max-height="100"
@@ -14,81 +15,26 @@
                 src="/sample/sample_logo.png"
             ></v-img>
             <v-list-item
-                link
-                :class="getCurrentUrl == 'dashboard' ? 'active' : ''"
+                v-for="item in Menuitems"
+                :key="item.name"
+                :class="getCurrentUrl == item.route ? 'active' : ''"
+                @click.stop="$route.name != item.name?$router.push({name: item.route}):''"
             >
-                <v-list-item-icon>
-                    <v-icon>mdi-view-dashboard</v-icon>
+                <v-list-item-icon v-if="drawer">
+                    <v-tooltip right color="#3f8320">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-icon
+                                v-bind="attrs"
+                                v-on="on"
+                            >{{item.icon}}</v-icon>
+                        </template>
+                        <span>{{item.name.toUpperCase() }}</span>
+                    </v-tooltip>
                 </v-list-item-icon>
-                <router-link tag="v-list-item-content" :to="{ name: 'dashboard' }">
-                    <v-list-item-title >Dashboard</v-list-item-title>
-                </router-link>
-            </v-list-item>
-            <v-list-item
-                link
-                :class="getCurrentUrl == 'alumni' ? 'active' : ''"
-            >
-                <v-list-item-icon>
-                    <v-icon>mdi-account-box</v-icon>
+                <v-list-item-icon v-else>
+                    <v-icon>{{item.icon}}</v-icon>
                 </v-list-item-icon>
-                <router-link tag="v-list-item-content" :to="{ name: 'alumni' }">
-                    <v-list-item-title >Alumni</v-list-item-title>
-                </router-link>
-            </v-list-item>
-            <v-list-item
-                link
-                :class="getCurrentUrl == 'news' ? 'active' : ''"
-            >
-                <v-list-item-icon>
-                    <v-icon>mdi-newspaper</v-icon>
-                </v-list-item-icon>
-                <router-link tag="v-list-item-content" :to="{ name: 'news' }">
-                    <v-list-item-title >News</v-list-item-title>
-                </router-link>
-            </v-list-item>
-            <v-list-item
-                link
-                :class="getCurrentUrl == 'events' ? 'active' : ''"
-            >
-                <v-list-item-icon>
-                    <v-icon>mdi-calendar</v-icon>
-                </v-list-item-icon>
-                <router-link tag="v-list-item-content" :to="{ name: 'events' }">
-                    <v-list-item-title >Events</v-list-item-title>
-                </router-link>
-            </v-list-item>
-            <v-list-item
-                link
-                :class="getCurrentUrl == 'organization-chart' ? 'active' : ''"
-            >
-                <v-list-item-icon>
-                    <v-icon>mdi-account-multiple</v-icon>
-                </v-list-item-icon>
-                <router-link tag="v-list-item-content" :to="{ name: 'organization-chart' }">
-                    <v-list-item-title >Organization chart</v-list-item-title>
-                </router-link>
-            </v-list-item>
-            <v-list-item
-                link
-                :class="getCurrentUrl == 'roles' ? 'active' : ''"
-            >
-                <v-list-item-icon>
-                    <v-icon>mdi-security</v-icon>
-                </v-list-item-icon>
-                <router-link tag="v-list-item-content" :to="{ name: 'roles' }">
-                    <v-list-item-title >Roles&Permissions</v-list-item-title>
-                </router-link>
-            </v-list-item>
-            <v-list-item
-                link
-                :class="getCurrentUrl == 'admin-user' ? 'active' : ''"
-            >
-                <v-list-item-icon>
-                    <v-icon>mdi-account-key</v-icon>
-                </v-list-item-icon>
-                <router-link tag="v-list-item-content" :to="{ name: 'admins' }">
-                    <v-list-item-title >Admins</v-list-item-title>
-                </router-link>
+                <v-list-item-title >{{item.name.toUpperCase()}}</v-list-item-title>
             </v-list-item>
         </v-list>
 
@@ -102,19 +48,19 @@
     </v-navigation-drawer>
 </template>
 <script>
-// import Menuitems from './MenuItems'
+import Menuitems from './MenuItems'
 export default {
+    props:{
+        drawer:{}
+    },
     data(){
         return{
-            drawer:false
+            Menuitems: Menuitems,
         }
     },
     methods:{
         logout(){
             this.$emit('logout')
-            // axios.get(`logout`).then(({data})=>{
-            //     this.$router.push({name:'login'})
-            // })
         },
     },
     computed:{

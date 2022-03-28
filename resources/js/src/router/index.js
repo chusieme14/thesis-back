@@ -2,12 +2,13 @@ import Axios from 'axios'
 import Vue from 'vue'
 import Router from 'vue-router'
 import dashboard from './dashboard'
-import alumni from './alumni'
+import graduates from './graduates'
 import news from './news'
 import event from './event'
 import organization from './organization'
 import role from './role'
 import admin from './admin'
+import courses from './courses'
 
 Vue.use(Router)
 
@@ -20,12 +21,13 @@ const router = new Router({
 
     routes: [
         ...dashboard,
-        ...alumni,
+        ...graduates,
         ...news,
         ...event,
         ...organization,
         ...role,
         ...admin,
+        ...courses,
         {
             path:'/login',
             component: () => import(/* webpackChunkName: "login" */'@/layout/login.vue'),

@@ -2,36 +2,39 @@
 
 namespace App\Helpers\SearchFilterHelpers;
 
-use App\Models\Level;
+use Carbon\Carbon;
+use App\Models\Client;
+use App\Models\Graduate;
 
-class Levels {
+class Graduates {
 
     public function __construct()
     {
-        $this->model = Level::query();
+        $this->model = Graduate::query();
     }
 
     public function searchable()
-    {
+    {   
         $this->searchColumns();
         $this->sortBy();
-        
         $per_page = Request()->per_page;
-        if ($per_page=='-1') return $this->model->paginate($this->model->count());
+        if ($per_page=='-1' || !isset(Request()->per_page)) return $this->model->paginate($this->model->count());
         return $this->model->paginate($per_page);
     }
 
     public function searchColumns()
     {
-        $searchable = ['name'];
+        $searchable = ['first_name', 'short_name'];
         if(Request()->keyword && Request()->keyword!="null"){
             $keyword = Request()->keyword;
-            foreach ($searchable as $column) {
-                $this->model->orWhere($column, 'like', "%".$keyword."%");
-            }
+            // $this->model->where(function($q) use ($keyword, $searchable) {
+                // foreach ($searchable as $column) {
+                foreach ($this->clientTableFields as $column) {
+                    $this->model->orWhere($column, 'like', "%".$keyword."%");
+                }
+            // });
         }
     }
-
 
     public function sortBy()
     {
@@ -46,7 +49,7 @@ class Levels {
             }
         }
         else{
-            $this->model->orderBy('difficulty', 'asc');
+            $this->model->orderBy('created_at', 'desc');
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-btn
-            color="#89ABB5"
+            color="primary"
             icon
             @click.stop="$emit('editItem', item)"
             :disabled="disable.includes('edit')"

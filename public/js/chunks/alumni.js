@@ -462,7 +462,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     show: {
@@ -484,14 +483,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       errorMessages: '',
       unlimited: false,
       gunTypes: [],
+      courses: [],
       defualt_image: "/sample/gun.png",
       payload: {
-        civil_status: 'Single',
-        gender: 'Male',
-        employed: 'No',
-        employment_date: null,
-        highest_attainment: 'Baccalaureate Degree',
-        year_Graduated: null
+        prof_exam_passed: 'No',
+        details: {}
       },
       footerPages: {
         "items-per-page-options": [5, 10]
@@ -514,7 +510,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       civil_status: ['Single', 'Married', 'Separated', 'Widowed'],
       genders: ['Male', 'Famale'],
       booleanOptions: ['No', 'Yes'],
-      attainmentOptions: ['Baccalaureate Degree', 'Masteral', 'Doctorate'],
+      attainmentOptions: [{
+        id: 1,
+        name: 'Baccalaureate Degree'
+      }, {
+        id: 2,
+        name: 'Masteral'
+      }, {
+        id: 3,
+        name: 'Doctorate'
+      }],
       employmentStatus: ['Contractual', 'Permanent', 'Self-employed', 'Casual', 'Not Applicable']
     };
   },
@@ -602,15 +607,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$emit('cancel');
     },
     save: function save() {
+      var _this4 = this;
+
       if (!this.$refs.form.validate()) return;
-      this.payload.ammunition_ids = this.pluck(this.seleted, 'id');
+      console.log(this.payload, "save payload"); // if(this.isedit){
+      //     this.$emit('edit',this.payload)
+      //     return
+      // }
+      // this.$emit('save',this.payload)
 
-      if (this.isedit) {
-        this.$emit('edit', this.payload);
-        return;
-      }
+      this.payload.password = 'password';
+      axios.post("/admin/graduates", this.payload).then(function (_ref3) {
+        var data = _ref3.data;
 
-      this.$emit('save', this.payload);
+        _this4.$router.push({
+          name: 'graduates'
+        });
+      });
     },
     reset: function reset() {
       this.seleted = [];
@@ -674,7 +687,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _filter_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./filter.vue */ "./resources/js/src/pages/alumni/filter.vue");
-/* harmony import */ var _form_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./form.vue */ "./resources/js/src/pages/alumni/form.vue");
 //
 //
 //
@@ -756,27 +768,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    GunFilter: _filter_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    GunForm: _form_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    GunFilter: _filter_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
     return {
@@ -798,7 +793,7 @@ __webpack_require__.r(__webpack_exports__);
         itemsPerPage: 15
       },
       total: 0,
-      guns: [],
+      graduates: [],
       headers: [{
         text: 'Id',
         align: 'start',
@@ -813,27 +808,32 @@ __webpack_require__.r(__webpack_exports__);
         text: 'Name',
         align: 'start',
         sortable: true,
-        value: 'name'
+        value: 'full_name'
       }, {
-        text: 'Type',
+        text: 'Email',
         align: 'start',
         sortable: true,
-        value: 'type'
+        value: 'email'
       }, {
-        text: 'Ammunitions',
+        text: 'Student number',
         align: 'start',
         sortable: false,
-        value: 'ammunitions'
+        value: 'student_number'
       }, {
-        text: 'Stocks',
+        text: 'Batch',
         align: 'start',
         sortable: true,
-        value: 'stocks'
+        value: 'batch'
       }, {
-        text: 'Price',
+        text: 'Section',
         align: 'start',
         sortable: true,
-        value: 'price'
+        value: 'section'
+      }, {
+        text: 'Course',
+        align: 'start',
+        sortable: true,
+        value: 'course'
       }, {
         text: 'Action',
         align: 'center',
@@ -845,7 +845,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     addNew: function addNew() {
       this.$router.push({
-        name: 'alumni-create'
+        name: 'graduates-create'
       });
     },
     fetchPage: function fetchPage() {
@@ -858,9 +858,9 @@ __webpack_require__.r(__webpack_exports__);
       params = params + this._createFilterParams(this.data.filter);
       console.log(this.data.keyword, "keyword");
       if (this.data.keyword) params = params + '&keyword=' + this.data.keyword;
-      axios.get("/admin/guns?".concat(params)).then(function (_ref) {
+      axios.get("/admin/graduates?".concat(params)).then(function (_ref) {
         var data = _ref.data;
-        _this.guns = data.data;
+        _this.graduates = data.data;
         _this.data.isFetching = false;
         _this.total = data.total;
       });
@@ -876,7 +876,8 @@ __webpack_require__.r(__webpack_exports__);
     save: function save(val) {
       var _this2 = this;
 
-      axios.post("/admin/guns", val).then(function (_ref2) {
+      console.log(val, "save");
+      axios.post("/admin/graduates", val).then(function (_ref2) {
         var data = _ref2.data;
 
         _this2.fetchPage();
@@ -921,26 +922,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".class-images[data-v-50cde6f1] {\n  display: flex;\n  justify-content: center;\n}\n.class-images .v-image[data-v-50cde6f1] {\n  cursor: pointer;\n}\n.image-text-field[data-v-50cde6f1] {\n  margin-top: -19px !important;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/index.vue?vue&type=style&index=0&id=2f8f2b75&lang=scss&scoped=true&":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/pages/alumni/index.vue?vue&type=style&index=0&id=2f8f2b75&lang=scss&scoped=true& ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".class-images[data-v-50cde6f1] {\n  display: flex;\n  justify-content: center;\n}\n.class-images .v-image[data-v-50cde6f1] {\n  cursor: pointer;\n}\n.image-text-field[data-v-50cde6f1] {\n  margin-top: -19px !important;\n}\n.custom-card-action[data-v-50cde6f1] {\n  display: flex;\n  justify-content: flex-end;\n}", ""]);
 
 // exports
 
@@ -956,36 +938,6 @@ exports.push([module.i, "", ""]);
 
 
 var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--7-2!../../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../../node_modules/vue-loader/lib??vue-loader-options!./form.vue?vue&type=style&index=0&id=50cde6f1&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/form.vue?vue&type=style&index=0&id=50cde6f1&lang=scss&scoped=true&");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/index.vue?vue&type=style&index=0&id=2f8f2b75&lang=scss&scoped=true&":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/pages/alumni/index.vue?vue&type=style&index=0&id=2f8f2b75&lang=scss&scoped=true& ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--7-2!../../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../../node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=style&index=0&id=2f8f2b75&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/index.vue?vue&type=style&index=0&id=2f8f2b75&lang=scss&scoped=true&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -1184,13 +1136,23 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { attrs: { height: "95vh" } },
+    { attrs: { "max-height": "92vh" } },
     [
-      _c("v-card-title", [
-        _c("span", { staticClass: "text-h5" }, [
-          _vm._v("Graduate Informations"),
-        ]),
-      ]),
+      _c(
+        "v-card-title",
+        [
+          _c("span", { staticClass: "text-h5" }, [
+            _vm._v("Graduate Informations"),
+          ]),
+          _vm._v(" "),
+          _c("v-spacer"),
+          _vm._v(" "),
+          _c("v-btn", { attrs: { color: "success" } }, [
+            _vm._v("Multiple add"),
+          ]),
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "v-card-text",
@@ -1287,24 +1249,20 @@ var render = function () {
                                       ]),
                                       _vm._v(" "),
                                       _c("v-text-field", {
-                                        ref: "first_name",
                                         attrs: {
                                           rules: [
                                             function () {
                                               return (
-                                                !!_vm.payload.first_name ||
-                                                "this field is required"
+                                                !!_vm.payload.first_name || ""
                                               )
                                             },
                                           ],
-                                          "error-messages": _vm.errorMessages,
-                                          required: "",
                                           "background-color": _vm.isdark
                                             ? "#777"
                                             : "",
                                           "hide-details": "auto",
-                                          solo: "",
                                           dense: "",
+                                          filled: "",
                                         },
                                         model: {
                                           value: _vm.payload.first_name,
@@ -1339,24 +1297,20 @@ var render = function () {
                                       ]),
                                       _vm._v(" "),
                                       _c("v-text-field", {
-                                        ref: "last_name",
                                         attrs: {
                                           rules: [
                                             function () {
                                               return (
-                                                !!_vm.payload.last_name ||
-                                                "this field is required"
+                                                !!_vm.payload.last_name || ""
                                               )
                                             },
                                           ],
-                                          "error-messages": _vm.errorMessages,
-                                          required: "",
                                           "background-color": _vm.isdark
                                             ? "#777"
                                             : "",
                                           "hide-details": "auto",
-                                          solo: "",
                                           dense: "",
+                                          filled: "",
                                         },
                                         model: {
                                           value: _vm.payload.last_name,
@@ -1391,23 +1345,19 @@ var render = function () {
                                       ]),
                                       _vm._v(" "),
                                       _c("v-text-field", {
-                                        ref: "middle_name",
                                         attrs: {
                                           rules: [
                                             function () {
                                               return (
-                                                !!_vm.payload.middle_name ||
-                                                "this field is required"
+                                                !!_vm.payload.middle_name || ""
                                               )
                                             },
                                           ],
-                                          "error-messages": _vm.errorMessages,
-                                          required: "",
                                           "background-color": _vm.isdark
                                             ? "#777"
                                             : "",
-                                          solo: "",
                                           dense: "",
+                                          filled: "",
                                         },
                                         model: {
                                           value: _vm.payload.middle_name,
@@ -1448,23 +1398,20 @@ var render = function () {
                                       ]),
                                       _vm._v(" "),
                                       _c("v-text-field", {
-                                        ref: "student_number",
                                         attrs: {
                                           rules: [
                                             function () {
                                               return (
                                                 !!_vm.payload.student_number ||
-                                                "this field is required"
+                                                ""
                                               )
                                             },
                                           ],
-                                          "error-messages": _vm.errorMessages,
-                                          required: "",
                                           "background-color": _vm.isdark
                                             ? "#777"
                                             : "",
-                                          solo: "",
                                           dense: "",
+                                          filled: "",
                                         },
                                         model: {
                                           value: _vm.payload.student_number,
@@ -1499,23 +1446,17 @@ var render = function () {
                                       ]),
                                       _vm._v(" "),
                                       _c("v-text-field", {
-                                        ref: "email",
                                         attrs: {
                                           rules: [
                                             function () {
-                                              return (
-                                                !!_vm.payload.email ||
-                                                "this field is required"
-                                              )
+                                              return !!_vm.payload.email || ""
                                             },
                                           ],
-                                          "error-messages": _vm.errorMessages,
-                                          required: "",
                                           "background-color": _vm.isdark
                                             ? "#777"
                                             : "",
-                                          solo: "",
                                           dense: "",
+                                          filled: "",
                                         },
                                         model: {
                                           value: _vm.payload.email,
@@ -1546,23 +1487,20 @@ var render = function () {
                                       ]),
                                       _vm._v(" "),
                                       _c("v-text-field", {
-                                        ref: "contact_number",
                                         attrs: {
                                           rules: [
                                             function () {
                                               return (
                                                 !!_vm.payload.contact_number ||
-                                                "this field is required"
+                                                ""
                                               )
                                             },
                                           ],
-                                          "error-messages": _vm.errorMessages,
-                                          required: "",
                                           "background-color": _vm.isdark
                                             ? "#777"
                                             : "",
-                                          solo: "",
                                           dense: "",
+                                          filled: "",
                                           type: "number",
                                         },
                                         model: {
@@ -1588,14 +1526,7 @@ var render = function () {
                                       attrs: { cols: "12", sm: "2" },
                                     },
                                     [
-                                      _c("label", [
-                                        _c(
-                                          "span",
-                                          { staticClass: "text-danger" },
-                                          [_vm._v("*")]
-                                        ),
-                                        _vm._v(" Civil status "),
-                                      ]),
+                                      _c("label", [_vm._v("Civil status ")]),
                                       _vm._v(" "),
                                       _c("v-autocomplete", {
                                         attrs: {
@@ -1609,8 +1540,6 @@ var render = function () {
                                           },
                                           filled: "",
                                           dense: "",
-                                          solo: "",
-                                          required: "",
                                         },
                                         model: {
                                           value: _vm.payload.civil_status,
@@ -1641,14 +1570,7 @@ var render = function () {
                                       attrs: { cols: "12", sm: "3" },
                                     },
                                     [
-                                      _c("label", [
-                                        _c(
-                                          "span",
-                                          { staticClass: "text-danger" },
-                                          [_vm._v("*")]
-                                        ),
-                                        _vm._v(" Birthday "),
-                                      ]),
+                                      _c("label", [_vm._v("Birthday ")]),
                                       _vm._v(" "),
                                       _c(
                                         "v-menu",
@@ -1673,8 +1595,8 @@ var render = function () {
                                                         {
                                                           attrs: {
                                                             readonly: "",
-                                                            solo: "",
                                                             dense: "",
+                                                            filled: "",
                                                           },
                                                           model: {
                                                             value:
@@ -1739,31 +1661,16 @@ var render = function () {
                                     },
                                     [
                                       _c("label", [
-                                        _c(
-                                          "span",
-                                          { staticClass: "text-danger" },
-                                          [_vm._v("*")]
-                                        ),
                                         _vm._v(" Location of Residence "),
                                       ]),
                                       _vm._v(" "),
                                       _c("v-text-field", {
-                                        ref: "residence",
                                         attrs: {
-                                          rules: [
-                                            function () {
-                                              return (
-                                                !!_vm.payload.residence ||
-                                                "this field is required"
-                                              )
-                                            },
-                                          ],
                                           "error-messages": _vm.errorMessages,
-                                          required: "",
                                           "background-color": _vm.isdark
                                             ? "#777"
                                             : "",
-                                          solo: "",
+                                          filled: "",
                                           dense: "",
                                         },
                                         model: {
@@ -1789,14 +1696,7 @@ var render = function () {
                                       attrs: { cols: "12", sm: "2" },
                                     },
                                     [
-                                      _c("label", [
-                                        _c(
-                                          "span",
-                                          { staticClass: "text-danger" },
-                                          [_vm._v("*")]
-                                        ),
-                                        _vm._v(" Gender "),
-                                      ]),
+                                      _c("label", [_vm._v(" Gender ")]),
                                       _vm._v(" "),
                                       _c("v-autocomplete", {
                                         attrs: {
@@ -1810,8 +1710,6 @@ var render = function () {
                                           },
                                           filled: "",
                                           dense: "",
-                                          solo: "",
-                                          required: "",
                                         },
                                         model: {
                                           value: _vm.payload.gender,
@@ -1852,6 +1750,271 @@ var render = function () {
                             { staticClass: "mb-3" },
                             [
                               _c("v-col", { attrs: { cols: "12", sm: "12" } }, [
+                                _c("h2", [_vm._v("Educational Informations")]),
+                              ]),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "7", md: "5" },
+                                },
+                                [
+                                  _c("label", [
+                                    _vm._v("High educational attainment "),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-autocomplete", {
+                                    attrs: {
+                                      items: _vm.attainmentOptions,
+                                      "hide-details": "auto",
+                                      "background-color": _vm.isdark
+                                        ? "#777"
+                                        : "",
+                                      "menu-props": {
+                                        "background-color": "#777",
+                                      },
+                                      "item-text": "name",
+                                      "item-value": "id",
+                                      filled: "",
+                                      dense: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.attainment,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.payload, "attainment", $$v)
+                                      },
+                                      expression: "payload.attainment",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "5", md: "3" },
+                                },
+                                [
+                                  _c("label", [_vm._v(" Prof. Exam Passed  ")]),
+                                  _vm._v(" "),
+                                  _c("v-autocomplete", {
+                                    attrs: {
+                                      items: _vm.booleanOptions,
+                                      "hide-details": "auto",
+                                      "background-color": _vm.isdark
+                                        ? "#777"
+                                        : "",
+                                      "menu-props": {
+                                        "background-color": "#777",
+                                      },
+                                      filled: "",
+                                      dense: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.prof_exam_passed,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.payload,
+                                          "prof_exam_passed",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "payload.prof_exam_passed",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "4" },
+                                },
+                                [
+                                  _c("label", [_vm._v(" Award(s) ")]),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      "background-color": _vm.isdark
+                                        ? "#777"
+                                        : "",
+                                      dense: "",
+                                      filled: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.awards,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.payload, "awards", $$v)
+                                      },
+                                      expression: "payload.awards",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "5", md: "7" },
+                                },
+                                [
+                                  _c("label", [
+                                    _c("span", { staticClass: "text-danger" }, [
+                                      _vm._v("*"),
+                                    ]),
+                                    _vm._v(" Course  "),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-autocomplete", {
+                                    attrs: {
+                                      rules: [
+                                        function () {
+                                          return !!_vm.payload.course_id || ""
+                                        },
+                                      ],
+                                      items: _vm.courses,
+                                      "item-text": "display_name",
+                                      "item-value": "id",
+                                      "hide-details": "auto",
+                                      "background-color": _vm.isdark
+                                        ? "#777"
+                                        : "",
+                                      "menu-props": {
+                                        "background-color": "#777",
+                                      },
+                                      filled: "",
+                                      dense: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.course_id,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.payload, "course_id", $$v)
+                                      },
+                                      expression: "payload.course_id",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "5", md: "2" },
+                                },
+                                [
+                                  _c("label", [
+                                    _c("span", { staticClass: "text-danger" }, [
+                                      _vm._v("*"),
+                                    ]),
+                                    _vm._v(" Section  "),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      rules: [
+                                        function () {
+                                          return !!_vm.payload.section || ""
+                                        },
+                                      ],
+                                      "hide-details": "auto",
+                                      "background-color": _vm.isdark
+                                        ? "#777"
+                                        : "",
+                                      "menu-props": {
+                                        "background-color": "#777",
+                                      },
+                                      filled: "",
+                                      dense: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.section,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.payload, "section", $$v)
+                                      },
+                                      expression: "payload.section",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "5", md: "3" },
+                                },
+                                [
+                                  _c("label", [
+                                    _c("span", { staticClass: "text-danger" }, [
+                                      _vm._v("*"),
+                                    ]),
+                                    _vm._v(" Year Graduated "),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-autocomplete", {
+                                    attrs: {
+                                      rules: [
+                                        function () {
+                                          return !!_vm.payload.batch || ""
+                                        },
+                                      ],
+                                      items: _vm.years,
+                                      "hide-details": "auto",
+                                      "background-color": _vm.isdark
+                                        ? "#777"
+                                        : "",
+                                      "menu-props": {
+                                        "background-color": "#777",
+                                      },
+                                      filled: "",
+                                      dense: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.batch,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.payload, "batch", $$v)
+                                      },
+                                      expression: "payload.batch",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "image-text-field",
+                          attrs: { cols: "12", sm: "6" },
+                        },
+                        [
+                          _c(
+                            "v-row",
+                            { staticClass: "mb-3" },
+                            [
+                              _c("v-col", { attrs: { cols: "12", sm: "12" } }, [
                                 _c("h2", [_vm._v("Employment Informations")]),
                               ]),
                             ],
@@ -1868,12 +2031,7 @@ var render = function () {
                                   attrs: { cols: "12", sm: "2" },
                                 },
                                 [
-                                  _c("label", [
-                                    _c("span", { staticClass: "text-danger" }, [
-                                      _vm._v("*"),
-                                    ]),
-                                    _vm._v(" Employed "),
-                                  ]),
+                                  _c("label", [_vm._v("Employed ")]),
                                   _vm._v(" "),
                                   _c("v-autocomplete", {
                                     attrs: {
@@ -1887,8 +2045,6 @@ var render = function () {
                                       },
                                       filled: "",
                                       dense: "",
-                                      solo: "",
-                                      required: "",
                                     },
                                     model: {
                                       value: _vm.payload.employed,
@@ -1938,7 +2094,6 @@ var render = function () {
                                                           {
                                                             attrs: {
                                                               readonly: "",
-                                                              solo: "",
                                                               dense: "",
                                                             },
                                                             model: {
@@ -1970,7 +2125,7 @@ var render = function () {
                                             ],
                                             null,
                                             false,
-                                            306365112
+                                            384635665
                                           ),
                                         },
                                         [
@@ -2011,12 +2166,7 @@ var render = function () {
                                     },
                                     [
                                       _c("label", [
-                                        _c(
-                                          "span",
-                                          { staticClass: "text-danger" },
-                                          [_vm._v("*")]
-                                        ),
-                                        _vm._v(" Status of Employment "),
+                                        _vm._v("Status of Employment "),
                                       ]),
                                       _vm._v(" "),
                                       _c("v-autocomplete", {
@@ -2031,8 +2181,6 @@ var render = function () {
                                           },
                                           filled: "",
                                           dense: "",
-                                          solo: "",
-                                          required: "",
                                         },
                                         model: {
                                           value: _vm.payload.employment_status,
@@ -2057,189 +2205,6 @@ var render = function () {
                         ],
                         1
                       ),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        {
-                          staticClass: "image-text-field",
-                          attrs: { cols: "12", sm: "6" },
-                        },
-                        [
-                          _c(
-                            "v-row",
-                            { staticClass: "mb-3" },
-                            [
-                              _c("v-col", { attrs: { cols: "12", sm: "12" } }, [
-                                _c("h2", [_vm._v("Educational Informations")]),
-                              ]),
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-row",
-                            [
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "image-text-field",
-                                  attrs: { cols: "12", sm: "7", md: "5" },
-                                },
-                                [
-                                  _c("label", [
-                                    _vm._v(" High educational attainment "),
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("v-autocomplete", {
-                                    attrs: {
-                                      items: _vm.attainmentOptions,
-                                      "hide-details": "auto",
-                                      "background-color": _vm.isdark
-                                        ? "#777"
-                                        : "",
-                                      "menu-props": {
-                                        "background-color": "#777",
-                                      },
-                                      filled: "",
-                                      dense: "",
-                                      solo: "",
-                                      required: "",
-                                    },
-                                    model: {
-                                      value: _vm.payload.highest_attainment,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.payload,
-                                          "highest_attainment",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "payload.highest_attainment",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "image-text-field",
-                                  attrs: { cols: "12", sm: "5", md: "3" },
-                                },
-                                [
-                                  _c("label", [_vm._v(" Year Graduated ")]),
-                                  _vm._v(" "),
-                                  _c("v-autocomplete", {
-                                    attrs: {
-                                      items: _vm.years,
-                                      "hide-details": "auto",
-                                      "background-color": _vm.isdark
-                                        ? "#777"
-                                        : "",
-                                      "menu-props": {
-                                        "background-color": "#777",
-                                      },
-                                      filled: "",
-                                      dense: "",
-                                      solo: "",
-                                      required: "",
-                                    },
-                                    model: {
-                                      value: _vm.payload.year_Graduated,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.payload,
-                                          "year_Graduated",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "payload.year_Graduated",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "image-text-field",
-                                  attrs: { cols: "12", sm: "4" },
-                                },
-                                [
-                                  _c("label", [_vm._v(" Award(s) ")]),
-                                  _vm._v(" "),
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      required: "",
-                                      "background-color": _vm.isdark
-                                        ? "#777"
-                                        : "",
-                                      solo: "",
-                                      dense: "",
-                                    },
-                                    model: {
-                                      value: _vm.payload.awards,
-                                      callback: function ($$v) {
-                                        _vm.$set(_vm.payload, "awards", $$v)
-                                      },
-                                      expression: "payload.awards",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "image-text-field",
-                                  attrs: { cols: "12", sm: "5", md: "5" },
-                                },
-                                [
-                                  _c("label", [
-                                    _vm._v(
-                                      " Professional Examination Passed  "
-                                    ),
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("v-autocomplete", {
-                                    attrs: {
-                                      items: _vm.booleanOptions,
-                                      "hide-details": "auto",
-                                      "background-color": _vm.isdark
-                                        ? "#777"
-                                        : "",
-                                      "menu-props": {
-                                        "background-color": "#777",
-                                      },
-                                      filled: "",
-                                      dense: "",
-                                      solo: "",
-                                      required: "",
-                                    },
-                                    model: {
-                                      value: _vm.payload.prof_exam_passed,
-                                      callback: function ($$v) {
-                                        _vm.$set(
-                                          _vm.payload,
-                                          "prof_exam_passed",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "payload.prof_exam_passed",
-                                    },
-                                  }),
-                                ],
-                                1
-                              ),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
                     ],
                     1
                   ),
@@ -2248,6 +2213,23 @@ var render = function () {
               ),
             ],
             1
+          ),
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-card-actions",
+        { staticClass: "custom-card-action mr-5" },
+        [
+          _c("v-btn", { staticClass: "mr-2", attrs: { color: "error" } }, [
+            _vm._v("Cancel"),
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            { attrs: { color: "success" }, on: { click: _vm.save } },
+            [_vm._v("Save")]
           ),
         ],
         1
@@ -2263,10 +2245,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/index.vue?vue&type=template&id=2f8f2b75&scoped=true&":
-/*!**************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/pages/alumni/index.vue?vue&type=template&id=2f8f2b75&scoped=true& ***!
-  \**************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/index.vue?vue&type=template&id=2f8f2b75&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/pages/alumni/index.vue?vue&type=template&id=2f8f2b75& ***!
+  \**************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2280,7 +2262,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { staticClass: "ma-5", attrs: { elevation: "1", "max-height": "90vh" } },
+    { attrs: { elevation: "1", height: "92vh" } },
     [
       _c(
         "v-card-text",
@@ -2310,7 +2292,7 @@ var render = function () {
           _c("v-data-table", {
             attrs: {
               headers: _vm.headers,
-              items: _vm.guns,
+              items: _vm.graduates,
               "max-height": "100%",
               "single-select": false,
               "show-select": "",
@@ -2449,32 +2431,6 @@ var render = function () {
                 },
               },
             ]),
-          }),
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-dialog",
-        {
-          attrs: { persistent: "", width: "700px" },
-          model: {
-            value: _vm.showForm,
-            callback: function ($$v) {
-              _vm.showForm = $$v
-            },
-            expression: "showForm",
-          },
-        },
-        [
-          _c("gun-form", {
-            attrs: {
-              selected_item: _vm.selectedItem,
-              isedit: _vm.isedit,
-              details: _vm.details,
-              show: _vm.showForm,
-            },
-            on: { cancel: _vm.cancel, save: _vm.save, edit: _vm.update },
           }),
         ],
         1
@@ -2655,11 +2611,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _index_vue_vue_type_template_id_2f8f2b75_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=2f8f2b75&scoped=true& */ "./resources/js/src/pages/alumni/index.vue?vue&type=template&id=2f8f2b75&scoped=true&");
+/* harmony import */ var _index_vue_vue_type_template_id_2f8f2b75___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=2f8f2b75& */ "./resources/js/src/pages/alumni/index.vue?vue&type=template&id=2f8f2b75&");
 /* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ "./resources/js/src/pages/alumni/index.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _index_vue_vue_type_style_index_0_id_2f8f2b75_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=2f8f2b75&lang=scss&scoped=true& */ "./resources/js/src/pages/alumni/index.vue?vue&type=style&index=0&id=2f8f2b75&lang=scss&scoped=true&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -2667,13 +2621,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _index_vue_vue_type_template_id_2f8f2b75_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _index_vue_vue_type_template_id_2f8f2b75_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _index_vue_vue_type_template_id_2f8f2b75___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _index_vue_vue_type_template_id_2f8f2b75___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "2f8f2b75",
+  null,
   null
   
 )
@@ -2699,35 +2653,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/src/pages/alumni/index.vue?vue&type=style&index=0&id=2f8f2b75&lang=scss&scoped=true&":
-/*!***********************************************************************************************************!*\
-  !*** ./resources/js/src/pages/alumni/index.vue?vue&type=style&index=0&id=2f8f2b75&lang=scss&scoped=true& ***!
-  \***********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_2f8f2b75_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--7-2!../../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../../node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=style&index=0&id=2f8f2b75&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/index.vue?vue&type=style&index=0&id=2f8f2b75&lang=scss&scoped=true&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_2f8f2b75_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_2f8f2b75_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_2f8f2b75_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_2f8f2b75_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-
-
-/***/ }),
-
-/***/ "./resources/js/src/pages/alumni/index.vue?vue&type=template&id=2f8f2b75&scoped=true&":
-/*!********************************************************************************************!*\
-  !*** ./resources/js/src/pages/alumni/index.vue?vue&type=template&id=2f8f2b75&scoped=true& ***!
-  \********************************************************************************************/
+/***/ "./resources/js/src/pages/alumni/index.vue?vue&type=template&id=2f8f2b75&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/src/pages/alumni/index.vue?vue&type=template&id=2f8f2b75& ***!
+  \********************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_2f8f2b75_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=template&id=2f8f2b75&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/index.vue?vue&type=template&id=2f8f2b75&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_2f8f2b75_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_2f8f2b75___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=template&id=2f8f2b75& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/index.vue?vue&type=template&id=2f8f2b75&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_2f8f2b75___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_2f8f2b75_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_2f8f2b75___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

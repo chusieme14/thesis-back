@@ -8,12 +8,8 @@
                 @search="fetchPage"
                 @resetFilters="resetFilter"
                 @filterRecord="fetchPage"
+                :hide="['filter']"
             >
-                <template v-slot:custom_filter>
-                    <gun-filter
-                        :filter="data.filter"
-                    ></gun-filter>
-                </template>
             </table-header>
             <v-data-table
                 :headers="headers"
@@ -71,29 +67,51 @@
                 <template v-slot:item.action="{ item }">
                     <table-action :item="item" 
                         @editItem="showEdit" 
-                        @deleteItem="remove"
+                        @deleteItem="showDelete"
                     ></table-action>
                 </template>
             </v-data-table>
-
         </v-card-text>
+        <v-dialog 
+            v-model="showForm"
+            persistent
+            max-width="500"
+        >
+            <course-form
+                :details="details"
+                :payload="payload"
+                :show="showForm"
+                :isedit="isedit"
+                @save="save"
+                @cancel="cancel"
+            />
+        </v-dialog>
+        <confirm-dialog
+            :details="details"
+            :show="isdelete"
+            @cancel="cancel"
+            @confirm="remove"
+        />
     </v-card>
 </template>
 <script>
-import GunFilter from './filter.vue'
+import ConfirmDialog from '../../components/confirm-dialog.vue'
+import CourseForm from './form.vue'
 export default {
     components:{
-        GunFilter,
+        CourseForm,
+        ConfirmDialog,
     },
     data(){
         return{
             isedit:false,
+            isdelete:false,
+            showForm:false,
             selectedItem:{},
             details:{},
             payload:{},
-            showForm:false,
             data: {
-                title: "Graduates",
+                title: "Courses",
                 isFetching: false,
                 keyword: "",
                 filter:{}
@@ -114,46 +132,16 @@ export default {
                     value: 'id',
                 },
                 {
-                    text: 'Image',
+                    text: 'Code',
                     align: 'start',
                     sortable: false,
-                    value: 'image',
+                    value: 'code',
                 },
                 {
                     text: 'Name',
                     align: 'start',
                     sortable: true,
-                    value: 'full_name',
-                },
-                {
-                    text: 'Email',
-                    align: 'start',
-                    sortable: true,
-                    value: 'email',
-                },
-                {
-                    text: 'Student number',
-                    align: 'start',
-                    sortable: false,
-                    value: 'student_number',
-                },
-                {
-                    text: 'Batch',
-                    align: 'start',
-                    sortable: true,
-                    value: 'batch',
-                },
-                {
-                    text: 'Section',
-                    align: 'start',
-                    sortable: true,
-                    value: 'section',
-                },
-                {
-                    text: 'Course',
-                    align: 'start',
-                    sortable: true,
-                    value: 'course',
+                    value: 'name',
                 },
                 {
                     text: 'Action',
@@ -167,16 +155,16 @@ export default {
     }, 
     methods:{
         addNew(){
-            this.$router.push({name:'graduates-create'})
+            this.details.title = 'Add course'
+            this.showForm = true
         },
         fetchPage(){
             this.data.isFetching = true
             let params = this._createParams(this.options);
             params = params + this._createFilterParams(this.data.filter)
-            console.log(this.data.keyword,"keyword")
             if(this.data.keyword)
                 params = params + '&keyword=' + this.data.keyword
-            axios.get(`/admin/graduates?${params}`).then(({data})=>{
+            axios.get(`/admin/courses?${params}`).then(({data})=>{
                 this.graduates = data.data
                 this.data.isFetching = false
                 this.total = data.total
@@ -187,31 +175,41 @@ export default {
             this.fetchPage()
         },
         cancel(){
+            this.payload = {}
             this.isedit = false
             this.showForm = false
+            this.isdelete = false
         },
-        save(val){
-            console.log(val,"save")
-            axios.post(`/admin/graduates`,val).then(({data})=>{
+        save(){
+            this.payload.code = this.payload.code.toUpperCase()
+            axios.post(`/admin/courses`,this.payload).then(({data})=>{
                 this.fetchPage()
-                this.showForm = false
+                this.cancel()
             })
         },
-        update(val){
-            axios.put(`/admin/guns/${val.id}`,val).then(({data})=>{
+        update(){
+            axios.put(`/admin/courses/${this.payload.id}`,this.payload).then(({data})=>{
                 this.fetchPage()
-                this.isedit = false
-                this.showForm = false
+                this.cancel()
             })
         },
         showEdit(val){
-            Object.assign(this.selectedItem, val)
-            this.details.title = 'Update gun'
+            Object.assign(this.payload, val)
+            this.details.title = 'Update course'
             this.isedit = true
             this.showForm = true
         },
+        showDelete(val){
+            Object.assign(this.payload, val)
+            this.details.title = 'Delete'
+            this.details.message = `Are you sure you want to remove ${this.payload.code}?`
+            this.isdelete = true
+        },
         remove(){
-
+            axios.delete(`/admin/courses/${this.payload.id}`).then(({data})=>{
+                this.fetchPage()
+                this.cancel()
+            })
         }
     },
     computed:{

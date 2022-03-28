@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/chunks/" + ({"404":"404","admin":"admin","event":"event","news":"news","organization":"organization","roles":"roles","vendors~alumni":"vendors~alumni","alumni":"alumni","vendors~dashboard":"vendors~dashboard","dashboard":"dashboard"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "js/chunks/" + ({"404":"404","admin":"admin","course":"course","event":"event","news":"news","organization":"organization","roles":"roles","vendors~alumni":"vendors~alumni","alumni":"alumni","vendors~dashboard":"vendors~dashboard","dashboard":"dashboard"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -2438,10 +2438,16 @@ __webpack_require__.r(__webpack_exports__);
     return {
       isSuperAdmin: false,
       isAuth: false,
-      isfetching: true
+      isfetching: true,
+      drawer: false
     };
   },
   methods: {
+    setDrawer: function setDrawer(val) {
+      this.drawer = val;
+      localStorage.setItem("drawer", val);
+      console.log(val, "asjdhsakjdh");
+    },
     logout: function logout() {
       var _this = this;
 
@@ -2466,16 +2472,10 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  created: function created() {// console.log(this.$route,"skdjskdj")
-    // this.getAuthuser()
+  mounted: function mounted() {
+    this.drawer = localStorage.getItem('drawer') == "true" ? true : false;
   },
-  computed: {
-    getCurrentUrl: function getCurrentUrl() {
-      var url = this.$route.fullPath;
-      var parts = url.split("/");
-      return parts[1];
-    }
-  },
+  computed: {},
   watch: {
     $route: function $route(to, from) {
       this.getAuthuser();
@@ -2499,70 +2499,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
-      user: {
-        initials: 'JD',
-        fullName: 'John Doe',
-        email: 'john.doe@doe.com'
-      }
-    };
+    return {};
+  },
+  props: {
+    drawer: {}
   }
 });
 
@@ -2663,6 +2605,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _MenuItems__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MenuItems */ "./resources/js/src/layout/MenuItems.js");
 //
 //
 //
@@ -2712,72 +2655,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-// import Menuitems from './MenuItems'
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    drawer: {}
+  },
   data: function data() {
     return {
-      drawer: false
+      Menuitems: _MenuItems__WEBPACK_IMPORTED_MODULE_0__["default"]
     };
   },
   methods: {
     logout: function logout() {
-      this.$emit('logout'); // axios.get(`logout`).then(({data})=>{
-      //     this.$router.push({name:'login'})
-      // })
+      this.$emit('logout');
     }
   },
   computed: {
@@ -3161,7 +3051,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".class-main-content[data-v-762dfd25] {\n  margin: 20px;\n}\n.class-header[data-v-762dfd25] {\n  width: 100%;\n}\n.v-application .primary--text[data-v-762dfd25] {\n  color: #070707 !important;\n}\n.class-main-container[data-v-762dfd25] {\n  height: 100%;\n}\n.class-content[data-v-762dfd25] {\n  width: 85%;\n  background-color: #ece7e7;\n}\n.active[data-v-762dfd25] {\n  color: #070707 !important;\n  background-color: #236b11;\n}\n.v-list-item__content[data-v-762dfd25] {\n  cursor: pointer;\n}", ""]);
+exports.push([module.i, ".class-header[data-v-762dfd25] {\n  width: 100%;\n}\n.v-application .primary--text[data-v-762dfd25] {\n  color: #070707 !important;\n}\n.class-main-container[data-v-762dfd25] {\n  height: 100%;\n}\n.class-content[data-v-762dfd25] {\n  width: 100%;\n  background-color: #ece7e7;\n}\n.active[data-v-762dfd25] {\n  color: #070707 !important;\n  background-color: #236b11;\n}\n.v-list-item__content[data-v-762dfd25] {\n  cursor: pointer;\n}", ""]);
 
 // exports
 
@@ -3180,7 +3070,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".main-container[data-v-7f202a19] {\n  display: flex;\n  justify-content: space-between;\n  background-color: #4caf50;\n  height: 70px !important;\n}\n.avatar-container[data-v-7f202a19] {\n  margin: 10px;\n}\n.avatar-container span[data-v-7f202a19] {\n  font-weight: 600;\n}", ""]);
+exports.push([module.i, ".main-container[data-v-7f202a19] {\n  height: 50px !important;\n  display: flex;\n  justify-content: center;\n  flex-direction: column;\n  background-color: #4caf50;\n}\n.avatar-container[data-v-7f202a19] {\n  margin: 10px;\n}\n.avatar-container span[data-v-7f202a19] {\n  font-weight: 600;\n}", ""]);
 
 // exports
 
@@ -21975,7 +21865,7 @@ var render = function () {
             "v-btn",
             {
               attrs: {
-                color: "#89ABB5",
+                color: "primary",
                 icon: "",
                 disabled: _vm.disable.includes("edit"),
               },
@@ -22441,12 +22331,22 @@ var render = function () {
                 "div",
                 { staticClass: "d-flex class-main-container" },
                 [
-                  _c("side-bar", { on: { logout: _vm.logout } }),
+                  _c("side-bar", {
+                    attrs: { drawer: _vm.drawer },
+                    on: { logout: _vm.logout },
+                  }),
                   _vm._v(" "),
                   _c(
                     "div",
                     { staticClass: "class-content" },
-                    [_c("router-view", { staticClass: "class-main-content" })],
+                    [
+                      _c("main-header", {
+                        attrs: { drawer: _vm.drawer },
+                        on: { setDrawer: _vm.setDrawer },
+                      }),
+                      _vm._v(" "),
+                      _c("router-view", { staticClass: "ma-3" }),
+                    ],
                     1
                   ),
                 ],
@@ -22482,114 +22382,20 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "main-container" }, [
-    _c("div"),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "avatar-container" },
-      [
-        _c("span", [_vm._v(_vm._s(_vm.user.fullName))]),
-        _vm._v(" "),
-        _c(
-          "v-menu",
-          {
-            attrs: {
-              bottom: "",
-              "min-width": "200px",
-              rounded: "",
-              "offset-y": "",
-            },
-            scopedSlots: _vm._u([
-              {
-                key: "activator",
-                fn: function (ref) {
-                  var on = ref.on
-                  return [
-                    _c(
-                      "v-btn",
-                      _vm._g({ attrs: { icon: "", "x-large": "" } }, on),
-                      [
-                        _c(
-                          "v-avatar",
-                          { attrs: { color: "brown", size: "48" } },
-                          [
-                            _c("span", { staticClass: "white--text text-h5" }, [
-                              _vm._v(_vm._s(_vm.user.initials)),
-                            ]),
-                          ]
-                        ),
-                      ],
-                      1
-                    ),
-                  ]
-                },
-              },
-            ]),
+  return _c(
+    "div",
+    { staticClass: "main-container" },
+    [
+      _c("v-app-bar-nav-icon", {
+        on: {
+          click: function ($event) {
+            return _vm.$emit("setDrawer", !_vm.drawer)
           },
-          [
-            _vm._v(" "),
-            _c(
-              "v-card",
-              [
-                _c("v-list-item-content", { staticClass: "justify-center" }, [
-                  _c(
-                    "div",
-                    { staticClass: "mx-auto text-center" },
-                    [
-                      _c("v-avatar", { attrs: { color: "brown" } }, [
-                        _c("span", { staticClass: "white--text text-h5" }, [
-                          _vm._v(_vm._s(_vm.user.initials)),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("h3", [_vm._v(_vm._s(_vm.user.fullName))]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "text-caption mt-1" }, [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(_vm.user.email) +
-                            "\n                "
-                        ),
-                      ]),
-                      _vm._v(" "),
-                      _c("v-divider", { staticClass: "my-3" }),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        { attrs: { depressed: "", rounded: "", text: "" } },
-                        [
-                          _vm._v(
-                            "\n                    Edit Account\n                "
-                          ),
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider", { staticClass: "my-3" }),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        { attrs: { depressed: "", rounded: "", text: "" } },
-                        [
-                          _vm._v(
-                            "\n                    Disconnect\n                "
-                          ),
-                        ]
-                      ),
-                    ],
-                    1
-                  ),
-                ]),
-              ],
-              1
-            ),
-          ],
-          1
-        ),
-      ],
-      1
-    ),
-  ])
+        },
+      }),
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -22720,7 +22526,13 @@ var render = function () {
     "v-navigation-drawer",
     {
       staticClass: " accent-4",
-      attrs: { dark: "", width: "300", color: "success", permanent: "" },
+      attrs: {
+        dark: "",
+        width: "300",
+        "mini-variant": _vm.drawer,
+        color: "success",
+        permanent: "",
+      },
       scopedSlots: _vm._u([
         {
           key: "append",
@@ -22750,7 +22562,6 @@ var render = function () {
     [
       _c(
         "v-list",
-        { attrs: { rounded: "" } },
         [
           _c("v-img", {
             attrs: {
@@ -22761,186 +22572,79 @@ var render = function () {
             },
           }),
           _vm._v(" "),
-          _c(
-            "v-list-item",
-            {
-              class: _vm.getCurrentUrl == "dashboard" ? "active" : "",
-              attrs: { link: "" },
-            },
-            [
-              _c(
-                "v-list-item-icon",
-                [_c("v-icon", [_vm._v("mdi-view-dashboard")])],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "router-link",
-                {
-                  attrs: {
-                    tag: "v-list-item-content",
-                    to: { name: "dashboard" },
+          _vm._l(_vm.Menuitems, function (item) {
+            return _c(
+              "v-list-item",
+              {
+                key: item.name,
+                class: _vm.getCurrentUrl == item.route ? "active" : "",
+                on: {
+                  click: function ($event) {
+                    $event.stopPropagation()
+                    _vm.$route.name != item.name
+                      ? _vm.$router.push({ name: item.route })
+                      : ""
                   },
                 },
-                [_c("v-list-item-title", [_vm._v("Dashboard")])],
-                1
-              ),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-list-item",
-            {
-              class: _vm.getCurrentUrl == "alumni" ? "active" : "",
-              attrs: { link: "" },
-            },
-            [
-              _c(
-                "v-list-item-icon",
-                [_c("v-icon", [_vm._v("mdi-account-box")])],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "router-link",
-                {
-                  attrs: { tag: "v-list-item-content", to: { name: "alumni" } },
-                },
-                [_c("v-list-item-title", [_vm._v("Alumni")])],
-                1
-              ),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-list-item",
-            {
-              class: _vm.getCurrentUrl == "news" ? "active" : "",
-              attrs: { link: "" },
-            },
-            [
-              _c(
-                "v-list-item-icon",
-                [_c("v-icon", [_vm._v("mdi-newspaper")])],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "router-link",
-                { attrs: { tag: "v-list-item-content", to: { name: "news" } } },
-                [_c("v-list-item-title", [_vm._v("News")])],
-                1
-              ),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-list-item",
-            {
-              class: _vm.getCurrentUrl == "events" ? "active" : "",
-              attrs: { link: "" },
-            },
-            [
-              _c(
-                "v-list-item-icon",
-                [_c("v-icon", [_vm._v("mdi-calendar")])],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "router-link",
-                {
-                  attrs: { tag: "v-list-item-content", to: { name: "events" } },
-                },
-                [_c("v-list-item-title", [_vm._v("Events")])],
-                1
-              ),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-list-item",
-            {
-              class: _vm.getCurrentUrl == "organization-chart" ? "active" : "",
-              attrs: { link: "" },
-            },
-            [
-              _c(
-                "v-list-item-icon",
-                [_c("v-icon", [_vm._v("mdi-account-multiple")])],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "router-link",
-                {
-                  attrs: {
-                    tag: "v-list-item-content",
-                    to: { name: "organization-chart" },
-                  },
-                },
-                [_c("v-list-item-title", [_vm._v("Organization chart")])],
-                1
-              ),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-list-item",
-            {
-              class: _vm.getCurrentUrl == "roles" ? "active" : "",
-              attrs: { link: "" },
-            },
-            [
-              _c(
-                "v-list-item-icon",
-                [_c("v-icon", [_vm._v("mdi-security")])],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "router-link",
-                {
-                  attrs: { tag: "v-list-item-content", to: { name: "roles" } },
-                },
-                [_c("v-list-item-title", [_vm._v("Roles&Permissions")])],
-                1
-              ),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-list-item",
-            {
-              class: _vm.getCurrentUrl == "admin-user" ? "active" : "",
-              attrs: { link: "" },
-            },
-            [
-              _c(
-                "v-list-item-icon",
-                [_c("v-icon", [_vm._v("mdi-account-key")])],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "router-link",
-                {
-                  attrs: { tag: "v-list-item-content", to: { name: "admins" } },
-                },
-                [_c("v-list-item-title", [_vm._v("Admins")])],
-                1
-              ),
-            ],
-            1
-          ),
+              },
+              [
+                _vm.drawer
+                  ? _c(
+                      "v-list-item-icon",
+                      [
+                        _c(
+                          "v-tooltip",
+                          {
+                            attrs: { right: "", color: "#3f8320" },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "activator",
+                                  fn: function (ref) {
+                                    var on = ref.on
+                                    var attrs = ref.attrs
+                                    return [
+                                      _c(
+                                        "v-icon",
+                                        _vm._g(
+                                          _vm._b({}, "v-icon", attrs, false),
+                                          on
+                                        ),
+                                        [_vm._v(_vm._s(item.icon))]
+                                      ),
+                                    ]
+                                  },
+                                },
+                              ],
+                              null,
+                              true
+                            ),
+                          },
+                          [
+                            _vm._v(" "),
+                            _c("span", [
+                              _vm._v(_vm._s(item.name.toUpperCase())),
+                            ]),
+                          ]
+                        ),
+                      ],
+                      1
+                    )
+                  : _c(
+                      "v-list-item-icon",
+                      [_c("v-icon", [_vm._v(_vm._s(item.icon))])],
+                      1
+                    ),
+                _vm._v(" "),
+                _c("v-list-item-title", [
+                  _vm._v(_vm._s(item.name.toUpperCase())),
+                ]),
+              ],
+              1
+            )
+          }),
         ],
-        1
+        2
       ),
     ],
     1
@@ -85115,6 +84819,31 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/src/layout/MenuItems.js":
+/*!**********************************************!*\
+  !*** ./resources/js/src/layout/MenuItems.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ([{
+  name: 'dashboard',
+  icon: 'mdi-view-dashboard',
+  route: 'dashboard'
+}, {
+  name: 'graduates',
+  icon: 'mdi-account-box',
+  route: 'graduates'
+}, {
+  name: 'courses',
+  icon: 'mdi-school',
+  route: 'courses'
+}]);
+
+/***/ }),
+
 /***/ "./resources/js/src/layout/header.vue":
 /*!********************************************!*\
   !*** ./resources/js/src/layout/header.vue ***!
@@ -85550,33 +85279,24 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/src/router/alumni.js":
-/*!*******************************************!*\
-  !*** ./resources/js/src/router/alumni.js ***!
-  \*******************************************/
+/***/ "./resources/js/src/router/courses.js":
+/*!********************************************!*\
+  !*** ./resources/js/src/router/courses.js ***!
+  \********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ([{
-  path: '/alumni',
+  path: '/courses',
   component: function component() {
-    return Promise.all(/*! import() | alumni */[__webpack_require__.e("vendors~alumni"), __webpack_require__.e("alumni")]).then(__webpack_require__.bind(null, /*! ../pages/alumni/index.vue */ "./resources/js/src/pages/alumni/index.vue"));
+    return __webpack_require__.e(/*! import() | course */ "course").then(__webpack_require__.bind(null, /*! ../pages/courses/index.vue */ "./resources/js/src/pages/courses/index.vue"));
   },
   meta: {
     requiresAuth: true
   },
-  name: 'alumni'
-}, {
-  path: '/alumni/create',
-  component: function component() {
-    return Promise.all(/*! import() | alumni */[__webpack_require__.e("vendors~alumni"), __webpack_require__.e("alumni")]).then(__webpack_require__.bind(null, /*! ../pages/alumni/form.vue */ "./resources/js/src/pages/alumni/form.vue"));
-  },
-  meta: {
-    requiresAuth: true
-  },
-  name: 'alumni-create'
+  name: 'courses'
 }]);
 
 /***/ }),
@@ -85634,6 +85354,37 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/src/router/graduates.js":
+/*!**********************************************!*\
+  !*** ./resources/js/src/router/graduates.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ([{
+  path: '/graduates',
+  component: function component() {
+    return Promise.all(/*! import() | alumni */[__webpack_require__.e("vendors~alumni"), __webpack_require__.e("alumni")]).then(__webpack_require__.bind(null, /*! ../pages/alumni/index.vue */ "./resources/js/src/pages/alumni/index.vue"));
+  },
+  meta: {
+    requiresAuth: true
+  },
+  name: 'graduates'
+}, {
+  path: '/graduates/create',
+  component: function component() {
+    return Promise.all(/*! import() | alumni */[__webpack_require__.e("vendors~alumni"), __webpack_require__.e("alumni")]).then(__webpack_require__.bind(null, /*! ../pages/alumni/form.vue */ "./resources/js/src/pages/alumni/form.vue"));
+  },
+  meta: {
+    requiresAuth: true
+  },
+  name: 'graduates-create'
+}]);
+
+/***/ }),
+
 /***/ "./resources/js/src/router/index.js":
 /*!******************************************!*\
   !*** ./resources/js/src/router/index.js ***!
@@ -85649,12 +85400,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _dashboard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dashboard */ "./resources/js/src/router/dashboard.js");
-/* harmony import */ var _alumni__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./alumni */ "./resources/js/src/router/alumni.js");
+/* harmony import */ var _graduates__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./graduates */ "./resources/js/src/router/graduates.js");
 /* harmony import */ var _news__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./news */ "./resources/js/src/router/news.js");
 /* harmony import */ var _event__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./event */ "./resources/js/src/router/event.js");
 /* harmony import */ var _organization__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./organization */ "./resources/js/src/router/organization.js");
 /* harmony import */ var _role__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./role */ "./resources/js/src/router/role.js");
 /* harmony import */ var _admin__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./admin */ "./resources/js/src/router/admin.js");
+/* harmony import */ var _courses__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./courses */ "./resources/js/src/router/courses.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -85677,6 +85429,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
+
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
   mode: 'history',
@@ -85687,7 +85440,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
       y: 0
     };
   },
-  routes: [].concat(_toConsumableArray(_dashboard__WEBPACK_IMPORTED_MODULE_3__["default"]), _toConsumableArray(_alumni__WEBPACK_IMPORTED_MODULE_4__["default"]), _toConsumableArray(_news__WEBPACK_IMPORTED_MODULE_5__["default"]), _toConsumableArray(_event__WEBPACK_IMPORTED_MODULE_6__["default"]), _toConsumableArray(_organization__WEBPACK_IMPORTED_MODULE_7__["default"]), _toConsumableArray(_role__WEBPACK_IMPORTED_MODULE_8__["default"]), _toConsumableArray(_admin__WEBPACK_IMPORTED_MODULE_9__["default"]), [{
+  routes: [].concat(_toConsumableArray(_dashboard__WEBPACK_IMPORTED_MODULE_3__["default"]), _toConsumableArray(_graduates__WEBPACK_IMPORTED_MODULE_11__["default"]), _toConsumableArray(_news__WEBPACK_IMPORTED_MODULE_5__["default"]), _toConsumableArray(_event__WEBPACK_IMPORTED_MODULE_6__["default"]), _toConsumableArray(_organization__WEBPACK_IMPORTED_MODULE_7__["default"]), _toConsumableArray(_role__WEBPACK_IMPORTED_MODULE_8__["default"]), _toConsumableArray(_admin__WEBPACK_IMPORTED_MODULE_9__["default"]), _toConsumableArray(_courses__WEBPACK_IMPORTED_MODULE_10__["default"]), [{
     path: '/login',
     component: function component() {
       return Promise.resolve(/*! import() */).then(__webpack_require__.bind(null, /*! @/layout/login.vue */ "./resources/js/src/layout/login.vue"));
@@ -85810,8 +85563,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\thesis-back\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\thesis-back\resources\css\app.css */"./resources/css/app.css");
+__webpack_require__(/*! /home/qonvex/projects/thesis-back/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/qonvex/projects/thesis-back/resources/css/app.css */"./resources/css/app.css");
 
 
 /***/ })
