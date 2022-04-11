@@ -47,7 +47,7 @@
             color="success"
             @click="save"
           >
-            Save
+            {{isedit?'Update':'Save'}}
           </v-btn>
         </v-card-actions>
     </v-card>
@@ -76,6 +76,10 @@ export default {
     methods:{
         save(){
             if(!this.$refs.form.validate()) return;
+            if(this.isedit){
+                this.$emit('update')
+                return
+            }
             this.$emit('save');
         },
         cancel(){

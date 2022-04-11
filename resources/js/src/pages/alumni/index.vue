@@ -1,5 +1,5 @@
 <template>
-    <v-card elevation="1" height="92vh">
+    <v-card elevation="1" max-height="92vh">
         <v-card-text>
             <table-header
                 :data="data"
@@ -20,7 +20,6 @@
                 :items="graduates"
                 max-height="100%"
                 :single-select="false"
-                show-select
                 :search="data.keyword"
                 :server-items-length="total"
                 :footer-props="footerPages"
@@ -37,46 +36,31 @@
                         :src="item.image?item.image:'/sample/gun.png'"
                     ></v-img>
                 </template>
-                <template v-slot:item.price="{ item }">
-                    {{item.price+' €'}}
-                </template>
-                <template v-slot:item.type="{ item }">
-                    {{item.gun_type.name}}
-                </template>
-                <template v-slot:item.ammunitions="{ item }">
-                    <v-row>
-                        <v-col cols="12" sm="10">
-                            <v-chip-group
-                                mandatory
-                                active-class="primary--text"
-                            >
-                                <template v-for="(ammunition, index) in item.ammunitions">
-                                    <v-chip
-                                        :key="ammunition.id"
-                                        v-if="index < 2"
-                                    >
-                                        {{ ammunition.name }}
-                                    </v-chip>
-                                </template>
-                                <template v-if="item.ammunitions.length>2">
-                                    <v-chip
-                                    >
-                                        {{ `+${item.ammunitions.length - 2}` }}
-                                    </v-chip>
-                                </template>
-                            </v-chip-group>
-                        </v-col>
-                    </v-row>
+                <template v-slot:item.course="{ item }">
+                    {{item.course.code}}
                 </template>
                 <template v-slot:item.action="{ item }">
-                    <table-action :item="item" 
-                        @editItem="showEdit" 
-                        @deleteItem="remove"
-                    ></table-action>
+                    <v-row>
+                        <v-btn color="warning" icon>
+                            <v-icon small>
+                                mdi-printer
+                            </v-icon>
+                        </v-btn>
+                        <table-action :item="item" 
+                            @editItem="showEdit" 
+                            @deleteItem="showDelete"
+                        ></table-action>
+                    </v-row>
                 </template>
             </v-data-table>
 
         </v-card-text>
+        <confirm-dialog
+            :details="details"
+            :show="isdelete"
+            @cancel="cancel"
+            @confirm="remove"
+        />
     </v-card>
 </template>
 <script>
@@ -88,6 +72,7 @@ export default {
     data(){
         return{
             isedit:false,
+            isdelete:false,
             selectedItem:{},
             details:{},
             payload:{},
@@ -123,7 +108,7 @@ export default {
                     text: 'Name',
                     align: 'start',
                     sortable: true,
-                    value: 'full_name',
+                    value: 'fullname',
                 },
                 {
                     text: 'Email',
@@ -157,7 +142,7 @@ export default {
                 },
                 {
                     text: 'Action',
-                    align: 'center',
+                    align: 'start',
                     sortable: false,
                     value: 'action',
                 },
@@ -187,6 +172,7 @@ export default {
             this.fetchPage()
         },
         cancel(){
+            this.isdelete = false
             this.isedit = false
             this.showForm = false
         },
@@ -198,20 +184,26 @@ export default {
             })
         },
         update(val){
-            axios.put(`/admin/guns/${val.id}`,val).then(({data})=>{
+            axios.put(`/admin/graduates/${val.id}`,val).then(({data})=>{
                 this.fetchPage()
                 this.isedit = false
                 this.showForm = false
             })
         },
         showEdit(val){
+            this.$router.push({name:'profile', params: {graduates_id: val.id}})
+        },
+        showDelete(val){
             Object.assign(this.selectedItem, val)
-            this.details.title = 'Update gun'
-            this.isedit = true
-            this.showForm = true
+            this.details.title = 'Delete'
+            this.details.message = `Are you sure you want to remove ${this.selectedItem.fullname}?`
+            this.isdelete = true
         },
         remove(){
-
+            axios.delete(`/admin/graduates/${this.selectedItem.id}`).then(({data})=>{
+                this.fetchPage()
+                this.cancel()
+            })
         }
     },
     computed:{

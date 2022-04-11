@@ -2,7 +2,7 @@
     <v-navigation-drawer
         class=" accent-4"
         dark
-        width=300
+        width=350
         :mini-variant="drawer"
         color="success"
         permanent

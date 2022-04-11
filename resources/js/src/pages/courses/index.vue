@@ -83,6 +83,7 @@
                 :show="showForm"
                 :isedit="isedit"
                 @save="save"
+                @update="update"
                 @cancel="cancel"
             />
         </v-dialog>
@@ -132,16 +133,16 @@ export default {
                     value: 'id',
                 },
                 {
-                    text: 'Code',
-                    align: 'start',
-                    sortable: false,
-                    value: 'code',
-                },
-                {
                     text: 'Name',
                     align: 'start',
                     sortable: true,
                     value: 'name',
+                },
+                {
+                    text: 'Code',
+                    align: 'start',
+                    sortable: false,
+                    value: 'code',
                 },
                 {
                     text: 'Action',

@@ -12,4 +12,8 @@ class Course extends Model
     protected $fillable = [
         'name', 'code'
     ];
+
+    public function graduates(){
+        return $this->hasMany(Graduate::class);
+    }
 }

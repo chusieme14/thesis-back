@@ -11,4 +11,19 @@ export default[
         meta:{ requiresAuth:true },
         name:'graduates-create'
     },
+    {
+        path: "/graduates/:graduates_id",
+        component: () => import(/* webpackChunkName: "alumni" */ '../pages/alumni/view.vue'),
+        children: [
+            {
+                path:'profile',
+                component: () => import(/* webpackChunkName: "alumni" */ '../pages/alumni/edit.vue'),
+                name: 'profile',
+                meta:{ 
+                    parent:'/graduates',
+                    requiresAuth:true,
+                }
+            },
+        ]
+    },
 ]

@@ -17,6 +17,21 @@ class GraduateController extends Controller
 
     public function store(Request $request)
     {
-        return Graduate::create($request->all());
+        $graduate = Graduate::create($request->all());
+        if($request->detail){
+            $graduate->detail()->create($request->detail);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        
+    }
+
+    public function destroy($id)
+    {
+        $graduate = Graduate::where('id', $id)->first();
+        $graduate->detail()->delete();
+        $graduate->delete();
     }
 }

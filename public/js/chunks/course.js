@@ -82,6 +82,12 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     save: function save() {
       if (!this.$refs.form.validate()) return;
+
+      if (this.isedit) {
+        this.$emit('update');
+        return;
+      }
+
       this.$emit('save');
     },
     cancel: function cancel() {
@@ -113,6 +119,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_confirm_dialog_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/confirm-dialog.vue */ "./resources/js/src/components/confirm-dialog.vue");
 /* harmony import */ var _form_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./form.vue */ "./resources/js/src/pages/courses/form.vue");
+//
 //
 //
 //
@@ -244,15 +251,15 @@ __webpack_require__.r(__webpack_exports__);
         sortable: true,
         value: 'id'
       }, {
-        text: 'Code',
-        align: 'start',
-        sortable: false,
-        value: 'code'
-      }, {
         text: 'Name',
         align: 'start',
         sortable: true,
         value: 'name'
+      }, {
+        text: 'Code',
+        align: 'start',
+        sortable: false,
+        value: 'code'
       }, {
         text: 'Action',
         align: 'center',
@@ -532,7 +539,13 @@ var render = function () {
                   attrs: { color: "success" },
                   on: { click: _vm.save },
                 },
-                [_vm._v("\n        Save\n      ")]
+                [
+                  _vm._v(
+                    "\n        " +
+                      _vm._s(_vm.isedit ? "Update" : "Save") +
+                      "\n      "
+                  ),
+                ]
               ),
             ],
             1
@@ -752,7 +765,7 @@ var render = function () {
               show: _vm.showForm,
               isedit: _vm.isedit,
             },
-            on: { save: _vm.save, cancel: _vm.cancel },
+            on: { save: _vm.save, update: _vm.update, cancel: _vm.cancel },
           }),
         ],
         1

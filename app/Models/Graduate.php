@@ -14,7 +14,23 @@ class Graduate extends Authenticatable
     protected $fillable = [
         'first_name', 'last_name', 'middle_name', 'student_number',
         'email', 'password', 'avatar', 'batch', 'section',
-        'course_id',
+        'course_id', 'contact_number'
     ];
+
+    protected $with = ['course', 'detail'];
+
+    protected $appends = ['fullname'];
+
+    public function getFullNameAttribute(){
+        return ucfirst($this->first_name). ' ' .ucfirst($this->middle_name[0]). ' '. ucfirst($this->last_name);
+    }
+
+    public function course(){
+        return $this->belongsTo(Course::class);
+    }
+
+    public function detail(){
+        return $this->hasOne(GraduateDetail::class);
+    }
 
 }
