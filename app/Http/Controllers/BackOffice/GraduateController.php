@@ -34,4 +34,14 @@ class GraduateController extends Controller
         $graduate->detail()->delete();
         $graduate->delete();
     }
+
+    public function massImport(Request $request)
+    {
+        return $this->generate_point_service->generateCustomerPointsMass($request);
+    }
+
+    public function massImportProcessPoints(Request $request, $village_id)
+    {
+        return $this->generate_point_service->processMassImportPoints($village_id);
+    }
 }

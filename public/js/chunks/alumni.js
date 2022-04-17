@@ -1015,6 +1015,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     show: {
@@ -1028,6 +1036,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
+      ismultiple: false,
       isfetching: true,
       search: null,
       isdark: false,
@@ -1083,6 +1092,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
+    preventReload: function preventReload() {
+      window.onbeforeunload = function () {
+        return "Are you sure you want to refresh the window?, selected file will be removed!";
+      };
+
+      this.isimport = false;
+    },
+    triggerInputFile: function triggerInputFile() {
+      this.$refs.fileInput.click();
+      this.preventReload();
+    },
+    handleFileUpload: function handleFileUpload() {
+      this.file = this.$refs.fileInput.files[0];
+      this.uploadFile();
+    },
     getCourses: function getCourses() {
       var _this = this;
 
@@ -2966,9 +2990,33 @@ var render = function () {
           _vm._v(" "),
           _c("v-spacer"),
           _vm._v(" "),
-          _c("v-btn", { attrs: { color: "success" } }, [
-            _vm._v("Multiple add"),
-          ]),
+          _c(
+            "v-btn",
+            {
+              attrs: { color: "success" },
+              on: {
+                click: function ($event) {
+                  _vm.ismultiple = true
+                },
+              },
+            },
+            [_vm._v("Multiple add")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            ref: "fileInput",
+            attrs: {
+              type: "file",
+              accept:
+                ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel",
+              hidden: "",
+            },
+            on: {
+              change: function ($event) {
+                return _vm.handleFileUpload()
+              },
+            },
+          }),
         ],
         1
       ),
@@ -4093,6 +4141,21 @@ var render = function () {
         ],
         1
       ),
+      _vm._v(" "),
+      _c("v-dialog", {
+        attrs: {
+          fullscreen: "",
+          "hide-overlay": "",
+          transition: "dialog-bottom-transition",
+        },
+        model: {
+          value: _vm.ismultiple,
+          callback: function ($$v) {
+            _vm.ismultiple = $$v
+          },
+          expression: "ismultiple",
+        },
+      }),
     ],
     1
   )

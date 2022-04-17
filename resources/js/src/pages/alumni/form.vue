@@ -3,7 +3,8 @@
         <v-card-title>
             <span class="text-h5">Graduate Informations</span>
             <v-spacer></v-spacer>
-            <v-btn color="success">Multiple add</v-btn>
+            <v-btn @click="ismultiple=true" color="success">Multiple add</v-btn>
+            <input @change="handleFileUpload()" ref="fileInput" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" hidden>
         </v-card-title>
         <v-card-text>
             <v-form ref="form">
@@ -313,6 +314,13 @@
             <v-btn @click="cancel" color="error" class="mr-2">Cancel</v-btn>
             <v-btn @click="save" color="success">Save</v-btn>
         </v-card-actions>
+        <v-dialog
+            v-model="ismultiple"
+            fullscreen
+            hide-overlay
+            transition="dialog-bottom-transition"
+        >
+        </v-dialog>
     </v-card>
 </template>
 <script>
@@ -333,6 +341,7 @@ export default {
     },
     data(){
         return{
+            ismultiple:false,
             isfetching:true,
             search:null,
             isdark:false,
@@ -412,6 +421,20 @@ export default {
         }
     },
     methods:{
+        preventReload() {
+            window.onbeforeunload = function(){
+                return "Are you sure you want to refresh the window?, selected file will be removed!";
+            }
+            this.isimport = false
+        },
+        triggerInputFile() {
+            this.$refs.fileInput.click();
+            this.preventReload()
+        },
+        handleFileUpload(){
+            this.file = this.$refs.fileInput.files[0];
+            this.uploadFile()
+        },
         getCourses(){
             let params = ''
             // if(this.data.keyword)
