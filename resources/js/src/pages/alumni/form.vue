@@ -3,7 +3,7 @@
         <v-card-title>
             <span class="text-h5">Graduate Informations</span>
             <v-spacer></v-spacer>
-            <v-btn @click="ismultiple=true" color="success">Multiple add</v-btn>
+            <v-btn @click="triggerInputFile()" color="success">Multiple add</v-btn>
             <input @change="handleFileUpload()" ref="fileInput" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" hidden>
         </v-card-title>
         <v-card-text>
@@ -434,6 +434,9 @@ export default {
         handleFileUpload(){
             this.file = this.$refs.fileInput.files[0];
             this.uploadFile()
+        },
+        uploadFile(){
+            
         },
         getCourses(){
             let params = ''

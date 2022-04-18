@@ -1107,6 +1107,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.file = this.$refs.fileInput.files[0];
       this.uploadFile();
     },
+    uploadFile: function uploadFile() {},
     getCourses: function getCourses() {
       var _this = this;
 
@@ -2996,7 +2997,7 @@ var render = function () {
               attrs: { color: "success" },
               on: {
                 click: function ($event) {
-                  _vm.ismultiple = true
+                  return _vm.triggerInputFile()
                 },
               },
             },

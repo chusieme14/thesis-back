@@ -3283,7 +3283,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.active-route[data-v-10de97ce] {\r\n    /* @apply bg-yellow-400; */\r\n    background-color: #89ABB5;\r\n    border-radius: 10px !important;\n}\n.active-route div[data-v-10de97ce] {\r\n    /* @apply text-black; */\r\n    color: #070707 !important;\n}\n.client-inner-container[data-v-10de97ce]{\r\n    width: calc(100% - 270px);\n}\n.client-main-container[data-v-10de97ce]{\r\n    display: flex;\n}\n.client-sub[data-v-10de97ce] {\r\n    margin: 2px 0 0 0;\r\n    border-radius: 4px !important;\n}\r\n", ""]);
+exports.push([module.i, "\n.active-route[data-v-10de97ce] {\n    /* @apply bg-yellow-400; */\n    background-color: #89ABB5;\n    border-radius: 10px !important;\n}\n.active-route div[data-v-10de97ce] {\n    /* @apply text-black; */\n    color: #070707 !important;\n}\n.client-inner-container[data-v-10de97ce]{\n    width: calc(100% - 270px);\n}\n.client-main-container[data-v-10de97ce]{\n    display: flex;\n}\n.client-sub[data-v-10de97ce] {\n    margin: 2px 0 0 0;\n    border-radius: 4px !important;\n}\n", ""]);
 
 // exports
 
@@ -85877,8 +85877,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\thesis-back\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\thesis-back\resources\css\app.css */"./resources/css/app.css");
+__webpack_require__(/*! /home/qonvex/projects/thesis-back/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/qonvex/projects/thesis-back/resources/css/app.css */"./resources/css/app.css");
 
 
 /***/ })
