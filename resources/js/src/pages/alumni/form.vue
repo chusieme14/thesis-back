@@ -36,7 +36,7 @@
                                         <v-text-field
                                             v-model="payload.first_name"
                                             :rules="[() => !!payload.first_name ||  '']"
-                                            :background-color="isdark?'#777':''"
+    
                                             hide-details="auto"
                                             dense
                                             filled
@@ -47,7 +47,7 @@
                                         <v-text-field
                                             v-model="payload.last_name"
                                             :rules="[() => !!payload.last_name ||  '']"
-                                            :background-color="isdark?'#777':''"
+    
                                             hide-details="auto"
                                             dense
                                             filled
@@ -58,7 +58,7 @@
                                         <v-text-field
                                             v-model="payload.middle_name"
                                             :rules="[() => !!payload.middle_name ||  '']"
-                                            :background-color="isdark?'#777':''"
+    
                                             dense
                                             filled
                                         ></v-text-field>
@@ -70,7 +70,7 @@
                                         <v-text-field
                                             :rules="[() => !!payload.student_number ||  '']"
                                             v-model="payload.student_number"
-                                            :background-color="isdark?'#777':''"
+    
                                             dense
                                             filled
                                         ></v-text-field>
@@ -80,7 +80,7 @@
                                         <v-text-field
                                             :rules="[() => !!payload.email ||  '']"
                                             v-model="payload.email"
-                                            :background-color="isdark?'#777':''"
+    
                                             dense
                                             filled
                                         ></v-text-field>
@@ -90,7 +90,7 @@
                                         <v-text-field
                                             :rules="[() => !!payload.contact_number ||  '']"
                                             v-model="payload.contact_number"
-                                            :background-color="isdark?'#777':''"
+    
                                             dense
                                             filled
                                             type="number"
@@ -102,7 +102,7 @@
                                             v-model="payload.detail.civil_status"
                                             :items="civil_status"
                                             hide-details="auto"
-                                            :background-color="isdark?'#777':''"
+    
                                             :menu-props="{'background-color':'#777'}"
                                             filled
                                             dense
@@ -141,7 +141,7 @@
                                         <v-text-field
                                             :error-messages="errorMessages"
                                             v-model="payload.detail.residence"
-                                            :background-color="isdark?'#777':''"
+    
                                             filled
                                             dense
                                         ></v-text-field>
@@ -152,7 +152,7 @@
                                             v-model="payload.detail.gender"
                                             :items="genders"
                                             hide-details="auto"
-                                            :background-color="isdark?'#777':''"
+    
                                             :menu-props="{'background-color':'#777'}"
                                             filled
                                             dense
@@ -174,7 +174,7 @@
                                         v-model="payload.detail.attainment"
                                         :items="attainmentOptions"
                                         hide-details="auto"
-                                        :background-color="isdark?'#777':''"
+
                                         :menu-props="{'background-color':'#777'}"
                                         item-text="name"
                                         item-value="id"
@@ -190,7 +190,7 @@
                                         item-text="name"
                                         item-value="id"
                                         hide-details="auto"
-                                        :background-color="isdark?'#777':''"
+
                                         :menu-props="{'background-color':'#777'}"
                                         filled
                                         dense
@@ -200,7 +200,7 @@
                                     <label> Award(s) </label>
                                     <v-text-field
                                         v-model="payload.detail.awards"
-                                        :background-color="isdark?'#777':''"
+
                                         dense
                                         filled
                                     ></v-text-field>
@@ -214,7 +214,7 @@
                                         item-text="name"
                                         item-value="id"
                                         hide-details="auto"
-                                        :background-color="isdark?'#777':''"
+
                                         :menu-props="{'background-color':'#777'}"
                                         filled
                                         dense
@@ -226,7 +226,7 @@
                                         v-model="payload.section"
                                         :rules="[() => !!payload.section || '']"
                                         hide-details="auto"
-                                        :background-color="isdark?'#777':''"
+
                                         :menu-props="{'background-color':'#777'}"
                                         filled
                                         dense
@@ -239,7 +239,6 @@
                                         :rules="[() => !!payload.batch ||  '']"
                                         :items="years"
                                         hide-details="auto"
-                                        :background-color="isdark?'#777':''"
                                         :menu-props="{'background-color':'#777'}"
                                         filled
                                         dense
@@ -260,7 +259,6 @@
                                         item-text="name"
                                         item-value="id"
                                         hide-details="auto"
-                                        :background-color="isdark?'#777':''"
                                         :menu-props="{'background-color':'#777'}"
                                         filled
                                         dense
@@ -298,7 +296,6 @@
                                         v-model="payload.detail.employment_status"
                                         :items="employmentStatus"
                                         hide-details="auto"
-                                        :background-color="isdark?'#777':''"
                                         :menu-props="{'background-color':'#777'}"
                                         filled
                                         dense
@@ -320,11 +317,20 @@
             hide-overlay
             transition="dialog-bottom-transition"
         >
+            <con-form
+                :show="ismultiple"
+                @close="closeDialog"
+                @save="saveMultiple"
+            />
         </v-dialog>
     </v-card>
 </template>
 <script>
+import ConForm from "./csv-form.vue"
 export default {
+    components:{
+        ConForm,
+    },
     props:{
         show:{
             type:Boolean
@@ -341,12 +347,11 @@ export default {
     },
     data(){
         return{
+            file:null,
             ismultiple:false,
             isfetching:true,
             search:null,
             isdark:false,
-            seleted:[],
-            ammunitions:[],
             errorMessages:'',
             unlimited:false,
             gunTypes:[],
@@ -356,27 +361,6 @@ export default {
                 prof_exam_passed:'No',
                 detail:{}
             },
-            footerPages: {
-                "items-per-page-options": [5,10], 
-            },
-            options:{
-                itemsPerPage:5,
-            },
-            total: 0,
-            headers:[
-              {
-                    text: 'Name',
-                    align: 'start',
-                    sortable: true,
-                    value: 'name',
-              },
-              {
-                    text: 'Type',
-                    align: 'start',
-                    sortable: false,
-                    value: 'type',
-              },
-            ],
             civil_status:[
                 'Single',
                 'Married',
@@ -421,6 +405,20 @@ export default {
         }
     },
     methods:{
+        closeDialog(){
+            let session = localStorage.getItem("session")
+            axios.delete(`/admin/graduates/temp-uploads/${session}/remove`).then(({})=>{
+                this.ismultiple = false
+                localStorage.removeItem("session");
+            })
+        },
+        saveMultiple(){
+            let session = localStorage.getItem("session")
+            axios.get(`/admin/graduates/temp-uploads/${session}/save`).then(({data})=>{
+                this.ismultiple = false
+                localStorage.removeItem("session");
+            })
+        },
         preventReload() {
             window.onbeforeunload = function(){
                 return "Are you sure you want to refresh the window?, selected file will be removed!";
@@ -436,7 +434,18 @@ export default {
             this.uploadFile()
         },
         uploadFile(){
-            
+            let session = new Date().getTime()
+            let payload= new FormData();
+            payload.append('file',this.file)
+            payload.append('session',session)
+            axios.post(`/admin/graduates/upload-file`,payload).then(({data})=>{
+                if(data.message == 'success'){
+                    localStorage.setItem('session',session)
+                    this.ismultiple = true
+                }
+                this.file = null
+                this.$refs.fileInput.value=null;
+            })
         },
         getCourses(){
             let params = ''
@@ -450,45 +459,10 @@ export default {
           return items.map(item => item[key]);
         },
 
-        getAmmunitions(){
-          let params = this._createParams(this.options)
-            if(this.search)
-                params = params + '&keyword=' + this.search
-            axios.get(`/admin/ammunitions?${params}`).then(({data})=>{
-                this.ammunitions = data.data
-                this.total = data.total
-                this.isfetching = false
-            })
-        },
-
-        getGunTypes(){
-            axios.get(`/admin/gun-types?per_page=-1`).then(({data})=>{
-                this.gunTypes = data.data
-                if(!this.isedit){
-                    this.payload.gun_type_id = this.gunTypes[0].id
-                }
-                this.isfetching = false
-            })
-        },
-
         triggerUpload() {
             this.$refs.file_input.click()
         },
 
-        async onFileChange(file) {
-            let imageFile = file[0]
-
-            if (file.length>0) {
-                if (!imageFile.type.match('image.*')) {
-                this.errorDialog = true
-                this.errorText = 'Please choose an image file'
-                } else {
-                let imageURL = URL.createObjectURL(imageFile)
-                this.avatar_blob = imageURL
-                this.payload.image_base64 = await this.createImageBase64(imageFile);
-                }
-            }
-        },
         cancel(){
             this.reset()
             this.$router.push({name:'graduates'})
@@ -507,7 +481,6 @@ export default {
             })
         },
         reset(){
-            this.seleted = []
             this.unlimited = false
             this.isfetching = true
             this.payload.name = ''
@@ -520,6 +493,11 @@ export default {
     },
     created(){
         this.getCourses()
+    },
+    mounted(){
+        if(localStorage.getItem("session")){
+            this.ismultiple = true
+        }
     },
     computed:{
         years(){

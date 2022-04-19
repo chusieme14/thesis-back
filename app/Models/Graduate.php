@@ -22,7 +22,7 @@ class Graduate extends Authenticatable
     protected $appends = ['fullname'];
 
     public function getFullNameAttribute(){
-        return ucfirst($this->first_name). ' ' .ucfirst($this->middle_name[0]). ' '. ucfirst($this->last_name);
+        return ucfirst($this->first_name). ' ' .ucfirst($this->middle_name). ' '. ucfirst($this->last_name);
     }
 
     public function course(){

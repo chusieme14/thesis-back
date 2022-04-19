@@ -69,3 +69,10 @@
 .text-danger{
     color: red !important;
 }
+.table-fix-height .v-data-table__wrapper {
+    max-height: 74vh !important;
+    /* overflow: auto !important; */
+}
+.cursor-pointer{
+    cursor: pointer !important;
+}
