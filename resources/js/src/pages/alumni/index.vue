@@ -30,11 +30,16 @@
                 fixed-header
             >
                 <template v-slot:item.image="{ item }">
-                    <v-img
-                        width="50"
-                        :contain="true"
-                        :src="item.image?item.image:'/sample/gun.png'"
-                    ></v-img>
+                    <v-avatar
+                        size="40"
+                    >
+                        <v-img
+                            :src="item.avatar?item.avatar:'/sample/no-image.png'"
+                        ></v-img>
+                    </v-avatar>
+                </template>
+                <template v-slot:item.section="{ item }">
+                    {{item.section.toUpperCase()}}
                 </template>
                 <template v-slot:item.course="{ item }">
                     {{item.course.code}}
@@ -119,7 +124,7 @@ export default {
                 {
                     text: 'Student number',
                     align: 'start',
-                    sortable: false,
+                    sortable: true,
                     value: 'student_number',
                 },
                 {
@@ -137,7 +142,7 @@ export default {
                 {
                     text: 'Course',
                     align: 'start',
-                    sortable: true,
+                    sortable: false,
                     value: 'course',
                 },
                 {

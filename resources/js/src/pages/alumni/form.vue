@@ -13,11 +13,15 @@
                         <v-col class="class-images" cols="12" sm="12">
                             <v-col cols="12" sm="4">
                                 <div class="graduate-image-container">
-                                    <img
-                                        @click="triggerUpload"
-                                        class="graduate-avatar"
-                                        :src="payload.image_base64?payload.image_base64:'/sample/no-image.png'"
-                                    />
+                                    <v-avatar
+                                        size="250"
+                                    >
+                                        <img
+                                            @click="triggerUpload"
+                                            :src="payload.image_base64?payload.image_base64:'/sample/no-image.png'"
+                                        />
+
+                                    </v-avatar>
                                     <input 
                                         ref="file_input"
                                         type='file' class="hidden" 
@@ -358,6 +362,7 @@ export default {
             courses:[],
             defualt_image:"/sample/gun.png",
             payload:{
+                image_base64:null,
                 prof_exam_passed:'No',
                 detail:{}
             },
@@ -463,6 +468,22 @@ export default {
             this.$refs.file_input.click()
         },
 
+        async onFileChange(file) {
+            let imageFile = file[0]
+
+            if (file.length>0) {
+                if (!imageFile.type.match('image.*')) {
+                this.errorDialog = true
+                this.errorText = 'Please choose an image file'
+                } else {
+                let imageURL = URL.createObjectURL(imageFile)
+                this.avatar_blob = imageURL
+                this.payload.image_base64 = await this.createImageBase64(imageFile);
+                }
+            }
+            console.log(this.payload.image_base64)
+        },
+
         cancel(){
             this.reset()
             this.$router.push({name:'graduates'})
@@ -481,12 +502,7 @@ export default {
             })
         },
         reset(){
-            this.unlimited = false
             this.isfetching = true
-            this.payload.name = ''
-            this.payload.price = 0
-            this.payload.stocks = 1
-            this.payload.unlimited = false
             this.payload.image_base64 = null
             this.$refs.form.resetValidation()
         }

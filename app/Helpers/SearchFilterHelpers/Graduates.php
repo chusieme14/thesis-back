@@ -42,14 +42,20 @@ class Graduates {
             $sortByFilters = explode(',', Request()->sortBy);
             foreach ($sortByFilters as $key => $filter) {
                 if (empty($filter)) continue;
-
+                
                 $exactSortKey = explode('/', $filter)[0];
                 $exactSortType = explode('/', $filter)[1];
-                $this->model->orderBy($exactSortKey, $exactSortType);          
+                
+                if($exactSortKey == 'fullname'){
+                    $this->model->orderBy('first_name', $exactSortType);
+                }
+                else{
+                    $this->model->orderBy($exactSortKey, $exactSortType);          
+                }
             }
         }
         else{
-            $this->model->orderBy('created_at', 'desc');
+            $this->model->orderBy('id', 'desc');
         }
     }
 }

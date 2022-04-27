@@ -18,8 +18,8 @@ class CreateGraduatesTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('middle_name')->nullable();
-            $table->string('student_number')->unique();
-            $table->string('email')->unique()->nullable();
+            $table->string('student_number');
+            $table->string('email')->nullable();
             $table->string('password');
             $table->text('avatar')->nullable();
             $table->string('batch');

@@ -187,686 +187,13 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _csv_form_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./csv-form.vue */ "./resources/js/src/pages/alumni/csv-form.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  props: {
-    show: {
-      type: Boolean
-    },
-    details: {},
-    selected_item: {},
-    isedit: {
-      type: Boolean
-    }
-  },
-  data: function data() {
-    return {
-      isfetching: true,
-      search: null,
-      isdark: false,
-      seleted: [],
-      ammunitions: [],
-      errorMessages: '',
-      unlimited: false,
-      gunTypes: [],
-      courses: [],
-      defualt_image: "/sample/gun.png",
-      payload: {
-        prof_exam_passed: 'No',
-        detail: {}
-      },
-      footerPages: {
-        "items-per-page-options": [5, 10]
-      },
-      options: {
-        itemsPerPage: 5
-      },
-      total: 0,
-      headers: [{
-        text: 'Name',
-        align: 'start',
-        sortable: true,
-        value: 'name'
-      }, {
-        text: 'Type',
-        align: 'start',
-        sortable: false,
-        value: 'type'
-      }],
-      civil_status: ['Single', 'Married', 'Separated', 'Widowed'],
-      genders: ['Male', 'Famale'],
-      booleanOptions: [{
-        id: 0,
-        name: 'No'
-      }, {
-        id: 1,
-        name: 'Yes'
-      }],
-      attainmentOptions: [{
-        id: 1,
-        name: 'Baccalaureate Degree'
-      }, {
-        id: 2,
-        name: 'Masteral'
-      }, {
-        id: 3,
-        name: 'Doctorate'
-      }],
-      employmentStatus: ['Contractual', 'Permanent', 'Self-employed', 'Casual', 'Not Applicable']
-    };
-  },
-  methods: {
-    getCourses: function getCourses() {
-      var _this = this;
-
-      var params = ''; // if(this.data.keyword)
-      //     params = params + '&keyword=' + this.data.keyword
-
-      axios.get("/admin/courses?".concat(params)).then(function (_ref) {
-        var data = _ref.data;
-        _this.courses = data.data;
-      });
-    },
-    pluck: function pluck(items, key) {
-      return items.map(function (item) {
-        return item[key];
-      });
-    },
-    getAmmunitions: function getAmmunitions() {
-      var _this2 = this;
-
-      var params = this._createParams(this.options);
-
-      if (this.search) params = params + '&keyword=' + this.search;
-      axios.get("/admin/ammunitions?".concat(params)).then(function (_ref2) {
-        var data = _ref2.data;
-        _this2.ammunitions = data.data;
-        _this2.total = data.total;
-        _this2.isfetching = false;
-      });
-    },
-    getGunTypes: function getGunTypes() {
-      var _this3 = this;
-
-      axios.get("/admin/gun-types?per_page=-1").then(function (_ref3) {
-        var data = _ref3.data;
-        _this3.gunTypes = data.data;
-
-        if (!_this3.isedit) {
-          _this3.payload.gun_type_id = _this3.gunTypes[0].id;
-        }
-
-        _this3.isfetching = false;
-      });
-    },
-    triggerUpload: function triggerUpload() {
-      this.$refs.file_input.click();
-    },
-    onFileChange: function onFileChange(file) {
-      var _this4 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var imageFile, imageURL;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                imageFile = file[0];
-
-                if (!(file.length > 0)) {
-                  _context.next = 12;
-                  break;
-                }
-
-                if (imageFile.type.match('image.*')) {
-                  _context.next = 7;
-                  break;
-                }
-
-                _this4.errorDialog = true;
-                _this4.errorText = 'Please choose an image file';
-                _context.next = 12;
-                break;
-
-              case 7:
-                imageURL = URL.createObjectURL(imageFile);
-                _this4.avatar_blob = imageURL;
-                _context.next = 11;
-                return _this4.createImageBase64(imageFile);
-
-              case 11:
-                _this4.payload.image_base64 = _context.sent;
-
-              case 12:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    },
-    cancel: function cancel() {
-      this.reset();
-      this.$router.push({
-        name: 'graduates'
-      });
-    },
-    save: function save() {
-      var _this5 = this;
-
-      if (!this.$refs.form.validate()) return;
-      console.log(this.payload, "save payload"); // if(this.isedit){
-      //     this.$emit('edit',this.payload)
-      //     return
-      // }
-      // this.$emit('save',this.payload)
-
-      this.payload.password = 'password';
-      axios.post("/admin/graduates", this.payload).then(function (_ref4) {
-        var data = _ref4.data;
-
-        _this5.$router.push({
-          name: 'graduates'
-        });
-      });
-    },
-    reset: function reset() {
-      this.seleted = [];
-      this.unlimited = false;
-      this.isfetching = true;
-      this.payload.name = '';
-      this.payload.price = 0;
-      this.payload.stocks = 1;
-      this.payload.unlimited = false;
-      this.payload.image_base64 = null;
-      this.$refs.form.resetValidation();
-    }
-  },
-  created: function created() {
-    this.getCourses();
-  },
-  computed: {
-    years: function years() {
-      var schoolYear = [];
-      var year = new Date().getFullYear();
-      var startYear = year - 5;
-
-      for (var start = year - 1; start >= startYear; start--) {
-        schoolYear.push("".concat(start, " - ").concat(start + 1));
-      }
-
-      return schoolYear;
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/filter.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/pages/alumni/filter.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      search_sub: '',
-      gun_types: [],
-      ammunitions: []
-    };
-  },
-  mounted: function mounted() {
-    this.getAmmunitionTypes();
-    this.getAmmunitions();
-  },
-  methods: {
-    getAmmunitionTypes: function getAmmunitionTypes() {
-      var _this = this;
-
-      axios.get("/admin/gun-types?per_page=-1").then(function (_ref) {
-        var data = _ref.data;
-        _this.gun_types = data.data;
-      });
-    },
-    getAmmunitions: function getAmmunitions() {
-      var _this2 = this;
-
-      axios.get("/admin/ammunitions?per_page=-1").then(function (_ref2) {
-        var data = _ref2.data;
-        _this2.ammunitions = data.data;
-      });
-    }
-  },
-  props: {
-    filter: {
-      type: Object,
-      "default": function _default() {
-        return {};
-      }
-    }
-  },
-  watch: {
-    "filter.created_at": function filterCreated_at(val) {
-      if (val) {
-        if (val[0] > val[1]) {
-          this.filter.created_at = [val[1], val[0]];
-        }
-      }
-    },
-    "filter.sub_start_date": function filterSub_start_date(val) {
-      if (val) {
-        if (val[0] > val[1]) {
-          this.filter.sub_start_date = [val[1], val[0]];
-        }
-      }
-    },
-    "filter.sub_end_date": function filterSub_end_date(val) {
-      if (val) {
-        if (val[0] > val[1]) {
-          this.filter.sub_end_date = [val[1], val[0]];
-        }
-      }
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/form.vue?vue&type=script&lang=js&":
-/*!*********************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/pages/alumni/form.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _csv_form_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./csv-form.vue */ "./resources/js/src/pages/alumni/csv-form.vue");
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 //
@@ -1196,10 +523,11 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    ConForm: _csv_form_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    ConForm: _csv_form_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   props: {
     show: {
@@ -1224,6 +552,740 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       courses: [],
       defualt_image: "/sample/gun.png",
       payload: {
+        image_base64: null,
+        prof_exam_passed: 'No',
+        detail: {}
+      },
+      civil_status: ['Single', 'Married', 'Separated', 'Widowed'],
+      genders: ['Male', 'Famale'],
+      booleanOptions: [{
+        id: 0,
+        name: 'No'
+      }, {
+        id: 1,
+        name: 'Yes'
+      }],
+      attainmentOptions: [{
+        id: 1,
+        name: 'Baccalaureate Degree'
+      }, {
+        id: 2,
+        name: 'Masteral'
+      }, {
+        id: 3,
+        name: 'Doctorate'
+      }],
+      employmentStatus: ['Contractual', 'Permanent', 'Self-employed', 'Casual', 'Not Applicable']
+    };
+  },
+  methods: {
+    fetchGraduate: function fetchGraduate() {
+      var _this = this;
+
+      console.log(this.$route.params.graduates_id, "this.$router.params.graduates_id");
+      axios.get("/admin/graduates/".concat(this.$route.params.graduates_id)).then(function (_ref) {
+        var data = _ref.data;
+        _this.payload = data;
+        if (!_this.payload.detail) _this.payload.detail = {};
+        if (_this.payload.avatar) _this.payload.image_base64 = _this.payload.avatar;
+      });
+    },
+    closeDialog: function closeDialog() {
+      var _this2 = this;
+
+      var session = localStorage.getItem("session");
+      axios["delete"]("/admin/graduates/temp-uploads/".concat(session, "/remove")).then(function (_ref2) {
+        _objectDestructuringEmpty(_ref2);
+
+        _this2.ismultiple = false;
+        localStorage.removeItem("session");
+      });
+    },
+    saveMultiple: function saveMultiple() {
+      var _this3 = this;
+
+      var session = localStorage.getItem("session");
+      axios.get("/admin/graduates/temp-uploads/".concat(session, "/save")).then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.ismultiple = false;
+        localStorage.removeItem("session");
+      });
+    },
+    preventReload: function preventReload() {
+      window.onbeforeunload = function () {
+        return "Are you sure you want to refresh the window?, selected file will be removed!";
+      };
+
+      this.isimport = false;
+    },
+    triggerInputFile: function triggerInputFile() {
+      this.$refs.fileInput.click();
+      this.preventReload();
+    },
+    handleFileUpload: function handleFileUpload() {
+      this.file = this.$refs.fileInput.files[0];
+      this.uploadFile();
+    },
+    uploadFile: function uploadFile() {
+      var _this4 = this;
+
+      var session = new Date().getTime();
+      var payload = new FormData();
+      payload.append('file', this.file);
+      payload.append('session', session);
+      axios.post("/admin/graduates/upload-file", payload).then(function (_ref4) {
+        var data = _ref4.data;
+
+        if (data.message == 'success') {
+          localStorage.setItem('session', session);
+          _this4.ismultiple = true;
+        }
+
+        _this4.file = null;
+        _this4.$refs.fileInput.value = null;
+      });
+    },
+    getCourses: function getCourses() {
+      var _this5 = this;
+
+      var params = ''; // if(this.data.keyword)
+      //     params = params + '&keyword=' + this.data.keyword
+
+      axios.get("/admin/courses?".concat(params)).then(function (_ref5) {
+        var data = _ref5.data;
+        _this5.courses = data.data;
+      });
+    },
+    pluck: function pluck(items, key) {
+      return items.map(function (item) {
+        return item[key];
+      });
+    },
+    triggerUpload: function triggerUpload() {
+      this.payload.image_base64 = null;
+      this.$refs.file_input.click();
+    },
+    onFileChange: function onFileChange(file) {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var imageFile, imageURL;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                imageFile = file[0];
+
+                if (!(file.length > 0)) {
+                  _context.next = 12;
+                  break;
+                }
+
+                if (imageFile.type.match('image.*')) {
+                  _context.next = 7;
+                  break;
+                }
+
+                _this6.errorDialog = true;
+                _this6.errorText = 'Please choose an image file';
+                _context.next = 12;
+                break;
+
+              case 7:
+                imageURL = URL.createObjectURL(imageFile);
+                _this6.avatar_blob = imageURL;
+                _context.next = 11;
+                return _this6.createImageBase64(imageFile);
+
+              case 11:
+                _this6.payload.image_base64 = _context.sent;
+
+              case 12:
+                console.log(_this6.payload.image_base64, "this.payload.image_base64");
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    cancel: function cancel() {
+      this.reset();
+      this.$router.push({
+        name: 'graduates'
+      });
+    },
+    save: function save() {
+      var _this7 = this;
+
+      if (!this.$refs.form.validate()) return;
+      console.log(this.payload, "save payload"); // if(this.isedit){
+      //     this.$emit('edit',this.payload)
+      //     return
+      // }
+      // this.$emit('save',this.payload)
+
+      this.payload.password = 'password';
+      axios.put("/admin/graduates/".concat(this.payload.id), this.payload).then(function (_ref6) {
+        var data = _ref6.data;
+
+        _this7.$router.push({
+          name: 'graduates'
+        });
+      });
+    },
+    reset: function reset() {
+      this.isfetching = true;
+      this.payload.image_base64 = null;
+      this.$refs.form.resetValidation();
+    }
+  },
+  created: function created() {
+    this.getCourses();
+    this.fetchGraduate();
+  },
+  mounted: function mounted() {
+    if (localStorage.getItem("session")) {
+      this.ismultiple = true;
+    }
+  },
+  computed: {
+    years: function years() {
+      var schoolYear = [];
+      var year = new Date().getFullYear();
+      var startYear = year - 5;
+
+      for (var start = year - 1; start >= startYear; start--) {
+        schoolYear.push("".concat(start, "-").concat(start + 1));
+      }
+
+      return schoolYear;
+    }
+  },
+  watch: {
+    $route: function $route(to, from) {
+      this.fetchGraduate();
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/filter.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/pages/alumni/filter.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      search_sub: '',
+      gun_types: [],
+      ammunitions: []
+    };
+  },
+  mounted: function mounted() {
+    this.getAmmunitionTypes();
+    this.getAmmunitions();
+  },
+  methods: {
+    getAmmunitionTypes: function getAmmunitionTypes() {
+      var _this = this;
+
+      axios.get("/admin/gun-types?per_page=-1").then(function (_ref) {
+        var data = _ref.data;
+        _this.gun_types = data.data;
+      });
+    },
+    getAmmunitions: function getAmmunitions() {
+      var _this2 = this;
+
+      axios.get("/admin/ammunitions?per_page=-1").then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.ammunitions = data.data;
+      });
+    }
+  },
+  props: {
+    filter: {
+      type: Object,
+      "default": function _default() {
+        return {};
+      }
+    }
+  },
+  watch: {
+    "filter.created_at": function filterCreated_at(val) {
+      if (val) {
+        if (val[0] > val[1]) {
+          this.filter.created_at = [val[1], val[0]];
+        }
+      }
+    },
+    "filter.sub_start_date": function filterSub_start_date(val) {
+      if (val) {
+        if (val[0] > val[1]) {
+          this.filter.sub_start_date = [val[1], val[0]];
+        }
+      }
+    },
+    "filter.sub_end_date": function filterSub_end_date(val) {
+      if (val) {
+        if (val[0] > val[1]) {
+          this.filter.sub_end_date = [val[1], val[0]];
+        }
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/form.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/pages/alumni/form.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _csv_form_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./csv-form.vue */ "./resources/js/src/pages/alumni/csv-form.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    ConForm: _csv_form_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  props: {
+    show: {
+      type: Boolean
+    },
+    details: {},
+    selected_item: {},
+    isedit: {
+      type: Boolean
+    }
+  },
+  data: function data() {
+    return {
+      file: null,
+      ismultiple: false,
+      isfetching: true,
+      search: null,
+      isdark: false,
+      errorMessages: '',
+      unlimited: false,
+      gunTypes: [],
+      courses: [],
+      defualt_image: "/sample/gun.png",
+      payload: {
+        image_base64: null,
         prof_exam_passed: 'No',
         detail: {}
       },
@@ -1324,6 +1386,52 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
     triggerUpload: function triggerUpload() {
       this.$refs.file_input.click();
     },
+    onFileChange: function onFileChange(file) {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var imageFile, imageURL;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                imageFile = file[0];
+
+                if (!(file.length > 0)) {
+                  _context.next = 12;
+                  break;
+                }
+
+                if (imageFile.type.match('image.*')) {
+                  _context.next = 7;
+                  break;
+                }
+
+                _this5.errorDialog = true;
+                _this5.errorText = 'Please choose an image file';
+                _context.next = 12;
+                break;
+
+              case 7:
+                imageURL = URL.createObjectURL(imageFile);
+                _this5.avatar_blob = imageURL;
+                _context.next = 11;
+                return _this5.createImageBase64(imageFile);
+
+              case 11:
+                _this5.payload.image_base64 = _context.sent;
+
+              case 12:
+                console.log(_this5.payload.image_base64);
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
     cancel: function cancel() {
       this.reset();
       this.$router.push({
@@ -1331,7 +1439,7 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       });
     },
     save: function save() {
-      var _this5 = this;
+      var _this6 = this;
 
       if (!this.$refs.form.validate()) return;
       console.log(this.payload, "save payload"); // if(this.isedit){
@@ -1344,18 +1452,13 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       axios.post("/admin/graduates", this.payload).then(function (_ref5) {
         var data = _ref5.data;
 
-        _this5.$router.push({
+        _this6.$router.push({
           name: 'graduates'
         });
       });
     },
     reset: function reset() {
-      this.unlimited = false;
       this.isfetching = true;
-      this.payload.name = '';
-      this.payload.price = 0;
-      this.payload.stocks = 1;
-      this.payload.unlimited = false;
       this.payload.image_base64 = null;
       this.$refs.form.resetValidation();
     }
@@ -1395,6 +1498,11 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _filter_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./filter.vue */ "./resources/js/src/pages/alumni/filter.vue");
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1510,7 +1618,7 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         text: 'Student number',
         align: 'start',
-        sortable: false,
+        sortable: true,
         value: 'student_number'
       }, {
         text: 'Batch',
@@ -1525,7 +1633,7 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         text: 'Course',
         align: 'start',
-        sortable: true,
+        sortable: false,
         value: 'course'
       }, {
         text: 'Action',
@@ -1939,21 +2047,11 @@ var render = function () {
     "v-card",
     { attrs: { "max-height": "92vh" } },
     [
-      _c(
-        "v-card-title",
-        [
-          _c("span", { staticClass: "text-h5" }, [
-            _vm._v("Graduate Informations"),
-          ]),
-          _vm._v(" "),
-          _c("v-spacer"),
-          _vm._v(" "),
-          _c("v-btn", { attrs: { color: "success" } }, [
-            _vm._v("Multiple add"),
-          ]),
-        ],
-        1
-      ),
+      _c("v-card-title", [
+        _c("span", { staticClass: "text-h5" }, [
+          _vm._v("Graduate Informations"),
+        ]),
+      ]),
       _vm._v(" "),
       _c(
         "v-card-text",
@@ -1980,15 +2078,16 @@ var render = function () {
                               "div",
                               { staticClass: "graduate-image-container" },
                               [
-                                _c("img", {
-                                  staticClass: "graduate-avatar",
-                                  attrs: {
-                                    src: _vm.payload.image_base64
-                                      ? _vm.payload.image_base64
-                                      : "/sample/no-image.png",
-                                  },
-                                  on: { click: _vm.triggerUpload },
-                                }),
+                                _c("v-avatar", { attrs: { size: "250" } }, [
+                                  _c("img", {
+                                    attrs: {
+                                      src: _vm.payload.image_base64
+                                        ? _vm.payload.image_base64
+                                        : "/sample/no-image.png",
+                                    },
+                                    on: { click: _vm.triggerUpload },
+                                  }),
+                                ]),
                                 _vm._v(" "),
                                 _c("input", {
                                   ref: "file_input",
@@ -2005,7 +2104,8 @@ var render = function () {
                                     },
                                   },
                                 }),
-                              ]
+                              ],
+                              1
                             ),
                           ]),
                           _vm._v(" "),
@@ -2058,9 +2158,6 @@ var render = function () {
                                               )
                                             },
                                           ],
-                                          "background-color": _vm.isdark
-                                            ? "#777"
-                                            : "",
                                           "hide-details": "auto",
                                           dense: "",
                                           filled: "",
@@ -2106,9 +2203,6 @@ var render = function () {
                                               )
                                             },
                                           ],
-                                          "background-color": _vm.isdark
-                                            ? "#777"
-                                            : "",
                                           "hide-details": "auto",
                                           dense: "",
                                           filled: "",
@@ -2154,9 +2248,6 @@ var render = function () {
                                               )
                                             },
                                           ],
-                                          "background-color": _vm.isdark
-                                            ? "#777"
-                                            : "",
                                           dense: "",
                                           filled: "",
                                         },
@@ -2208,9 +2299,6 @@ var render = function () {
                                               )
                                             },
                                           ],
-                                          "background-color": _vm.isdark
-                                            ? "#777"
-                                            : "",
                                           dense: "",
                                           filled: "",
                                         },
@@ -2253,9 +2341,6 @@ var render = function () {
                                               return !!_vm.payload.email || ""
                                             },
                                           ],
-                                          "background-color": _vm.isdark
-                                            ? "#777"
-                                            : "",
                                           dense: "",
                                           filled: "",
                                         },
@@ -2297,9 +2382,6 @@ var render = function () {
                                               )
                                             },
                                           ],
-                                          "background-color": _vm.isdark
-                                            ? "#777"
-                                            : "",
                                           dense: "",
                                           filled: "",
                                           type: "number",
@@ -2333,9 +2415,6 @@ var render = function () {
                                         attrs: {
                                           items: _vm.civil_status,
                                           "hide-details": "auto",
-                                          "background-color": _vm.isdark
-                                            ? "#777"
-                                            : "",
                                           "menu-props": {
                                             "background-color": "#777",
                                           },
@@ -2473,9 +2552,6 @@ var render = function () {
                                       _c("v-text-field", {
                                         attrs: {
                                           "error-messages": _vm.errorMessages,
-                                          "background-color": _vm.isdark
-                                            ? "#777"
-                                            : "",
                                           filled: "",
                                           dense: "",
                                         },
@@ -2509,9 +2585,6 @@ var render = function () {
                                         attrs: {
                                           items: _vm.genders,
                                           "hide-details": "auto",
-                                          "background-color": _vm.isdark
-                                            ? "#777"
-                                            : "",
                                           "menu-props": {
                                             "background-color": "#777",
                                           },
@@ -2585,9 +2658,6 @@ var render = function () {
                                     attrs: {
                                       items: _vm.attainmentOptions,
                                       "hide-details": "auto",
-                                      "background-color": _vm.isdark
-                                        ? "#777"
-                                        : "",
                                       "menu-props": {
                                         "background-color": "#777",
                                       },
@@ -2627,9 +2697,6 @@ var render = function () {
                                       "item-text": "name",
                                       "item-value": "id",
                                       "hide-details": "auto",
-                                      "background-color": _vm.isdark
-                                        ? "#777"
-                                        : "",
                                       "menu-props": {
                                         "background-color": "#777",
                                       },
@@ -2664,13 +2731,7 @@ var render = function () {
                                   _c("label", [_vm._v(" Award(s) ")]),
                                   _vm._v(" "),
                                   _c("v-text-field", {
-                                    attrs: {
-                                      "background-color": _vm.isdark
-                                        ? "#777"
-                                        : "",
-                                      dense: "",
-                                      filled: "",
-                                    },
+                                    attrs: { dense: "", filled: "" },
                                     model: {
                                       value: _vm.payload.detail.awards,
                                       callback: function ($$v) {
@@ -2712,9 +2773,6 @@ var render = function () {
                                       "item-text": "name",
                                       "item-value": "id",
                                       "hide-details": "auto",
-                                      "background-color": _vm.isdark
-                                        ? "#777"
-                                        : "",
                                       "menu-props": {
                                         "background-color": "#777",
                                       },
@@ -2755,9 +2813,6 @@ var render = function () {
                                         },
                                       ],
                                       "hide-details": "auto",
-                                      "background-color": _vm.isdark
-                                        ? "#777"
-                                        : "",
                                       "menu-props": {
                                         "background-color": "#777",
                                       },
@@ -2799,9 +2854,6 @@ var render = function () {
                                       ],
                                       items: _vm.years,
                                       "hide-details": "auto",
-                                      "background-color": _vm.isdark
-                                        ? "#777"
-                                        : "",
                                       "menu-props": {
                                         "background-color": "#777",
                                       },
@@ -2862,9 +2914,6 @@ var render = function () {
                                       "item-text": "name",
                                       "item-value": "id",
                                       "hide-details": "auto",
-                                      "background-color": _vm.isdark
-                                        ? "#777"
-                                        : "",
                                       "menu-props": {
                                         "background-color": "#777",
                                       },
@@ -3006,9 +3055,6 @@ var render = function () {
                                         attrs: {
                                           items: _vm.employmentStatus,
                                           "hide-details": "auto",
-                                          "background-color": _vm.isdark
-                                            ? "#777"
-                                            : "",
                                           "menu-props": {
                                             "background-color": "#777",
                                           },
@@ -3072,6 +3118,31 @@ var render = function () {
             { attrs: { color: "success" }, on: { click: _vm.save } },
             [_vm._v("Save")]
           ),
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: {
+            fullscreen: "",
+            "hide-overlay": "",
+            transition: "dialog-bottom-transition",
+          },
+          model: {
+            value: _vm.ismultiple,
+            callback: function ($$v) {
+              _vm.ismultiple = $$v
+            },
+            expression: "ismultiple",
+          },
+        },
+        [
+          _c("con-form", {
+            attrs: { show: _vm.ismultiple },
+            on: { close: _vm.closeDialog, save: _vm.saveMultiple },
+          }),
         ],
         1
       ),
@@ -3330,15 +3401,16 @@ var render = function () {
                               "div",
                               { staticClass: "graduate-image-container" },
                               [
-                                _c("img", {
-                                  staticClass: "graduate-avatar",
-                                  attrs: {
-                                    src: _vm.payload.image_base64
-                                      ? _vm.payload.image_base64
-                                      : "/sample/no-image.png",
-                                  },
-                                  on: { click: _vm.triggerUpload },
-                                }),
+                                _c("v-avatar", { attrs: { size: "250" } }, [
+                                  _c("img", {
+                                    attrs: {
+                                      src: _vm.payload.image_base64
+                                        ? _vm.payload.image_base64
+                                        : "/sample/no-image.png",
+                                    },
+                                    on: { click: _vm.triggerUpload },
+                                  }),
+                                ]),
                                 _vm._v(" "),
                                 _c("input", {
                                   ref: "file_input",
@@ -3355,7 +3427,8 @@ var render = function () {
                                     },
                                   },
                                 }),
-                              ]
+                              ],
+                              1
                             ),
                           ]),
                           _vm._v(" "),
@@ -4479,13 +4552,33 @@ var render = function () {
                 fn: function (ref) {
                   var item = ref.item
                   return [
-                    _c("v-img", {
-                      attrs: {
-                        width: "50",
-                        contain: true,
-                        src: item.image ? item.image : "/sample/gun.png",
-                      },
-                    }),
+                    _c(
+                      "v-avatar",
+                      { attrs: { size: "40" } },
+                      [
+                        _c("v-img", {
+                          attrs: {
+                            src: item.avatar
+                              ? item.avatar
+                              : "/sample/no-image.png",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]
+                },
+              },
+              {
+                key: "item.section",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(item.section.toUpperCase()) +
+                        "\n            "
+                    ),
                   ]
                 },
               },

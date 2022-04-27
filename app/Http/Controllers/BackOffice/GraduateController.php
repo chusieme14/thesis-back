@@ -25,11 +25,31 @@ class GraduateController extends Controller
         if($request->detail){
             $graduate->detail()->create($request->detail);
         }
+        if($request->image_base64){
+            $graduate->update([
+                'avatar' => userProfileUploader($request->image_base64, 'profile/')
+            ]);
+        }
     }
 
     public function update(Request $request, $id)
     {
-        
+        $graduate = Graduate::findOrfail($id);
+        if($request->avatar && $request->avatar != $request->image_base64){
+            removeFile($graduate->avatar);
+            $graduate->avatar = userProfileUploader($request->image_base64,'profile/');
+        }
+        $graduate->update($request->all());
+        if($request->avatar && $request->avatar != $request->image_base64){
+            $graduate->update([
+                'avatar' => userProfileUploader($request->image_base64, 'profile/')
+            ]);
+        }
+    }
+
+    public function show($id)
+    {
+        return Graduate::findOrfail($id);
     }
 
     public function destroy($id)
