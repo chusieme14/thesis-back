@@ -1,8 +1,8 @@
 export default[
     {
-        path:'/news',
+        path:'/post',
         component: () => import(/* webpackChunkName: "news" */'../pages/news/index.vue'),
         meta:{ requiresAuth:true },
-        name:'news'
+        name:'post'
     },
 ]

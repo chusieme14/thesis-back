@@ -3,25 +3,23 @@
         <div>
             <v-flex xs12>
                 <v-flex xs12 sm6 class="d-block mb-5 mr-3">
-                    <label>Ammunition_type</label>
+                    <label>Batch</label>
                     <v-autocomplete
-                        v-model="filter.ammunitions_type"
-                        :items="ammunitions"
-                        item-text="name"
-                        item-value="id"
+                        v-model="filter.batch"
+                        :items="years"
                         hide-details="auto"
+                        :menu-props="{'background-color':'#777'}"
                         filled
                         dense
-                        required
                         clearable
                     ></v-autocomplete>
                 </v-flex>
                 <v-flex xs12 sm6 class="d-block mb-5">
-                    <label>gun_type</label>
+                    <label>Course</label>
                     <v-autocomplete
-                        v-model="filter.gun_type"
-                        :items="gun_types"
-                        item-text="name"
+                        v-model="filter.course_id"
+                        :items="courses"
+                        item-text="code"
                         item-value="id"
                         hide-details="auto"
                         filled
@@ -32,7 +30,7 @@
                 </v-flex>
             </v-flex>
         </div>
-        <v-flex xs12>
+        <!-- <v-flex xs12>
             <v-flex xs12 sm6 class="d-block mr-3">
                 <label>Price_from</label>
                 <v-text-field
@@ -53,7 +51,7 @@
                     type="number"
                 ></v-text-field>
             </v-flex>
-        </v-flex>
+        </v-flex> -->
     </div>
 </template>
 
@@ -61,24 +59,22 @@
 export default {
     data(){
         return {
+            courses:[],
             search_sub: '',
             gun_types: [],
             ammunitions: []
         }
     },
     mounted(){
-        this.getAmmunitionTypes();
-        this.getAmmunitions();
+        this.getCourses();
     },
     methods:{
-        getAmmunitionTypes(){
-            axios.get(`/admin/gun-types?per_page=-1`).then(({data})=>{
-                this.gun_types = data.data
-            })
-        },
-        getAmmunitions(){
-            axios.get(`/admin/ammunitions?per_page=-1`).then(({data})=>{
-                this.ammunitions = data.data
+        getCourses(){
+            let params = ''
+            // if(this.data.keyword)
+            //     params = params + '&keyword=' + this.data.keyword
+            axios.get(`/admin/courses?${params}`).then(({data})=>{
+                this.courses = data.data
             })
         },
     },
@@ -118,6 +114,17 @@ export default {
                 }
             }
         },     
+    },
+    computed:{
+        years(){
+            let schoolYear = []
+            let year = new Date().getFullYear()
+            let startYear = year - 5
+            for (let start = year-1; start >= startYear; start--) {
+                schoolYear.push(`${start}-${start+1}`)
+            }
+            return schoolYear
+        }
     }
 }
 </script>

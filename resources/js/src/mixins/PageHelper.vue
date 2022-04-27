@@ -1,6 +1,6 @@
 <script>
-// import moment from "moment";
-// moment.locale("en");
+import moment from "moment";
+moment.locale("en");
 export default {
     data(vm) {
         return {

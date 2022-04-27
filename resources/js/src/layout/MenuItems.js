@@ -14,4 +14,9 @@ export default [
         icon:'mdi-school',
         route:'courses'
     },
+    {
+        name:'Post',
+        icon:'mdi-newspaper-variant',
+        route:'post'
+    },
 ]

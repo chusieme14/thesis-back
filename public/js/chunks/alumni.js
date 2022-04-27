@@ -839,35 +839,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      courses: [],
       search_sub: '',
       gun_types: [],
       ammunitions: []
     };
   },
   mounted: function mounted() {
-    this.getAmmunitionTypes();
-    this.getAmmunitions();
+    this.getCourses();
   },
   methods: {
-    getAmmunitionTypes: function getAmmunitionTypes() {
+    getCourses: function getCourses() {
       var _this = this;
 
-      axios.get("/admin/gun-types?per_page=-1").then(function (_ref) {
-        var data = _ref.data;
-        _this.gun_types = data.data;
-      });
-    },
-    getAmmunitions: function getAmmunitions() {
-      var _this2 = this;
+      var params = ''; // if(this.data.keyword)
+      //     params = params + '&keyword=' + this.data.keyword
 
-      axios.get("/admin/ammunitions?per_page=-1").then(function (_ref2) {
-        var data = _ref2.data;
-        _this2.ammunitions = data.data;
+      axios.get("/admin/courses?".concat(params)).then(function (_ref) {
+        var data = _ref.data;
+        _this.courses = data.data;
       });
     }
   },
@@ -900,6 +893,19 @@ __webpack_require__.r(__webpack_exports__);
           this.filter.sub_end_date = [val[1], val[0]];
         }
       }
+    }
+  },
+  computed: {
+    years: function years() {
+      var schoolYear = [];
+      var year = new Date().getFullYear();
+      var startYear = year - 5;
+
+      for (var start = year - 1; start >= startYear; start--) {
+        schoolYear.push("".concat(start, "-").concat(start + 1));
+      }
+
+      return schoolYear;
     }
   }
 });
@@ -1478,7 +1484,7 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       var startYear = year - 5;
 
       for (var start = year - 1; start >= startYear; start--) {
-        schoolYear.push("".concat(start, " - ").concat(start + 1));
+        schoolYear.push("".concat(start, "-").concat(start + 1));
       }
 
       return schoolYear;
@@ -3172,143 +3178,79 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "filter-main-container" },
-    [
-      _c(
-        "div",
-        [
-          _c(
-            "v-flex",
-            { attrs: { xs12: "" } },
-            [
-              _c(
-                "v-flex",
-                {
-                  staticClass: "d-block mb-5 mr-3",
-                  attrs: { xs12: "", sm6: "" },
-                },
-                [
-                  _c("label", [_vm._v("Ammunition_type")]),
-                  _vm._v(" "),
-                  _c("v-autocomplete", {
-                    attrs: {
-                      items: _vm.ammunitions,
-                      "item-text": "name",
-                      "item-value": "id",
-                      "hide-details": "auto",
-                      filled: "",
-                      dense: "",
-                      required: "",
-                      clearable: "",
-                    },
-                    model: {
-                      value: _vm.filter.ammunitions_type,
-                      callback: function ($$v) {
-                        _vm.$set(_vm.filter, "ammunitions_type", $$v)
-                      },
-                      expression: "filter.ammunitions_type",
-                    },
-                  }),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { staticClass: "d-block mb-5", attrs: { xs12: "", sm6: "" } },
-                [
-                  _c("label", [_vm._v("gun_type")]),
-                  _vm._v(" "),
-                  _c("v-autocomplete", {
-                    attrs: {
-                      items: _vm.gun_types,
-                      "item-text": "name",
-                      "item-value": "id",
-                      "hide-details": "auto",
-                      filled: "",
-                      dense: "",
-                      required: "",
-                      clearable: "",
-                    },
-                    model: {
-                      value: _vm.filter.gun_type,
-                      callback: function ($$v) {
-                        _vm.$set(_vm.filter, "gun_type", $$v)
-                      },
-                      expression: "filter.gun_type",
-                    },
-                  }),
-                ],
-                1
-              ),
-            ],
-            1
-          ),
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-flex",
-        { attrs: { xs12: "" } },
-        [
-          _c(
-            "v-flex",
-            { staticClass: "d-block mr-3", attrs: { xs12: "", sm6: "" } },
-            [
-              _c("label", [_vm._v("Price_from")]),
-              _vm._v(" "),
-              _c("v-text-field", {
-                attrs: {
-                  filled: "",
-                  dense: "",
-                  "hide-details": "auto",
-                  type: "number",
-                },
-                model: {
-                  value: _vm.filter.min_price,
-                  callback: function ($$v) {
-                    _vm.$set(_vm.filter, "min_price", $$v)
+  return _c("div", { staticClass: "filter-main-container" }, [
+    _c(
+      "div",
+      [
+        _c(
+          "v-flex",
+          { attrs: { xs12: "" } },
+          [
+            _c(
+              "v-flex",
+              {
+                staticClass: "d-block mb-5 mr-3",
+                attrs: { xs12: "", sm6: "" },
+              },
+              [
+                _c("label", [_vm._v("Batch")]),
+                _vm._v(" "),
+                _c("v-autocomplete", {
+                  attrs: {
+                    items: _vm.years,
+                    "hide-details": "auto",
+                    "menu-props": { "background-color": "#777" },
+                    filled: "",
+                    dense: "",
+                    clearable: "",
                   },
-                  expression: "filter.min_price",
-                },
-              }),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-flex",
-            { staticClass: "d-block", attrs: { xs12: "", sm6: "" } },
-            [
-              _c("label", [_vm._v("Price_to")]),
-              _vm._v(" "),
-              _c("v-text-field", {
-                attrs: {
-                  filled: "",
-                  dense: "",
-                  "hide-details": "auto",
-                  type: "number",
-                },
-                model: {
-                  value: _vm.filter.max_price,
-                  callback: function ($$v) {
-                    _vm.$set(_vm.filter, "max_price", $$v)
+                  model: {
+                    value: _vm.filter.batch,
+                    callback: function ($$v) {
+                      _vm.$set(_vm.filter, "batch", $$v)
+                    },
+                    expression: "filter.batch",
                   },
-                  expression: "filter.max_price",
-                },
-              }),
-            ],
-            1
-          ),
-        ],
-        1
-      ),
-    ],
-    1
-  )
+                }),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-flex",
+              { staticClass: "d-block mb-5", attrs: { xs12: "", sm6: "" } },
+              [
+                _c("label", [_vm._v("Course")]),
+                _vm._v(" "),
+                _c("v-autocomplete", {
+                  attrs: {
+                    items: _vm.courses,
+                    "item-text": "code",
+                    "item-value": "id",
+                    "hide-details": "auto",
+                    filled: "",
+                    dense: "",
+                    required: "",
+                    clearable: "",
+                  },
+                  model: {
+                    value: _vm.filter.course_id,
+                    callback: function ($$v) {
+                      _vm.$set(_vm.filter, "course_id", $$v)
+                    },
+                    expression: "filter.course_id",
+                  },
+                }),
+              ],
+              1
+            ),
+          ],
+          1
+        ),
+      ],
+      1
+    ),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

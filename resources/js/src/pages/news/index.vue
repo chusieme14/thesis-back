@@ -32,35 +32,59 @@
               fixed-header
           >
               <!-- @click:row="viewRecord" -->
-            
+            <template v-slot:item.image="{ item }">
+                <v-img
+                    max-height="50"
+                    max-width="100"
+                    :src="item.image?item.image:'/sample/no-image.png'"
+                ></v-img>
+            </template>
+            <template v-slot:item.description="{ item }">
+                {{item.description.substring(0,70)+"..."}}
+            </template>
+            <template v-slot:item.created_at="{ item }">
+                {{_formatDate(item.created_at)}}
+            </template>
+            <template v-slot:item.action="{ item }">
+                <table-action :item="item" 
+                    @editItem="showEdit(item)" 
+                    @deleteItem="showDelete"
+                ></table-action>
+            </template>
           </v-data-table>
 
       </v-card-text>
       <v-dialog
           v-model="showForm"
           persistent
-          max-width="600px"
+          max-width="800px"
       >
-          <gun-form 
+          <news-form 
               :payload="payload" 
-              @cancel="showForm=false"
-          ></gun-form>
+              @cancel="cancel"
+              @save="save"
+          ></news-form>
       </v-dialog>
   </v-card>
 </template>
 <script>
 import GraduateFilter from './filter.vue'
+import NewsForm from './form.vue'
 export default {
     components:{
       GraduateFilter,
+      NewsForm
     },
     data(){
         return {
-          payload:{},
+          payload:{
+              image_base64:null
+          },
           showForm:false,
+          isupdate:false,
           graduates:[],
           data: {
-                title: "Guns",
+                title: "News",
                 isFetching: false,
                 keyword: "",
                 filter:{}
@@ -72,19 +96,105 @@ export default {
               itemsPerPage: 15
           },
           total: 0,
-          headers:[]
+          headers:[
+            {
+                text: 'Id',
+                align: 'start',
+                sortable: true,
+                value: 'id',
+            },
+            {
+                text: 'Image',
+                align: 'start',
+                sortable: false,
+                value: 'image',
+            },
+            {
+                text: 'Title',
+                align: 'start',
+                sortable: true,
+                value: 'title',
+            },
+            {
+                text: 'Description',
+                align: 'start',
+                sortable: false,
+                value: 'description',
+            },
+            {
+                text: 'Date created',
+                align: 'start',
+                sortable: true,
+                value: 'created_at',
+            },
+            {
+                text: 'Actions',
+                align: 'start',
+                sortable: false,
+                value: 'action',
+            },
+          ]
         }
     },
     methods:{
-      addNew(){
+        addNew(){
+            this.showForm = true
+        },
 
-      },
-      fetchPage(){
+        fetchPage(){
+            this.data.isFetching = true
+            let params = this._createParams(this.options);
+            params = params + this._createFilterParams(this.data.filter)
+            console.log(this.data.keyword,"keyword")
+            if(this.data.keyword)
+                params = params + '&keyword=' + this.data.keyword
+            axios.get(`/admin/news?${params}`).then(({data})=>{
+                this.graduates = data.data
+                this.data.isFetching = false
+                this.total = data.total
+            })
+        },
 
-      },
-      resetFilter(){
+        resetFilter(){
 
-      }
+        },
+        save(){
+            if(this.isupdate){
+                axios.put(`/admin/news/${this.payload.id}`,this.payload).then(({data})=>{
+                    this.fetchPage()
+                    this.clear()
+                })
+                return
+            }
+            axios.post(`/admin/news`,this.payload).then(({data})=>{
+                this.fetchPage()
+                this.clear()
+            })
+        },
+
+        cancel(){
+            this.clear()
+        },
+
+        clear(){
+            this.payload.image_base64 = null
+            this.payload.description = ""
+            this.payload.title = ""
+            this.isupdate = false
+            this.showForm = false
+        },
+
+        showEdit(data){
+            Object.assign(this.payload, data)
+            this.payload.image_base64 = this.payload.image
+            this.isupdate = true
+            this.showForm = true
+        },
+
+        showDelete(){
+
+        }
+
 
     }
 }

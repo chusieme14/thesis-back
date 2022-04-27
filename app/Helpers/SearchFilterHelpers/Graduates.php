@@ -17,6 +17,7 @@ class Graduates {
     {   
         $this->searchColumns();
         $this->sortBy();
+        $this->byBatch();
         $per_page = Request()->per_page;
         if ($per_page=='-1' || !isset(Request()->per_page)) return $this->model->paginate($this->model->count());
         return $this->model->paginate($per_page);
@@ -33,6 +34,12 @@ class Graduates {
                     $this->model->orWhere($column, 'like', "%".$keyword."%");
                 }
             // });
+        }
+    }
+
+    public function byBatch(){
+        if(Request()->batch){
+            $this->model->where('batch', 'like', '%'.Request()->batch.'%');
         }
     }
 
