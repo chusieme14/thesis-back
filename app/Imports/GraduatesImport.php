@@ -36,7 +36,7 @@ class GraduatesImport implements ToCollection, WithStartRow
 
             $check_status = $this->validateRow($row);
             if($row[8]){
-                $course_id = Course::where('name', 'like','%'.$row[8].'%')->orWhere('code', 'like','%'.$row[8].'%')->pluck('id');
+                $course = Course::where('name', 'like', '%'.$row[8].'%')->orWhere('code', strtoupper($row[8]))->first();
             }
             tempGraduate::create([
                 'student_number'=> $row[0],
@@ -48,7 +48,7 @@ class GraduatesImport implements ToCollection, WithStartRow
                 'batch'=> $row[6],
                 'section'=> $row[7],
                 'course'=> $row[8],
-                'course_id'=> $course_id || null,
+                'course_id'=> $course?$course->id:null,
                 'status' => $check_status['is_valid'] ? 1 : 0,
                 'reason' => $check_status['messages'],
                 'session' => $this->session,
