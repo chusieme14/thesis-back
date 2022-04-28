@@ -56,6 +56,9 @@ class GraduateController extends Controller
     {
         $graduate = Graduate::where('id', $id)->first();
         $graduate->detail()->delete();
+        if($graduate->avatar){
+            removeFile($graduate->avatar);
+        }
         $graduate->delete();
     }
 

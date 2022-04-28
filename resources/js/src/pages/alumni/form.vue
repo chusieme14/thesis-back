@@ -268,7 +268,7 @@
                                         dense
                                     ></v-autocomplete>
                                 </v-col>
-                                <v-col v-if="payload.employed==1" class="image-text-field" cols="12" sm="5">
+                                <v-col v-if="payload.detail.employed==1" class="image-text-field" cols="12" sm="5">
                                     <label> Employment date </label>
                                     <v-menu
                                         :close-on-content-click="true"

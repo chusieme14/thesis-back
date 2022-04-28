@@ -196,6 +196,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -210,6 +216,9 @@ __webpack_require__.r(__webpack_exports__);
       },
       showForm: false,
       isupdate: false,
+      isdelete: false,
+      selectedItem: {},
+      details: {},
       graduates: [],
       data: {
         title: "News",
@@ -310,6 +319,9 @@ __webpack_require__.r(__webpack_exports__);
       this.payload.title = "";
       this.isupdate = false;
       this.showForm = false;
+      this.isdelete = false;
+      this.details = {};
+      this.selectedItem = {};
     },
     showEdit: function showEdit(data) {
       Object.assign(this.payload, data);
@@ -317,7 +329,23 @@ __webpack_require__.r(__webpack_exports__);
       this.isupdate = true;
       this.showForm = true;
     },
-    showDelete: function showDelete() {}
+    showDelete: function showDelete(val) {
+      Object.assign(this.selectedItem, val);
+      this.details.title = 'Delete';
+      this.details.message = "Are you sure you want to remove ".concat(this.selectedItem.title, "?");
+      this.isdelete = true;
+    },
+    remove: function remove() {
+      var _this3 = this;
+
+      axios["delete"]("/admin/news/".concat(this.selectedItem.id)).then(function (_ref4) {
+        var data = _ref4.data;
+
+        _this3.fetchPage();
+
+        _this3.cancel();
+      });
+    }
   }
 });
 
@@ -579,6 +607,11 @@ var render = function () {
         ],
         1
       ),
+      _vm._v(" "),
+      _c("confirm-dialog", {
+        attrs: { details: _vm.details, show: _vm.isdelete },
+        on: { cancel: _vm.cancel, confirm: _vm.remove },
+      }),
     ],
     1
   )

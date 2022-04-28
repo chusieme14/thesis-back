@@ -19,4 +19,9 @@ export default [
         icon:'mdi-newspaper-variant',
         route:'post'
     },
+    {
+        name:'Announcement',
+        icon:'mdi-bullhorn-outline',
+        route:'announcement'
+    },
 ]

@@ -25,6 +25,9 @@ class NewsController extends Controller
     public function destroy($id){
 
         $news = News::findOrfail($id);
+        if($news->image){
+            removeFile($news->image);
+        }
         $news->delete();
     }
 

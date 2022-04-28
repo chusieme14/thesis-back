@@ -4,11 +4,12 @@ import Router from 'vue-router'
 import dashboard from './dashboard'
 import graduates from './graduates'
 import news from './news'
-import event from './event'
+// import event from './event'
 import organization from './organization'
 import role from './role'
 import admin from './admin'
 import courses from './courses'
+import announcement from './announcement'
 
 Vue.use(Router)
 
@@ -23,7 +24,7 @@ const router = new Router({
         ...dashboard,
         ...graduates,
         ...news,
-        ...event,
+        ...announcement,
         ...organization,
         ...role,
         ...admin,

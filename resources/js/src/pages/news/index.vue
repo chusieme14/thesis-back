@@ -65,6 +65,12 @@
               @save="save"
           ></news-form>
       </v-dialog>
+        <confirm-dialog
+            :details="details"
+            :show="isdelete"
+            @cancel="cancel"
+            @confirm="remove"
+        />
   </v-card>
 </template>
 <script>
@@ -82,6 +88,9 @@ export default {
           },
           showForm:false,
           isupdate:false,
+          isdelete:false,
+          selectedItem:{},
+          details:{},
           graduates:[],
           data: {
                 title: "News",
@@ -182,6 +191,9 @@ export default {
             this.payload.title = ""
             this.isupdate = false
             this.showForm = false
+            this.isdelete = false
+            this.details = {}
+            this.selectedItem = {}
         },
 
         showEdit(data){
@@ -190,9 +202,17 @@ export default {
             this.isupdate = true
             this.showForm = true
         },
-
-        showDelete(){
-
+        showDelete(val){
+            Object.assign(this.selectedItem, val)
+            this.details.title = 'Delete'
+            this.details.message = `Are you sure you want to remove ${this.selectedItem.title}?`
+            this.isdelete = true
+        },
+        remove(){
+            axios.delete(`/admin/news/${this.selectedItem.id}`).then(({data})=>{
+                this.fetchPage()
+                this.cancel()
+            })
         }
 
 

@@ -4201,7 +4201,7 @@ var render = function () {
                                 1
                               ),
                               _vm._v(" "),
-                              _vm.payload.employed == 1
+                              _vm.payload.detail.employed == 1
                                 ? _c(
                                     "v-col",
                                     {
