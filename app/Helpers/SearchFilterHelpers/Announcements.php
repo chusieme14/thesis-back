@@ -3,13 +3,13 @@
 namespace App\Helpers\SearchFilterHelpers;
 
 use Carbon\Carbon;
-use App\Models\News;
+use App\Models\Announcement;
 
-class HNews {
+class Announcements {
 
     public function __construct()
     {
-        $this->model = News::query();
+        $this->model = Announcement::query();
     }
 
     public function searchable()

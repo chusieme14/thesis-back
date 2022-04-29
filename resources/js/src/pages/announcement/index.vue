@@ -17,7 +17,7 @@
           </table-header>
           <v-data-table
               :headers="headers"
-              :items="graduates"
+              :items="announcements"
               max-height="100%"
               :single-select="false"
               show-select
@@ -41,43 +41,79 @@
           persistent
           max-width="600px"
       >
-          <gun-form 
+          <announcement-form 
               :payload="payload" 
               @cancel="showForm=false"
-          ></gun-form>
+          ></announcement-form>
       </v-dialog>
   </v-card>
 </template>
 <script>
 import GraduateFilter from './filter.vue'
+import AnnouncementForm from './form.vue'
 export default {
     components:{
       GraduateFilter,
+      AnnouncementForm
     },
     data(){
         return {
-          payload:{},
-          showForm:false,
-          graduates:[],
-          data: {
+            payload:{
+                by_course:false,
+                by_section:false
+            },
+            showForm:false,
+            announcements:[],
+            data: {
                 title: "Announcements",
                 isFetching: false,
                 keyword: "",
                 filter:{}
             },
-          footerPages: {
-              "items-per-page-options": [5, 10, 15, 20, 30, 40, 50, 100,-1], 
-          },
-          options:{
-              itemsPerPage: 15
-          },
-          total: 0,
-          headers:[]
+            footerPages: {
+                "items-per-page-options": [5, 10, 15, 20, 30, 40, 50, 100,-1], 
+            },
+            options:{
+                itemsPerPage: 15
+            },
+            total: 0,
+            headers:[
+                {
+                    text: 'Id',
+                    align: 'start',
+                    sortable: true,
+                    value: 'id',
+                },
+                {
+                    text: 'Title',
+                    align: 'start',
+                    sortable: true,
+                    value: 'title',
+                },
+                {
+                    text: 'Content',
+                    align: 'start',
+                    sortable: false,
+                    value: 'content',
+                },
+                {
+                    text: 'Recipient',
+                    align: 'start',
+                    sortable: false,
+                    value: 'recipient',
+                },
+                {
+                    text: 'Action',
+                    align: 'start',
+                    sortable: false,
+                    value: 'action',
+                },
+            ]
         }
     },
     methods:{
       addNew(){
-
+          this.showForm = true
       },
       fetchPage(){
 

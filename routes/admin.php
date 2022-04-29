@@ -20,4 +20,5 @@ Route::group(['middleware'=>['auth:web']],function(){
     Route::resource('graduates',GraduateController::class);
     Route::resource('courses',CourseController::class);
     Route::resource('news',NewsController::class);
+    Route::resource('announcements',AnnouncementController::class);
 });
