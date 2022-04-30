@@ -39,7 +39,7 @@
       <v-dialog
           v-model="showForm"
           persistent
-          max-width="600px"
+          max-width="800px"
       >
           <announcement-form 
               :payload="payload" 
@@ -60,7 +60,8 @@ export default {
         return {
             payload:{
                 by_course:false,
-                by_section:false
+                by_section:false,
+                by_department:false
             },
             showForm:false,
             announcements:[],

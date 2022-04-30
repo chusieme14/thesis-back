@@ -26,81 +26,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     payload: {}
@@ -184,7 +109,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       payload: {
         by_course: false,
-        by_section: false
+        by_section: false,
+        by_department: false
       },
       showForm: false,
       announcements: [],
@@ -309,181 +235,7 @@ var render = function () {
     [
       _c("v-card-title", [_vm._v("\n        Add Announcements\n    ")]),
       _vm._v(" "),
-      _c("v-card-text", [
-        _c("div", { staticClass: "header-option" }, [
-          _c(
-            "div",
-            [
-              _vm.payload.by_course
-                ? _c(
-                    "v-icon",
-                    {
-                      staticClass: "custom-checkbox",
-                      attrs: { color: "#89ABB5" },
-                      on: {
-                        click: function ($event) {
-                          _vm.payload.by_course = !_vm.payload.by_course
-                        },
-                      },
-                    },
-                    [
-                      _vm._v(
-                        "\n                    mdi-checkbox-marked\n                "
-                      ),
-                    ]
-                  )
-                : _c(
-                    "v-icon",
-                    {
-                      staticClass: "custom-checkbox",
-                      attrs: { color: "#89ABB5" },
-                      on: {
-                        click: function ($event) {
-                          _vm.payload.by_course = !_vm.payload.by_course
-                        },
-                      },
-                    },
-                    [
-                      _vm._v(
-                        "\n                    mdi-checkbox-blank-outline\n                "
-                      ),
-                    ]
-                  ),
-              _vm._v("\n                By course\n            "),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            [
-              _vm.payload.by_section
-                ? _c(
-                    "v-icon",
-                    {
-                      staticClass: "custom-checkbox",
-                      attrs: { color: "#89ABB5" },
-                      on: {
-                        click: function ($event) {
-                          _vm.payload.by_section = !_vm.payload.by_section
-                        },
-                      },
-                    },
-                    [
-                      _vm._v(
-                        "\n                    mdi-checkbox-marked\n                "
-                      ),
-                    ]
-                  )
-                : _c(
-                    "v-icon",
-                    {
-                      staticClass: "custom-checkbox",
-                      attrs: { color: "#89ABB5" },
-                      on: {
-                        click: function ($event) {
-                          _vm.payload.by_section = !_vm.payload.by_section
-                        },
-                      },
-                    },
-                    [
-                      _vm._v(
-                        "\n                    mdi-checkbox-blank-outline\n                "
-                      ),
-                    ]
-                  ),
-              _vm._v("\n                By section\n            "),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            [
-              _vm.payload.by_section
-                ? _c(
-                    "v-icon",
-                    {
-                      staticClass: "custom-checkbox",
-                      attrs: { color: "#89ABB5" },
-                      on: {
-                        click: function ($event) {
-                          _vm.payload.by_section = !_vm.payload.by_section
-                        },
-                      },
-                    },
-                    [
-                      _vm._v(
-                        "\n                    mdi-checkbox-marked\n                "
-                      ),
-                    ]
-                  )
-                : _c(
-                    "v-icon",
-                    {
-                      staticClass: "custom-checkbox",
-                      attrs: { color: "#89ABB5" },
-                      on: {
-                        click: function ($event) {
-                          _vm.payload.by_section = !_vm.payload.by_section
-                        },
-                      },
-                    },
-                    [
-                      _vm._v(
-                        "\n                    mdi-checkbox-blank-outline\n                "
-                      ),
-                    ]
-                  ),
-              _vm._v("\n                By department\n            "),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            [
-              _vm.payload.by_section
-                ? _c(
-                    "v-icon",
-                    {
-                      staticClass: "custom-checkbox",
-                      attrs: { color: "#89ABB5" },
-                      on: {
-                        click: function ($event) {
-                          _vm.payload.by_section = !_vm.payload.by_section
-                        },
-                      },
-                    },
-                    [
-                      _vm._v(
-                        "\n                    mdi-checkbox-marked\n                "
-                      ),
-                    ]
-                  )
-                : _c(
-                    "v-icon",
-                    {
-                      staticClass: "custom-checkbox",
-                      attrs: { color: "#89ABB5" },
-                      on: {
-                        click: function ($event) {
-                          _vm.payload.by_section = !_vm.payload.by_section
-                        },
-                      },
-                    },
-                    [
-                      _vm._v(
-                        "\n                    mdi-checkbox-blank-outline\n                "
-                      ),
-                    ]
-                  ),
-              _vm._v("\n                By department\n            "),
-            ],
-            1
-          ),
-        ]),
-      ]),
+      _c("v-card-text", [_c("div", { staticClass: "header-option" })]),
       _vm._v(" "),
       _c(
         "v-card-actions",
@@ -596,7 +348,7 @@ var render = function () {
       _c(
         "v-dialog",
         {
-          attrs: { persistent: "", "max-width": "600px" },
+          attrs: { persistent: "", "max-width": "800px" },
           model: {
             value: _vm.showForm,
             callback: function ($$v) {
