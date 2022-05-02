@@ -82,7 +82,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _form_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./form.vue */ "./resources/js/src/pages/department/form.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _form_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./form.vue */ "./resources/js/src/pages/department/form.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -162,7 +170,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    DepForm: _form_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    DepForm: _form_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     var _ref;
@@ -172,7 +180,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       showForm: false,
       isdelete: false,
       departments: []
-    }, _defineProperty(_ref, "payload", {}), _defineProperty(_ref, "details", {}), _defineProperty(_ref, "data", {
+    }, _defineProperty(_ref, "payload", {
+      name: '',
+      abbreviation: ''
+    }), _defineProperty(_ref, "details", {}), _defineProperty(_ref, "data", {
       title: "Departments",
       isFetching: false,
       keyword: "",
@@ -254,9 +265,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     showEdit: function showEdit(val) {
-      Object.assign(this.payload, val);
-      this.isedit = true;
-      this.showForm = true;
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return Object.assign(_this3.payload, val);
+
+              case 2:
+                _this3.showForm = true;
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     showDelete: function showDelete(val) {
       Object.assign(this.payload, val);
@@ -265,21 +293,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.isdelete = true;
     },
     remove: function remove() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios["delete"]("/admin/departments/".concat(this.payload.id)).then(function (_ref5) {
         var data = _ref5.data;
 
-        _this3.fetchPage();
+        _this4.fetchPage();
 
-        _this3.clear();
+        _this4.clear();
       });
     },
     clear: function clear() {
+      this.payload.abbreviation = '';
+      this.payload.name = '';
+      this.details = {};
       this.showForm = false;
       this.isdelete = false;
-      this.details = {};
-      this.payload = {};
     }
   }
 });

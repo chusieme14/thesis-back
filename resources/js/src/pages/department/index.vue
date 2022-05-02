@@ -84,7 +84,10 @@ export default {
             showForm:false,
             isdelete:false,
             departments:[],
-            payload:{},
+            payload:{
+                name:'',
+                abbreviation:''
+            },
             details:{},
             data: {
                 title: "Departments",
@@ -163,9 +166,8 @@ export default {
                 this.clear()
             })
         },
-        showEdit(val){
-            Object.assign(this.payload, val)
-            this.isedit = true
+        async showEdit(val){
+            await Object.assign(this.payload, val)
             this.showForm = true
         },
         showDelete(val){
@@ -181,10 +183,11 @@ export default {
             })
         },
         clear(){
+            this.payload.abbreviation = ''
+            this.payload.name = ''
+            this.details = {}
             this.showForm = false
             this.isdelete = false
-            this.details = {}
-            this.payload = {}
         }
       
 
