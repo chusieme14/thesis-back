@@ -1,10 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BackOffice\AuthController;
 use App\Http\Controllers\BackOffice\CourseController;
+use App\Http\Controllers\BackOffice\DepartmentController;
 use App\Http\Controllers\BackOffice\GraduateController;
 use App\Http\Controllers\BackOffice\NewsController;
 
@@ -21,4 +20,5 @@ Route::group(['middleware'=>['auth:web']],function(){
     Route::resource('courses',CourseController::class);
     Route::resource('news',NewsController::class);
     Route::resource('announcements',AnnouncementController::class);
+    Route::resource('departments',DepartmentController::class);
 });
