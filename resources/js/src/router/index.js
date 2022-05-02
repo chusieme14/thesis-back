@@ -9,6 +9,7 @@ import organization from './organization'
 import role from './role'
 import admin from './admin'
 import courses from './courses'
+import departments from './department'
 import announcement from './announcement'
 
 Vue.use(Router)
@@ -29,6 +30,7 @@ const router = new Router({
         ...role,
         ...admin,
         ...courses,
+        ...departments,
         {
             path:'/login',
             component: () => import(/* webpackChunkName: "login" */'@/layout/login.vue'),

@@ -15,6 +15,11 @@ export default [
         route:'courses'
     },
     {
+        name:'Departments',
+        icon:'mdi-domain',
+        route:'departments'
+    },
+    {
         name:'Post',
         icon:'mdi-newspaper-variant',
         route:'post'
