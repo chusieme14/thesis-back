@@ -11,7 +11,6 @@
                                 :rules="[() => !!payload.name ||  '']"
                                 v-model="payload.name"
                                 maxlength="50"
-                                :background-color="isdark?'#777':''"
                                 counter
                                 hide-details="auto"
                                 filled
@@ -24,10 +23,21 @@
                                 v-model="payload.code"
                                 counter
                                 hide-details="auto"
-                                :background-color="isdark?'#777':''"
                                 filled
                                 dense
                             ></v-text-field>
+                            <label><span class="text-red-500">*</span> Department</label>
+                            <v-autocomplete
+                                :rules="[() => !!payload.department_id ||  '']"
+                                ref="department_id"
+                                item-value="id"
+                                :items="departments"
+                                item-text="abbreviation"
+                                v-model="payload.department_id"
+                                hide-details="auto"
+                                filled
+                                dense
+                            ></v-autocomplete>
                         </v-col>
                     </v-row>
                 </v-container>
@@ -70,7 +80,8 @@ export default {
     },
     data(){
         return{
-            isdark:false
+            isdark:false,
+            departments:[]
         }
     },
     methods:{
@@ -82,6 +93,11 @@ export default {
             }
             this.$emit('save');
         },
+        getAllDepartment(){
+            axios.get(`/admin/departments`).then(({data})=>{
+                this.departments = data.data
+            })
+        },
         cancel(){
             this.$emit('cancel');
         }
@@ -91,6 +107,8 @@ export default {
             handler(val){
                 if(!val && this.$refs.form){
                     this.$refs.form.resetValidation()
+                }else{
+                    this.getAllDepartment()
                 }
             },immediate:true
         }

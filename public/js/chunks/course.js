@@ -63,6 +63,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     details: {},
@@ -76,7 +86,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      isdark: false
+      isdark: false,
+      departments: []
     };
   },
   methods: {
@@ -90,6 +101,14 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$emit('save');
     },
+    getAllDepartment: function getAllDepartment() {
+      var _this = this;
+
+      axios.get("/admin/departments").then(function (_ref) {
+        var data = _ref.data;
+        _this.departments = data.data;
+      });
+    },
     cancel: function cancel() {
       this.$emit('cancel');
     }
@@ -99,6 +118,8 @@ __webpack_require__.r(__webpack_exports__);
       handler: function handler(val) {
         if (!val && this.$refs.form) {
           this.$refs.form.resetValidation();
+        } else {
+          this.getAllDepartment();
         }
       },
       immediate: true
@@ -119,40 +140,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_confirm_dialog_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/confirm-dialog.vue */ "./resources/js/src/components/confirm-dialog.vue");
 /* harmony import */ var _form_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./form.vue */ "./resources/js/src/pages/courses/form.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -260,6 +247,11 @@ __webpack_require__.r(__webpack_exports__);
         align: 'start',
         sortable: false,
         value: 'code'
+      }, {
+        text: 'Department',
+        align: 'start',
+        sortable: false,
+        value: 'department'
       }, {
         text: 'Action',
         align: 'center',
@@ -456,7 +448,6 @@ var render = function () {
                                     },
                                   ],
                                   maxlength: "50",
-                                  "background-color": _vm.isdark ? "#777" : "",
                                   counter: "",
                                   "hide-details": "auto",
                                   filled: "",
@@ -488,7 +479,6 @@ var render = function () {
                                   ],
                                   counter: "",
                                   "hide-details": "auto",
-                                  "background-color": _vm.isdark ? "#777" : "",
                                   filled: "",
                                   dense: "",
                                 },
@@ -498,6 +488,37 @@ var render = function () {
                                     _vm.$set(_vm.payload, "code", $$v)
                                   },
                                   expression: "payload.code",
+                                },
+                              }),
+                              _vm._v(" "),
+                              _c("label", [
+                                _c("span", { staticClass: "text-red-500" }, [
+                                  _vm._v("*"),
+                                ]),
+                                _vm._v(" Department"),
+                              ]),
+                              _vm._v(" "),
+                              _c("v-autocomplete", {
+                                ref: "department_id",
+                                attrs: {
+                                  rules: [
+                                    function () {
+                                      return !!_vm.payload.department_id || ""
+                                    },
+                                  ],
+                                  "item-value": "id",
+                                  items: _vm.departments,
+                                  "item-text": "abbreviation",
+                                  "hide-details": "auto",
+                                  filled: "",
+                                  dense: "",
+                                },
+                                model: {
+                                  value: _vm.payload.department_id,
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.payload, "department_id", $$v)
+                                  },
+                                  expression: "payload.department_id",
                                 },
                               }),
                             ],
@@ -620,106 +641,14 @@ var render = function () {
             },
             scopedSlots: _vm._u([
               {
-                key: "item.image",
-                fn: function (ref) {
-                  var item = ref.item
-                  return [
-                    _c("v-img", {
-                      attrs: {
-                        width: "50",
-                        contain: true,
-                        src: item.image ? item.image : "/sample/gun.png",
-                      },
-                    }),
-                  ]
-                },
-              },
-              {
-                key: "item.price",
+                key: "item.department",
                 fn: function (ref) {
                   var item = ref.item
                   return [
                     _vm._v(
                       "\n                " +
-                        _vm._s(item.price + " €") +
+                        _vm._s(item.department.name) +
                         "\n            "
-                    ),
-                  ]
-                },
-              },
-              {
-                key: "item.type",
-                fn: function (ref) {
-                  var item = ref.item
-                  return [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(item.gun_type.name) +
-                        "\n            "
-                    ),
-                  ]
-                },
-              },
-              {
-                key: "item.ammunitions",
-                fn: function (ref) {
-                  var item = ref.item
-                  return [
-                    _c(
-                      "v-row",
-                      [
-                        _c(
-                          "v-col",
-                          { attrs: { cols: "12", sm: "10" } },
-                          [
-                            _c(
-                              "v-chip-group",
-                              {
-                                attrs: {
-                                  mandatory: "",
-                                  "active-class": "primary--text",
-                                },
-                              },
-                              [
-                                _vm._l(
-                                  item.ammunitions,
-                                  function (ammunition, index) {
-                                    return [
-                                      index < 2
-                                        ? _c("v-chip", { key: ammunition.id }, [
-                                            _vm._v(
-                                              "\n                                    " +
-                                                _vm._s(ammunition.name) +
-                                                "\n                                "
-                                            ),
-                                          ])
-                                        : _vm._e(),
-                                    ]
-                                  }
-                                ),
-                                _vm._v(" "),
-                                item.ammunitions.length > 2
-                                  ? [
-                                      _c("v-chip", [
-                                        _vm._v(
-                                          "\n                                    " +
-                                            _vm._s(
-                                              "+" +
-                                                (item.ammunitions.length - 2)
-                                            ) +
-                                            "\n                                "
-                                        ),
-                                      ]),
-                                    ]
-                                  : _vm._e(),
-                              ],
-                              2
-                            ),
-                          ],
-                          1
-                        ),
-                      ],
-                      1
                     ),
                   ]
                 },

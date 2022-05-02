@@ -26,44 +26,10 @@
                 @update:options="fetchPage"
                 fixed-header
             >
-                <template v-slot:item.image="{ item }">
-                    <v-img
-                        width="50"
-                        :contain="true"
-                        :src="item.image?item.image:'/sample/gun.png'"
-                    ></v-img>
+                <template v-slot:item.department="{ item }">
+                    {{item.department.name}}
                 </template>
-                <template v-slot:item.price="{ item }">
-                    {{item.price+' €'}}
-                </template>
-                <template v-slot:item.type="{ item }">
-                    {{item.gun_type.name}}
-                </template>
-                <template v-slot:item.ammunitions="{ item }">
-                    <v-row>
-                        <v-col cols="12" sm="10">
-                            <v-chip-group
-                                mandatory
-                                active-class="primary--text"
-                            >
-                                <template v-for="(ammunition, index) in item.ammunitions">
-                                    <v-chip
-                                        :key="ammunition.id"
-                                        v-if="index < 2"
-                                    >
-                                        {{ ammunition.name }}
-                                    </v-chip>
-                                </template>
-                                <template v-if="item.ammunitions.length>2">
-                                    <v-chip
-                                    >
-                                        {{ `+${item.ammunitions.length - 2}` }}
-                                    </v-chip>
-                                </template>
-                            </v-chip-group>
-                        </v-col>
-                    </v-row>
-                </template>
+               
                 <template v-slot:item.action="{ item }">
                     <table-action :item="item" 
                         @editItem="showEdit" 
@@ -143,6 +109,12 @@ export default {
                     align: 'start',
                     sortable: false,
                     value: 'code',
+                },
+                {
+                    text: 'Department',
+                    align: 'start',
+                    sortable: false,
+                    value: 'department',
                 },
                 {
                     text: 'Action',
