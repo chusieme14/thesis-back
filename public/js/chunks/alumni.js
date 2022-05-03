@@ -899,7 +899,7 @@ __webpack_require__.r(__webpack_exports__);
     years: function years() {
       var schoolYear = [];
       var year = new Date().getFullYear();
-      var startYear = year - 5;
+      var startYear = year - 10;
 
       for (var start = year - 1; start >= startYear; start--) {
         schoolYear.push("".concat(start, "-").concat(start + 1));
@@ -1337,6 +1337,10 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
         var data = _ref2.data;
         _this2.ismultiple = false;
         localStorage.removeItem("session");
+
+        _this2.$router.push({
+          name: 'graduates'
+        });
       });
     },
     preventReload: function preventReload() {
@@ -1454,7 +1458,7 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       // }
       // this.$emit('save',this.payload)
 
-      this.payload.password = 'password';
+      this.payload.section = this.payload.section.toUpperCase();
       axios.post("/admin/graduates", this.payload).then(function (_ref5) {
         var data = _ref5.data;
 
@@ -1481,7 +1485,7 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
     years: function years() {
       var schoolYear = [];
       var year = new Date().getFullYear();
-      var startYear = year - 5;
+      var startYear = year - 10;
 
       for (var start = year - 1; start >= startYear; start--) {
         schoolYear.push("".concat(start, "-").concat(start + 1));

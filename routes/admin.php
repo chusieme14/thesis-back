@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BackOffice\AnnouncementController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BackOffice\AuthController;
 use App\Http\Controllers\BackOffice\CourseController;
@@ -19,6 +20,7 @@ Route::group(['middleware'=>['auth:web']],function(){
     Route::resource('graduates',GraduateController::class);
     Route::resource('courses',CourseController::class);
     Route::resource('news',NewsController::class);
+    Route::post('announcements/save-send',[AnnouncementController::class, 'saveSend']);
     Route::resource('announcements',AnnouncementController::class);
     Route::resource('departments',DepartmentController::class);
 });

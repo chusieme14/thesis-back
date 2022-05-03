@@ -26,12 +26,231 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {},
   props: {
     payload: {}
   },
   data: function data() {
-    return {};
+    return {
+      courses: [],
+      departments: [],
+      platforms: [{
+        id: 1,
+        name: 'Email'
+      }, {
+        id: 2,
+        name: 'SMS'
+      }]
+    };
+  },
+  methods: {
+    getAllCourse: function getAllCourse() {
+      var _this = this;
+
+      axios.get("/admin/courses").then(function (_ref) {
+        var data = _ref.data;
+        _this.courses = data.data;
+      });
+    },
+    getAllDepartment: function getAllDepartment() {
+      var _this2 = this;
+
+      axios.get("/admin/departments").then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.departments = data.data;
+      });
+    },
+    clear: function clear() {},
+    save: function save() {
+      if (!this.$refs.form.validate()) return;
+      this.$emit('save');
+    }
+  },
+  watch: {},
+  created: function created() {
+    this.getAllCourse();
+    this.getAllDepartment();
   }
 });
 
@@ -98,6 +317,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -108,9 +360,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       payload: {
-        by_course: false,
-        by_section: false,
-        by_department: false
+        option: 1,
+        platform: 1,
+        withlink: false
       },
       showForm: false,
       announcements: [],
@@ -143,10 +395,30 @@ __webpack_require__.r(__webpack_exports__);
         sortable: false,
         value: 'content'
       }, {
-        text: 'Recipient',
+        text: 'Platform',
         align: 'start',
         sortable: false,
-        value: 'recipient'
+        value: 'platform'
+      }, {
+        text: 'Section',
+        align: 'start',
+        sortable: false,
+        value: 'section'
+      }, {
+        text: 'Course',
+        align: 'start',
+        sortable: false,
+        value: 'course'
+      }, {
+        text: 'Department',
+        align: 'start',
+        sortable: false,
+        value: 'department'
+      }, {
+        text: 'Status',
+        align: 'start',
+        sortable: false,
+        value: 'status'
       }, {
         text: 'Action',
         align: 'start',
@@ -156,11 +428,53 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    clear: function clear() {
+      this.showForm = false;
+    },
     addNew: function addNew() {
       this.showForm = true;
     },
-    fetchPage: function fetchPage() {},
-    resetFilter: function resetFilter() {}
+    fetchPage: function fetchPage() {
+      var _this = this;
+
+      this.data.isFetching = true;
+
+      var params = this._createParams(this.options);
+
+      params = params + this._createFilterParams(this.data.filter);
+      console.log(this.data.keyword, "keyword");
+      if (this.data.keyword) params = params + '&keyword=' + this.data.keyword;
+      axios.get("/admin/announcements?".concat(params)).then(function (_ref) {
+        var data = _ref.data;
+        _this.announcements = data.data;
+        _this.data.isFetching = false;
+        _this.total = data.total;
+      });
+    },
+    resetFilter: function resetFilter() {},
+    save: function save() {
+      var _this2 = this;
+
+      console.log(this.payload, "sjdsdgjdghh");
+      axios.post("/admin/announcements", this.payload).then(function (_ref2) {
+        var data = _ref2.data;
+
+        _this2.fetchPage();
+
+        _this2.clear();
+      });
+    },
+    saveSend: function saveSend() {
+      var _this3 = this;
+
+      axios.post("/admin/announcements/send-save", this.payload).then(function (_ref3) {
+        var data = _ref3.data;
+
+        _this3.fetchPage();
+
+        _this3.clear();
+      });
+    }
   }
 });
 
@@ -178,7 +492,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".header-option[data-v-3d513470] {\n  display: flex;\n  justify-content: space-between;\n}", ""]);
+exports.push([module.i, ".header-option[data-v-3d513470] {\n  display: flex;\n  justify-content: space-between;\n  background: #ebeaea;\n  padding: 5px;\n}\n.class-platform[data-v-3d513470] {\n  display: flex;\n  justify-content: flex-end;\n}", ""]);
 
 // exports
 
@@ -235,7 +549,539 @@ var render = function () {
     [
       _c("v-card-title", [_vm._v("\n        Add Announcements\n    ")]),
       _vm._v(" "),
-      _c("v-card-text", [_c("div", { staticClass: "header-option" })]),
+      _c(
+        "v-card-text",
+        [
+          _c("div", { staticClass: "header-option mb-3" }, [
+            _c(
+              "div",
+              [
+                _vm.payload.option == 1
+                  ? _c(
+                      "v-icon",
+                      {
+                        staticClass: "custom-checkbox",
+                        on: {
+                          click: function ($event) {
+                            _vm.payload.option = 1
+                          },
+                        },
+                      },
+                      [
+                        _vm._v(
+                          "\n                    mdi-checkbox-marked\n                "
+                        ),
+                      ]
+                    )
+                  : _c(
+                      "v-icon",
+                      {
+                        staticClass: "custom-checkbox",
+                        on: {
+                          click: function ($event) {
+                            _vm.payload.option = 1
+                          },
+                        },
+                      },
+                      [
+                        _vm._v(
+                          "\n                    mdi-checkbox-blank-outline\n                "
+                        ),
+                      ]
+                    ),
+                _vm._v("\n                By Section\n            "),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              [
+                _vm.payload.option == 2
+                  ? _c(
+                      "v-icon",
+                      {
+                        staticClass: "custom-checkbox",
+                        on: {
+                          click: function ($event) {
+                            _vm.payload.option = 2
+                          },
+                        },
+                      },
+                      [
+                        _vm._v(
+                          "\n                    mdi-checkbox-marked\n                "
+                        ),
+                      ]
+                    )
+                  : _c(
+                      "v-icon",
+                      {
+                        staticClass: "custom-checkbox",
+                        on: {
+                          click: function ($event) {
+                            _vm.payload.option = 2
+                          },
+                        },
+                      },
+                      [
+                        _vm._v(
+                          "\n                    mdi-checkbox-blank-outline\n                "
+                        ),
+                      ]
+                    ),
+                _vm._v("\n                By Course\n            "),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              [
+                _vm.payload.option == 3
+                  ? _c(
+                      "v-icon",
+                      {
+                        staticClass: "custom-checkbox",
+                        on: {
+                          click: function ($event) {
+                            _vm.payload.option = 3
+                          },
+                        },
+                      },
+                      [
+                        _vm._v(
+                          "\n                    mdi-checkbox-marked\n                "
+                        ),
+                      ]
+                    )
+                  : _c(
+                      "v-icon",
+                      {
+                        staticClass: "custom-checkbox",
+                        on: {
+                          click: function ($event) {
+                            _vm.payload.option = 3
+                          },
+                        },
+                      },
+                      [
+                        _vm._v(
+                          "\n                    mdi-checkbox-blank-outline\n                "
+                        ),
+                      ]
+                    ),
+                _vm._v("\n                By Department\n            "),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              [
+                _vm.payload.option == 4
+                  ? _c(
+                      "v-icon",
+                      {
+                        staticClass: "custom-checkbox",
+                        on: {
+                          click: function ($event) {
+                            _vm.payload.option = 4
+                          },
+                        },
+                      },
+                      [
+                        _vm._v(
+                          "\n                    mdi-checkbox-marked\n                "
+                        ),
+                      ]
+                    )
+                  : _c(
+                      "v-icon",
+                      {
+                        staticClass: "custom-checkbox",
+                        on: {
+                          click: function ($event) {
+                            _vm.payload.option = 4
+                          },
+                        },
+                      },
+                      [
+                        _vm._v(
+                          "\n                    mdi-checkbox-blank-outline\n                "
+                        ),
+                      ]
+                    ),
+                _vm._v("\n                Custom\n            "),
+              ],
+              1
+            ),
+          ]),
+          _vm._v(" "),
+          _vm.payload.option != null
+            ? _c(
+                "v-card",
+                { attrs: { elevation: "1" } },
+                [
+                  _c(
+                    "v-card-text",
+                    [
+                      _c("div", { staticClass: "class-platform" }, [
+                        _c(
+                          "div",
+                          { staticClass: "mr-2" },
+                          [
+                            _vm.payload.withlink
+                              ? _c(
+                                  "v-icon",
+                                  {
+                                    staticClass: "custom-checkbox",
+                                    on: {
+                                      click: function ($event) {
+                                        _vm.payload.withlink = false
+                                      },
+                                    },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                            mdi-checkbox-marked\n                        "
+                                    ),
+                                  ]
+                                )
+                              : _c(
+                                  "v-icon",
+                                  {
+                                    staticClass: "custom-checkbox",
+                                    on: {
+                                      click: function ($event) {
+                                        _vm.payload.withlink = true
+                                      },
+                                    },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                            mdi-checkbox-blank-outline\n                        "
+                                    ),
+                                  ]
+                                ),
+                            _vm._v(
+                              "\n                        With link\n                    "
+                            ),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "mr-2" },
+                          [
+                            _vm.payload.platform == 1
+                              ? _c(
+                                  "v-icon",
+                                  {
+                                    staticClass: "custom-checkbox",
+                                    on: {
+                                      click: function ($event) {
+                                        _vm.payload.platform = 1
+                                      },
+                                    },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                            mdi-checkbox-marked\n                        "
+                                    ),
+                                  ]
+                                )
+                              : _c(
+                                  "v-icon",
+                                  {
+                                    staticClass: "custom-checkbox",
+                                    on: {
+                                      click: function ($event) {
+                                        _vm.payload.platform = 1
+                                      },
+                                    },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                            mdi-checkbox-blank-outline\n                        "
+                                    ),
+                                  ]
+                                ),
+                            _vm._v(
+                              "\n                        Email\n                    "
+                            ),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          [
+                            _vm.payload.platform == 2
+                              ? _c(
+                                  "v-icon",
+                                  {
+                                    staticClass: "custom-checkbox",
+                                    on: {
+                                      click: function ($event) {
+                                        _vm.payload.platform = 2
+                                      },
+                                    },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                            mdi-checkbox-marked\n                        "
+                                    ),
+                                  ]
+                                )
+                              : _c(
+                                  "v-icon",
+                                  {
+                                    staticClass: "custom-checkbox",
+                                    on: {
+                                      click: function ($event) {
+                                        _vm.payload.platform = 2
+                                      },
+                                    },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                            mdi-checkbox-blank-outline\n                        "
+                                    ),
+                                  ]
+                                ),
+                            _vm._v(
+                              "\n                        SMS\n                    "
+                            ),
+                          ],
+                          1
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-form",
+                        { ref: "form", attrs: { "lazy-validation": "" } },
+                        [
+                          _c(
+                            "v-container",
+                            [
+                              _c(
+                                "v-row",
+                                [
+                                  _c(
+                                    "v-col",
+                                    { attrs: { cols: "12", sm: "12" } },
+                                    [
+                                      _vm.payload.option == 2 ||
+                                      _vm.payload.option == 1
+                                        ? _c("label", [
+                                            _c(
+                                              "span",
+                                              { staticClass: "text-red" },
+                                              [_vm._v("*")]
+                                            ),
+                                            _vm._v(" Course "),
+                                          ])
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _vm.payload.option == 2 ||
+                                      _vm.payload.option == 1
+                                        ? _c("v-autocomplete", {
+                                            attrs: {
+                                              rules: [
+                                                function () {
+                                                  return (
+                                                    !!_vm.payload.course_id ||
+                                                    ""
+                                                  )
+                                                },
+                                              ],
+                                              items: _vm.courses,
+                                              "item-text": "name",
+                                              "item-value": "id",
+                                              filled: "",
+                                              dense: "",
+                                            },
+                                            model: {
+                                              value: _vm.payload.course_id,
+                                              callback: function ($$v) {
+                                                _vm.$set(
+                                                  _vm.payload,
+                                                  "course_id",
+                                                  $$v
+                                                )
+                                              },
+                                              expression: "payload.course_id",
+                                            },
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _vm.payload.option == 3
+                                        ? _c("label", [
+                                            _c(
+                                              "span",
+                                              { staticClass: "text-red" },
+                                              [_vm._v("*")]
+                                            ),
+                                            _vm._v(" Department "),
+                                          ])
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _vm.payload.option == 3
+                                        ? _c("v-autocomplete", {
+                                            attrs: {
+                                              rules: [
+                                                function () {
+                                                  return (
+                                                    !!_vm.payload
+                                                      .department_id || ""
+                                                  )
+                                                },
+                                              ],
+                                              items: _vm.departments,
+                                              "item-text": "name",
+                                              "item-value": "id",
+                                              filled: "",
+                                              dense: "",
+                                            },
+                                            model: {
+                                              value: _vm.payload.department_id,
+                                              callback: function ($$v) {
+                                                _vm.$set(
+                                                  _vm.payload,
+                                                  "department_id",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "payload.department_id",
+                                            },
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _vm.payload.option == 1
+                                        ? _c("label", [
+                                            _c(
+                                              "span",
+                                              { staticClass: "text-red" },
+                                              [_vm._v("*")]
+                                            ),
+                                            _vm._v(" Section"),
+                                          ])
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _vm.payload.option == 1
+                                        ? _c("v-text-field", {
+                                            ref: "section",
+                                            attrs: {
+                                              rules: [
+                                                function () {
+                                                  return (
+                                                    !!_vm.payload.section || ""
+                                                  )
+                                                },
+                                              ],
+                                              filled: "",
+                                              dense: "",
+                                            },
+                                            model: {
+                                              value: _vm.payload.section,
+                                              callback: function ($$v) {
+                                                _vm.$set(
+                                                  _vm.payload,
+                                                  "section",
+                                                  $$v
+                                                )
+                                              },
+                                              expression: "payload.section",
+                                            },
+                                          })
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _c("label", [
+                                        _c(
+                                          "span",
+                                          { staticClass: "text-red" },
+                                          [_vm._v("*")]
+                                        ),
+                                        _vm._v(" Title"),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        ref: "title",
+                                        attrs: {
+                                          rules: [
+                                            function () {
+                                              return !!_vm.payload.title || ""
+                                            },
+                                          ],
+                                          filled: "",
+                                          dense: "",
+                                        },
+                                        model: {
+                                          value: _vm.payload.title,
+                                          callback: function ($$v) {
+                                            _vm.$set(_vm.payload, "title", $$v)
+                                          },
+                                          expression: "payload.title",
+                                        },
+                                      }),
+                                      _vm._v(" "),
+                                      _c("label", [
+                                        _c(
+                                          "span",
+                                          { staticClass: "text-red" },
+                                          [_vm._v("*")]
+                                        ),
+                                        _vm._v(" Content"),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("v-textarea", {
+                                        ref: "content",
+                                        attrs: {
+                                          rules: [
+                                            function () {
+                                              return !!_vm.payload.content || ""
+                                            },
+                                          ],
+                                          filled: "",
+                                          dense: "",
+                                        },
+                                        model: {
+                                          value: _vm.payload.content,
+                                          callback: function ($$v) {
+                                            _vm.$set(
+                                              _vm.payload,
+                                              "content",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "payload.content",
+                                        },
+                                      }),
+                                    ],
+                                    1
+                                  ),
+                                ],
+                                1
+                              ),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ],
+                1
+              )
+            : _vm._e(),
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "v-card-actions",
@@ -255,7 +1101,13 @@ var render = function () {
             [_vm._v("Cancel")]
           ),
           _vm._v(" "),
-          _c("v-btn", { attrs: { color: "success" } }, [_vm._v("Save")]),
+          _c("v-btn", { attrs: { color: "success" } }, [_vm._v("Save&Send")]),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            { attrs: { color: "success" }, on: { click: _vm.save } },
+            [_vm._v("Save")]
+          ),
         ],
         1
       ),
@@ -340,6 +1192,109 @@ var render = function () {
                 _vm.fetchPage,
               ],
             },
+            scopedSlots: _vm._u([
+              {
+                key: "item.status",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _vm._v(
+                      "\n                  " +
+                        _vm._s(item.status ? "Save" : "Sent") +
+                        "\n              "
+                    ),
+                  ]
+                },
+              },
+              {
+                key: "item.course",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _vm._v(
+                      "\n                  " +
+                        _vm._s(item.course ? item.course.code : "") +
+                        "\n              "
+                    ),
+                  ]
+                },
+              },
+              {
+                key: "item.platform",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _vm._v(
+                      "\n                  " +
+                        _vm._s(item.platform == 1 ? "Email" : "SMS") +
+                        "\n              "
+                    ),
+                  ]
+                },
+              },
+              {
+                key: "item.content",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _vm._v(
+                      "\n                  " +
+                        _vm._s(item.content.substring(0, 12) + "...") +
+                        "\n              "
+                    ),
+                  ]
+                },
+              },
+              {
+                key: "item.department",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _vm._v(
+                      "\n                  " +
+                        _vm._s(
+                          item.department ? item.department.abbreviation : ""
+                        ) +
+                        "\n              "
+                    ),
+                  ]
+                },
+              },
+              {
+                key: "item.action",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _c(
+                      "v-row",
+                      [
+                        _c(
+                          "v-btn",
+                          { attrs: { color: "success", icon: "" } },
+                          [
+                            _c("v-icon", { attrs: { small: "" } }, [
+                              _vm._v(
+                                "\n                              mdi-send-outline\n                          "
+                              ),
+                            ]),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("table-action", {
+                          attrs: { item: item },
+                          on: {
+                            editItem: _vm.showEdit,
+                            deleteItem: _vm.showDelete,
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                  ]
+                },
+              },
+            ]),
           }),
         ],
         1
@@ -364,6 +1319,7 @@ var render = function () {
               cancel: function ($event) {
                 _vm.showForm = false
               },
+              save: _vm.save,
             },
           }),
         ],

@@ -18,9 +18,11 @@ class CreateAnnouncementsTable extends Migration
             $table->string('title');
             $table->longText('content');
             $table->integer('platform')->default(1);
-            $table->boolean('by_course')->default(false);
-            $table->boolean('by_section')->default(false);
-            $table->string('recipient');
+            $table->boolean('withlink')->default(false);
+            $table->integer('option')->default(1);
+            $table->unsignedBigInteger('course_id')->nullable();
+            $table->unsignedBigInteger('department_id')->nullable();
+            $table->string('section')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
         });

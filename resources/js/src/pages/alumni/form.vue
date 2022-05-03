@@ -422,6 +422,8 @@ export default {
             axios.get(`/admin/graduates/temp-uploads/${session}/save`).then(({data})=>{
                 this.ismultiple = false
                 localStorage.removeItem("session");
+                this.$router.push({name:'graduates'})
+
             })
         },
         preventReload() {
@@ -496,7 +498,7 @@ export default {
             //     return
             // }
             // this.$emit('save',this.payload)
-            this.payload.password = 'password'
+            this.payload.section = this.payload.section.toUpperCase()
             axios.post(`/admin/graduates`,this.payload).then(({data})=>{
                 this.$router.push({name:'graduates'})
             })
@@ -519,7 +521,7 @@ export default {
         years(){
             let schoolYear = []
             let year = new Date().getFullYear()
-            let startYear = year - 5
+            let startYear = year - 10
             for (let start = year-1; start >= startYear; start--) {
                 schoolYear.push(`${start}-${start+1}`)
             }

@@ -22,6 +22,11 @@ class GraduateController extends Controller
     public function store(Request $request)
     {
         $graduate = Graduate::create($request->all());
+        $code = $this->generateCode();
+        $graduate->update([
+            'share_code' => $code, 
+            'password' => bcrypt($request->student_number)
+        ]);
         if($request->detail){
             $graduate->detail()->create($request->detail);
         }
@@ -30,6 +35,12 @@ class GraduateController extends Controller
                 'avatar' => userProfileUploader($request->image_base64, 'profile/')
             ]);
         }
+    }
+
+    private function generateCode(){
+        $code = Str::random(12);
+        if(Graduate::where('share_code',$code)->exists()) $this->generateCode();
+        return $code;
     }
 
     public function update(Request $request, $id)
@@ -88,6 +99,7 @@ class GraduateController extends Controller
 
         foreach ($graduates as $key => $graduate) {
             $graduate->password = bcrypt('$graduate->student_number');
+            $graduate->share_code = $this->generateCode();
             Graduate::create($graduate->toArray());
         }
 

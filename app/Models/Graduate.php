@@ -14,7 +14,7 @@ class Graduate extends Authenticatable
     protected $fillable = [
         'first_name', 'last_name', 'middle_name', 'student_number',
         'email', 'password', 'avatar', 'batch', 'section',
-        'course_id', 'contact_number'
+        'course_id', 'contact_number', 'share_code'
     ];
 
     protected $with = ['course', 'detail'];

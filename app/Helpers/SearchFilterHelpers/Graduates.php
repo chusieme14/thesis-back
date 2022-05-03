@@ -25,7 +25,7 @@ class Graduates {
 
     public function searchColumns()
     {
-        $searchable = ['first_name', 'short_name'];
+        $searchable = ['title'];
         if(Request()->keyword && Request()->keyword!="null"){
             $keyword = Request()->keyword;
             // $this->model->where(function($q) use ($keyword, $searchable) {
@@ -53,12 +53,9 @@ class Graduates {
                 $exactSortKey = explode('/', $filter)[0];
                 $exactSortType = explode('/', $filter)[1];
                 
-                if($exactSortKey == 'fullname'){
-                    $this->model->orderBy('first_name', $exactSortType);
-                }
-                else{
+                
                     $this->model->orderBy($exactSortKey, $exactSortType);          
-                }
+                
             }
         }
         else{

@@ -20,11 +20,12 @@ class CreateGraduatesTable extends Migration
             $table->string('middle_name')->nullable();
             $table->string('student_number');
             $table->string('email')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->text('avatar')->nullable();
             $table->string('batch');
             $table->string('section');
             $table->string('contact_number')->nullable();
+            $table->string('share_code')->nullable();
             $table->unsignedBigInteger('course_id');
             $table->timestamps();
         });

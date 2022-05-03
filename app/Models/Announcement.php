@@ -13,10 +13,16 @@ class Announcement extends Model
         'title',
         'content',
         'platform',
-        'by_course',
-        'by_section',
-        'recipient',
+        'withlink',
+        'option',
+        'course_id',
+        'department_id',
+        'section',
         'status'
+    ];
+
+    protected $with = [
+        'course','department'
     ];
 
     const SAVE = 1;
@@ -26,6 +32,20 @@ class Announcement extends Model
     const EMAIL = 1;
     const SMS = 2;
 
-    
+    //option
+    const BYSECTION = 1;
+    const BYCOURSE = 2;
+    const BYDEPARTMENT = 3;
+    const CUSTOM = 4;
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 
 }
