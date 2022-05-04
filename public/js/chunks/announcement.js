@@ -245,9 +245,23 @@ __webpack_require__.r(__webpack_exports__);
     save: function save() {
       if (!this.$refs.form.validate()) return;
       this.$emit('save');
+    },
+    saveSend: function saveSend() {
+      if (!this.$refs.form.validate()) return;
+      this.$emit('savesend');
     }
   },
-  watch: {},
+  watch: {
+    "payload.option": {
+      handler: function handler(val) {
+        this.payload.course_id = null;
+        this.payload.department_id = null;
+        this.payload.section = null;
+        this.payload.title = null;
+        this.payload.content = null;
+      }
+    }
+  },
   created: function created() {
     this.getAllCourse();
     this.getAllDepartment();
@@ -267,6 +281,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _filter_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./filter.vue */ "./resources/js/src/pages/announcement/filter.vue");
 /* harmony import */ var _form_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./form.vue */ "./resources/js/src/pages/announcement/form.vue");
+//
+//
 //
 //
 //
@@ -430,6 +446,12 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     clear: function clear() {
       this.showForm = false;
+      this.payload.status = 1;
+      this.payload.course_id = null;
+      this.payload.department_id = null;
+      this.payload.section = null;
+      this.payload.title = null;
+      this.payload.content = null;
     },
     addNew: function addNew() {
       this.showForm = true;
@@ -467,7 +489,8 @@ __webpack_require__.r(__webpack_exports__);
     saveSend: function saveSend() {
       var _this3 = this;
 
-      axios.post("/admin/announcements/send-save", this.payload).then(function (_ref3) {
+      this.payload.status = 2;
+      axios.post("/admin/announcement/send-save", this.payload).then(function (_ref3) {
         var data = _ref3.data;
 
         _this3.fetchPage();
@@ -727,50 +750,6 @@ var render = function () {
                     "v-card-text",
                     [
                       _c("div", { staticClass: "class-platform" }, [
-                        _c(
-                          "div",
-                          { staticClass: "mr-2" },
-                          [
-                            _vm.payload.withlink
-                              ? _c(
-                                  "v-icon",
-                                  {
-                                    staticClass: "custom-checkbox",
-                                    on: {
-                                      click: function ($event) {
-                                        _vm.payload.withlink = false
-                                      },
-                                    },
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                            mdi-checkbox-marked\n                        "
-                                    ),
-                                  ]
-                                )
-                              : _c(
-                                  "v-icon",
-                                  {
-                                    staticClass: "custom-checkbox",
-                                    on: {
-                                      click: function ($event) {
-                                        _vm.payload.withlink = true
-                                      },
-                                    },
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                            mdi-checkbox-blank-outline\n                        "
-                                    ),
-                                  ]
-                                ),
-                            _vm._v(
-                              "\n                        With link\n                    "
-                            ),
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
                         _c(
                           "div",
                           { staticClass: "mr-2" },
@@ -1101,7 +1080,11 @@ var render = function () {
             [_vm._v("Cancel")]
           ),
           _vm._v(" "),
-          _c("v-btn", { attrs: { color: "success" } }, [_vm._v("Save&Send")]),
+          _c(
+            "v-btn",
+            { attrs: { color: "success" }, on: { click: _vm.saveSend } },
+            [_vm._v("Save&Send")]
+          ),
           _vm._v(" "),
           _c(
             "v-btn",
@@ -1200,7 +1183,7 @@ var render = function () {
                   return [
                     _vm._v(
                       "\n                  " +
-                        _vm._s(item.status ? "Save" : "Sent") +
+                        _vm._s(item.status == 1 ? "Save" : "Sent") +
                         "\n              "
                     ),
                   ]
@@ -1270,7 +1253,13 @@ var render = function () {
                       [
                         _c(
                           "v-btn",
-                          { attrs: { color: "success", icon: "" } },
+                          {
+                            attrs: {
+                              disabled: item.status == 2,
+                              color: "success",
+                              icon: "",
+                            },
+                          },
                           [
                             _c("v-icon", { attrs: { small: "" } }, [
                               _vm._v(
@@ -1282,7 +1271,10 @@ var render = function () {
                         ),
                         _vm._v(" "),
                         _c("table-action", {
-                          attrs: { item: item },
+                          attrs: {
+                            item: item,
+                            disable: item.status == 2 ? ["edit"] : [""],
+                          },
                           on: {
                             editItem: _vm.showEdit,
                             deleteItem: _vm.showDelete,
@@ -1320,6 +1312,7 @@ var render = function () {
                 _vm.showForm = false
               },
               save: _vm.save,
+              savesend: _vm.saveSend,
             },
           }),
         ],

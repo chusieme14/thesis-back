@@ -20,7 +20,7 @@ Route::group(['middleware'=>['auth:web']],function(){
     Route::resource('graduates',GraduateController::class);
     Route::resource('courses',CourseController::class);
     Route::resource('news',NewsController::class);
-    Route::post('announcements/save-send',[AnnouncementController::class, 'saveSend']);
+    Route::post('announcement/send-save',[AnnouncementController::class, 'saveSend']);
     Route::resource('announcements',AnnouncementController::class);
     Route::resource('departments',DepartmentController::class);
 });

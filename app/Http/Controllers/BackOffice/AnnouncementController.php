@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\BackOffice;
 
+use App\Jobs\SendSms;
+use App\Models\Graduate;
+use App\Models\Announcement;
 use Illuminate\Http\Request;
+use App\Jobs\SendAnnouncement;
 use App\Http\Controllers\Controller;
 use App\Helpers\SearchFilterHelpers\Announcements;
-use App\Jobs\SendAnnouncement;
-use App\Models\Announcement;
-use App\Models\Graduate;
+use App\Models\Course;
 
 class AnnouncementController extends Controller
 {
@@ -33,26 +35,65 @@ class AnnouncementController extends Controller
 
     public function saveSend(Request $request)
     {
-        Announcement::create($request->all());
+        $announcement = Announcement::create($request->all());
         if($request->option==1){
-            $this->sendSection($request);
+            $this->sendSection($announcement);
+        }elseif ($request->option==2) {
+            $this->sendCourse($announcement);
+        }elseif ($request->option==3) {
+            $this->sendDepartment($announcement);
         }
     }
 
-    private function sendSection($request){
-        if($request->platform == 1){
-            $graduates = Graduate::where(['section' => $request->section, 'course_id' => $request->course_id])->where('email', '!=', null)->get();
+    private function sendSection($announcement){
+        if($announcement->platform == 1){
+            $graduates = Graduate::where(['section' => $announcement->section, 'course_id' => $announcement->course_id])->where('email', '!=', null)->get();
         }else{
-            $graduates = Graduate::where(['section' => $request->section, 'course_id' => $request->course_id])->where('contact_number', '!=', null)->get();
+            $graduates = Graduate::where(['section' => $announcement->section, 'course_id' => $announcement->course_id])->where('contact_number', '!=', null)->get();
         }
 
         foreach ($graduates as $graduate) {
-            if($request->platform == 1){
-                SendAnnouncement::dispatch($graduate->email, $request->title, $request->content, $graduate)->delay(now()->addSeconds(5));
+            if($announcement->platform == 1){
+                SendAnnouncement::dispatch($graduate->email, $announcement->title, $announcement->content, $graduate)->delay(now()->addSeconds(5));
             }else{
-
+                SendSms::dispatch($graduate->contact_number, $announcement->content)->delay(now()->addSeconds(5));
             }
         }
+    }
+
+    private function sendCourse($announcement){
+        if($announcement->platform == 1){
+            $graduates = Graduate::where('course_id', $announcement->course_id)->where('email', '!=', null)->get();
+        }else{
+            $graduates = Graduate::where('course_id', $announcement->course_id)->where('contact_number', '!=', null)->get();
+        }
+
+        foreach ($graduates as $graduate) {
+            if($announcement->platform == 1){
+                SendAnnouncement::dispatch($graduate->email, $announcement->title, $announcement->content, $graduate)->delay(now()->addSeconds(5));
+            }else{
+                SendSms::dispatch($graduate->contact_number, $announcement->content)->delay(now()->addSeconds(5));
+            }
+        }
+    }
+
+    private function sendDepartment($announcement){
+        $courses = Course::where('department_id', $announcement->department_id)->get();
+        foreach ($courses as $key => $course) {
+            if($announcement->platform == 1){
+                $graduates = Graduate::where('course_id', $course->id)->where('email', '!=', null)->orderBy('updated_at', 'desc')->take(5)->get();
+            }else{
+                $graduates = Graduate::where('course_id', $course->id)->where('contact_number', '!=', null)->orderBy('updated_at', 'desc')->take(5)->get();
+            }
+            foreach ($graduates as $graduate) {
+                if($announcement->platform == 1){
+                    SendAnnouncement::dispatch($graduate->email, $announcement->title, $announcement->content, $graduate)->delay(now()->addSeconds(5));
+                }else{
+                    SendSms::dispatch($graduate->contact_number, $announcement->content)->delay(now()->addSeconds(5));
+                }
+            }
+        }
+
     }
 
 

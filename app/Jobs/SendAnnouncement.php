@@ -40,6 +40,6 @@ class SendAnnouncement implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->email)->send(new AnnouncementEmail($this->email, $this->title, $this->content, $this->graduate));
+        Mail::to(preg_replace('/\s+/', '', $this->email))->send(new AnnouncementEmail($this->email, $this->title, $this->content, $this->graduate));
     }
 }

@@ -502,7 +502,6 @@ export default {
             //     return
             // }
             // this.$emit('save',this.payload)
-            this.payload.password = 'password'
             axios.put(`/admin/graduates/${this.payload.id}`,this.payload).then(({data})=>{
                 this.$router.push({name:'graduates'})
             })

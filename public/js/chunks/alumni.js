@@ -727,7 +727,6 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       // }
       // this.$emit('save',this.payload)
 
-      this.payload.password = 'password';
       axios.put("/admin/graduates/".concat(this.payload.id), this.payload).then(function (_ref6) {
         var data = _ref6.data;
 

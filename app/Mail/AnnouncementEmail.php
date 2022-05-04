@@ -36,8 +36,7 @@ class AnnouncementEmail extends Mailable
      */
     public function build()
     {
-        return $this->from('noreply@villagescapfrance.com')
-                    ->subject($this->title)
-                    ->view('view.announcement',['graduate' => $this->graduate]);
+        return $this->subject($this->title)
+                    ->view('email.announcement',['graduate' => $this->graduate, 'title' => $this->title]);
     }
 }

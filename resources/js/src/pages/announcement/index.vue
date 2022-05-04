@@ -32,7 +32,7 @@
                 fixed-header
             >
                 <template v-slot:item.status="{item}">
-                    {{item.status?'Save':'Sent'}}
+                    {{item.status==1?'Save':'Sent'}}
                 </template>
                 <template v-slot:item.course="{item}">
                     {{item.course?item.course.code:''}}
@@ -48,7 +48,7 @@
                 </template>
                 <template v-slot:item.action="{ item }">
                     <v-row>
-                        <v-btn color="success" icon>
+                        <v-btn :disabled="item.status==2" color="success" icon>
                             <v-icon small>
                                 mdi-send-outline
                             </v-icon>
@@ -59,7 +59,8 @@
                             </v-icon>
                         </v-btn> -->
                         <table-action :item="item" 
-                            @editItem="showEdit" 
+                            @editItem="showEdit"
+                            :disable="item.status==2?['edit']:['']" 
                             @deleteItem="showDelete"
                         ></table-action>
                     </v-row>
@@ -77,6 +78,7 @@
               :payload="payload" 
               @cancel="showForm=false"
               @save="save"
+              @savesend="saveSend"
           ></announcement-form>
       </v-dialog>
   </v-card>
@@ -172,6 +174,12 @@ export default {
     methods:{
         clear(){
             this.showForm = false
+            this.payload.status = 1
+            this.payload.course_id = null
+            this.payload.department_id = null
+            this.payload.section = null
+            this.payload.title = null
+            this.payload.content = null
         },
         addNew(){
             this.showForm = true
@@ -200,7 +208,8 @@ export default {
             })
         },
         saveSend(){
-            axios.post(`/admin/announcements/send-save`, this.payload).then(({data})=>{
+            this.payload.status = 2
+            axios.post(`/admin/announcement/send-save`, this.payload).then(({data})=>{
                 this.fetchPage()
                 this.clear()
             })

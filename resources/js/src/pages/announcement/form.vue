@@ -77,7 +77,7 @@
             <v-card elevation="1" v-if="payload.option!=null">
                 <v-card-text>
                     <div class="class-platform">
-                        <div class="mr-2">
+                        <!-- <div class="mr-2">
                             <v-icon
                                 v-if="payload.withlink"
                                 class="custom-checkbox"
@@ -93,7 +93,7 @@
                                 mdi-checkbox-blank-outline
                             </v-icon>
                             With link
-                        </div>
+                        </div> -->
                         <div class="mr-2">
                             <v-icon
                                 v-if="payload.platform==1"
@@ -190,7 +190,7 @@
         <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="error" @click="$emit('cancel')">Cancel</v-btn>
-            <v-btn color="success">Save&Send</v-btn>
+            <v-btn @click="saveSend" color="success">Save&Send</v-btn>
             <v-btn @click="save" color="success">Save</v-btn>
         </v-card-actions>
     </v-card>
@@ -237,10 +237,22 @@ export default {
         save(){
             if(!this.$refs.form.validate()) return;
             this.$emit('save')
+        },
+        saveSend(){
+            if(!this.$refs.form.validate()) return;
+            this.$emit('savesend')
         }
     },
     watch:{
-        
+        "payload.option":{
+            handler(val){
+                this.payload.course_id = null
+                this.payload.department_id = null
+                this.payload.section = null
+                this.payload.title = null
+                this.payload.content = null
+            }
+        }
     },
     created(){
         this.getAllCourse()

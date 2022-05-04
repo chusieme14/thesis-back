@@ -36,7 +36,7 @@ class SendSms implements ShouldQueue
     public function handle()
     {
         $ch = curl_init();
-        $itexmo = array('1' => $this->number, '2' => $this->message, '3' => env('SMSAPICODE'), 'passwd' => env('SMSPASSWD'));
+        $itexmo = array('1' => $this->number, '2' => $this->message, '3' => 'ST-THESI500880_XIF8X', 'passwd' => 'k9t{1#wq]2');
         curl_setopt($ch, CURLOPT_URL,"https://www.itexmo.com/php_api/api.php");
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($itexmo));

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Graduate;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +13,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/test', function() {
+    $graduate = Graduate::findOrfail(1);
+    $title='Test title';
+    $content='Test content ttsdsghdkjs as;lkdjalskjdsad alksjdlkasjdlkjsad';
+    return view("email.announcement",['graduate' => $graduate, 'title' => $title, 'content' => $content]);
+});
 
 Route::get('/{any?}',function(){
     return view('welcome');
