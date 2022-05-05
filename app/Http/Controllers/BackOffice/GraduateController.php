@@ -4,13 +4,14 @@ namespace App\Http\Controllers\BackOffice;
 
 use App\Models\Graduate;
 use Illuminate\Support\Str;
+use App\Models\tempGraduate;
 use Illuminate\Http\Request;
+use App\Imports\GraduatesImport;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Helpers\SearchFilterHelpers\Graduates;
 use App\Helpers\SearchFilterHelpers\TempGraduates;
-use App\Imports\GraduatesImport;
-use App\Models\tempGraduate;
 
 class GraduateController extends Controller
 {
@@ -25,7 +26,7 @@ class GraduateController extends Controller
         $code = $this->generateCode();
         $graduate->update([
             'share_code' => $code, 
-            'password' => bcrypt($request->student_number)
+            'password' => Hash::make($request->student_number)
         ]);
         if($request->detail){
             $graduate->detail()->create($request->detail);
@@ -98,7 +99,7 @@ class GraduateController extends Controller
         $graduates = tempGraduate::where(['session' => $session, 'status' => true])->get();
 
         foreach ($graduates as $key => $graduate) {
-            $graduate->password = bcrypt('$graduate->student_number');
+            $graduate->password = Hash::make($graduate->student_number);
             $graduate->share_code = $this->generateCode();
             Graduate::create($graduate->toArray());
         }
