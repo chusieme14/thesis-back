@@ -23,4 +23,6 @@ Route::group(['middleware'=>['auth:web']],function(){
     Route::post('announcements/save-send',[AnnouncementController::class, 'saveSend']);
     Route::resource('announcements',AnnouncementController::class);
     Route::resource('departments',DepartmentController::class);
+
+    Route::get('graduates/generate-pdf/{id}',[GraduateController::class, 'generatePdf']);
 });

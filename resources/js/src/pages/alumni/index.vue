@@ -46,7 +46,9 @@
                 </template>
                 <template v-slot:item.action="{ item }">
                     <v-row>
-                        <v-btn color="warning" icon>
+                        <v-btn color="warning" icon
+                          @click="printPdf(item)"
+                        >
                             <v-icon small>
                                 mdi-printer
                             </v-icon>
@@ -209,6 +211,19 @@ export default {
                 this.fetchPage()
                 this.cancel()
             })
+        },
+        async printPdf(item) {
+            let res = await axios.get(`/admin/graduates/generate-pdf/${item.id}`, { responseType: "blob" });
+            console.log("🚀 ~ file: index.vue ~ line 217 ~ printPdf ~ res", res)
+
+            if (res.status != 200) return;
+
+            // const url = window.URL.createObjectURL(new Blob([res.data]));
+            // const link = document.createElement("a");
+            // link.href = url;
+            // link.setAttribute("download", file_name);
+            // document.body.appendChild(link);
+            // link.click();
         }
     },
     computed:{

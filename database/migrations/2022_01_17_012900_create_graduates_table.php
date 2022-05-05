@@ -27,6 +27,8 @@ class CreateGraduatesTable extends Migration
             $table->string('contact_number')->nullable();
             $table->string('share_code')->nullable();
             $table->unsignedBigInteger('course_id');
+            $table->string('alumni_number')->nullable();
+            $table->string('pdf_filename')->nullable();
             $table->timestamps();
         });
     }
