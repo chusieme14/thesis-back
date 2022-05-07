@@ -52,7 +52,14 @@ class GraduateController extends Controller
             $graduate->avatar = userProfileUploader($request->image_base64,'profile/');
         }
         $graduate->update($request->all());
-        if($request->avatar && $request->avatar != $request->image_base64){
+        
+        if($graduate->detail){
+            $graduate->detail->update($request->detail);
+        }else{
+            $graduate->detail()->create($request->detail);
+        }
+
+        if($request->avatar != $request->image_base64){
             $graduate->update([
                 'avatar' => userProfileUploader($request->image_base64, 'profile/')
             ]);

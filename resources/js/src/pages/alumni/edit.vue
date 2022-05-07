@@ -525,7 +525,7 @@ export default {
         years(){
             let schoolYear = []
             let year = new Date().getFullYear()
-            let startYear = year - 5
+            let startYear = year - 10
             for (let start = year-1; start >= startYear; start--) {
                 schoolYear.push(`${start}-${start+1}`)
             }
