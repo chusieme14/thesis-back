@@ -21,10 +21,10 @@ Route::get('/test', function() {
     return view("email.announcement",['graduate' => $graduate, 'title' => $title, 'content' => $content]);
 });
 
+Route::get('/view-pdf', function () {
+  return view('pdf');
+});
+
 Route::get('/{any?}',function(){
     return view('welcome');
 })->where('any','.*');
-
-// Route::get('/', function () {
-//   return view('pdf');
-// });

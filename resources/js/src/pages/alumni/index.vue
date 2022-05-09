@@ -46,13 +46,13 @@
                 </template>
                 <template v-slot:item.action="{ item }">
                     <v-row>
-                        <v-btn color="warning" icon
+                        <!-- <v-btn color="warning" icon
                           @click="printPdf(item)"
                         >
                             <v-icon small>
                                 mdi-printer
                             </v-icon>
-                        </v-btn>
+                        </v-btn> -->
                         <table-action :item="item" 
                             @editItem="showEdit" 
                             @deleteItem="showDelete"

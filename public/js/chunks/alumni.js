@@ -4589,26 +4589,6 @@ var render = function () {
                     _c(
                       "v-row",
                       [
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { color: "warning", icon: "" },
-                            on: {
-                              click: function ($event) {
-                                return _vm.printPdf(item)
-                              },
-                            },
-                          },
-                          [
-                            _c("v-icon", { attrs: { small: "" } }, [
-                              _vm._v(
-                                "\n                            mdi-printer\n                        "
-                              ),
-                            ]),
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
                         _c("table-action", {
                           attrs: { item: item },
                           on: {
