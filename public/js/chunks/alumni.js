@@ -1506,7 +1506,17 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _filter_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./filter.vue */ "./resources/js/src/pages/alumni/filter.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _filter_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./filter.vue */ "./resources/js/src/pages/alumni/filter.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
 //
 //
 //
@@ -1580,7 +1590,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    GunFilter: _filter_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    GunFilter: _filter_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
@@ -1732,6 +1742,37 @@ __webpack_require__.r(__webpack_exports__);
 
         _this4.cancel();
       });
+    },
+    printPdf: function printPdf(item) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get("/admin/graduates/generate-pdf/".concat(item.id), {
+                  responseType: "blob"
+                });
+
+              case 2:
+                res = _context.sent;
+                console.log("🚀 ~ file: index.vue ~ line 217 ~ printPdf ~ res", res);
+
+                if (!(res.status != 200)) {
+                  _context.next = 6;
+                  break;
+                }
+
+                return _context.abrupt("return");
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   },
   computed: {}
@@ -4550,7 +4591,14 @@ var render = function () {
                       [
                         _c(
                           "v-btn",
-                          { attrs: { color: "warning", icon: "" } },
+                          {
+                            attrs: { color: "warning", icon: "" },
+                            on: {
+                              click: function ($event) {
+                                return _vm.printPdf(item)
+                              },
+                            },
+                          },
                           [
                             _c("v-icon", { attrs: { small: "" } }, [
                               _vm._v(

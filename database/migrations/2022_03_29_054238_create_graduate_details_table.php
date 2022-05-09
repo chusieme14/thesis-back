@@ -26,6 +26,10 @@ class CreateGraduateDetailsTable extends Migration
             $table->boolean('employed')->default(false);
             $table->date('employment_date')->nullable();
             $table->string('employment_status')->nullable();
+            $table->string('company_name')->nullable();
+            $table->string('c_address')->nullable();
+            $table->text('c_city')->nullable();
+            $table->unsignedBigInteger('country_id')->nullable();
             $table->timestamps();
         });
     }

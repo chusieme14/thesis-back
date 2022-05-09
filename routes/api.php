@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CountryController;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\GraduateController as ApiGraduateController;
 use App\Http\Controllers\BackOffice\GraduateController;
@@ -27,4 +28,5 @@ Route::group(['middleware'=>['auth:api']],function(){
     Route::get('graduates/{id}' ,[GraduateController::class,'show']);
     Route::put('graduates/{id}' ,[ApiGraduateController::class,'updateInfo']);
     Route::get('courses' ,[CourseController::class,'all']);
+    Route::get('countries' ,[CountryController::class,'all']);
 });

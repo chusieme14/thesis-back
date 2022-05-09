@@ -14,6 +14,8 @@ class GraduateDetail extends Model
         'residence', 'gender', 'attainment',
         'prof_exam_passed', 'awards', 'employed',
         'employment_date', 'employment_status',
+        'company_name', 'c_address',
+        'c_city', 'country_id',
     ];
 
     public function graduate()
