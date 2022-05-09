@@ -114,4 +114,8 @@ class GraduateController extends Controller
         $import = new tempGraduate();
         $import->resetVillageMassImport($session);
     }
+
+    public function generatePdf($id) {
+        dd('generatePdf');
+    }
 }
