@@ -30,7 +30,6 @@ Route::group(['middleware'=>['auth:api']],function(){
     Route::put('graduates/{id}' ,[ApiGraduateController::class,'updateInfo']);
     Route::put('update-graduate-profile/{id}' ,[ApiGraduateController::class,'updateProfile']);
     Route::put('update-graduate-password/{id}' ,[ApiGraduateController::class,'updatePassword']);
-    Route::get('courses' ,[CourseController::class,'all']);
     Route::get('countries' ,[CountryController::class,'all']);
     Route::get('posts' ,[PostController::class,'all']);
 });
