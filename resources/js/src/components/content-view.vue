@@ -50,8 +50,8 @@ export default {
 <style scoped>
 .active-route {
     /* @apply bg-yellow-400; */
-    background-color: #89ABB5;
-    border-radius: 10px !important;
+    color: #070707 !important;
+    background-color: #3f8320;
 }
 .active-route div {
     /* @apply text-black; */

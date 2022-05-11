@@ -524,6 +524,46 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -575,7 +615,8 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
         id: 3,
         name: 'Doctorate'
       }],
-      employmentStatus: ['Contractual', 'Permanent', 'Self-employed', 'Casual', 'Not Applicable']
+      employmentStatus: ['Contractual', 'Permanent', 'Self-employed', 'Casual', 'Not Applicable'],
+      countries: []
     };
   },
   methods: {
@@ -611,6 +652,14 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
         localStorage.removeItem("session");
       });
     },
+    getCountries: function getCountries() {
+      var _this4 = this;
+
+      axios.get("/admin/countries").then(function (_ref4) {
+        var data = _ref4.data;
+        _this4.countries = data.data;
+      });
+    },
     preventReload: function preventReload() {
       window.onbeforeunload = function () {
         return "Are you sure you want to refresh the window?, selected file will be removed!";
@@ -627,33 +676,33 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       this.uploadFile();
     },
     uploadFile: function uploadFile() {
-      var _this4 = this;
+      var _this5 = this;
 
       var session = new Date().getTime();
       var payload = new FormData();
       payload.append('file', this.file);
       payload.append('session', session);
-      axios.post("/admin/graduates/upload-file", payload).then(function (_ref4) {
-        var data = _ref4.data;
+      axios.post("/admin/graduates/upload-file", payload).then(function (_ref5) {
+        var data = _ref5.data;
 
         if (data.message == 'success') {
           localStorage.setItem('session', session);
-          _this4.ismultiple = true;
+          _this5.ismultiple = true;
         }
 
-        _this4.file = null;
-        _this4.$refs.fileInput.value = null;
+        _this5.file = null;
+        _this5.$refs.fileInput.value = null;
       });
     },
     getCourses: function getCourses() {
-      var _this5 = this;
+      var _this6 = this;
 
       var params = ''; // if(this.data.keyword)
       //     params = params + '&keyword=' + this.data.keyword
 
-      axios.get("/admin/courses?".concat(params)).then(function (_ref5) {
-        var data = _ref5.data;
-        _this5.courses = data.data;
+      axios.get("/admin/courses?".concat(params)).then(function (_ref6) {
+        var data = _ref6.data;
+        _this6.courses = data.data;
       });
     },
     pluck: function pluck(items, key) {
@@ -666,7 +715,7 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       this.$refs.file_input.click();
     },
     onFileChange: function onFileChange(file) {
-      var _this6 = this;
+      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var imageFile, imageURL;
@@ -686,22 +735,22 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
                   break;
                 }
 
-                _this6.errorDialog = true;
-                _this6.errorText = 'Please choose an image file';
+                _this7.errorDialog = true;
+                _this7.errorText = 'Please choose an image file';
                 _context.next = 12;
                 break;
 
               case 7:
                 imageURL = URL.createObjectURL(imageFile);
-                _this6.avatar_blob = imageURL;
+                _this7.avatar_blob = imageURL;
                 _context.next = 11;
-                return _this6.createImageBase64(imageFile);
+                return _this7.createImageBase64(imageFile);
 
               case 11:
-                _this6.payload.image_base64 = _context.sent;
+                _this7.payload.image_base64 = _context.sent;
 
               case 12:
-                console.log(_this6.payload.image_base64, "this.payload.image_base64");
+                console.log(_this7.payload.image_base64, "this.payload.image_base64");
 
               case 13:
               case "end":
@@ -718,7 +767,7 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       });
     },
     save: function save() {
-      var _this7 = this;
+      var _this8 = this;
 
       if (!this.$refs.form.validate()) return;
       console.log(this.payload, "save payload"); // if(this.isedit){
@@ -727,10 +776,10 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       // }
       // this.$emit('save',this.payload)
 
-      axios.put("/admin/graduates/".concat(this.payload.id), this.payload).then(function (_ref6) {
-        var data = _ref6.data;
+      axios.put("/admin/graduates/".concat(this.payload.id), this.payload).then(function (_ref7) {
+        var data = _ref7.data;
 
-        _this7.$router.push({
+        _this8.$router.push({
           name: 'graduates'
         });
       });
@@ -743,6 +792,7 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
   },
   created: function created() {
     this.getCourses();
+    this.getCountries();
     this.fetchGraduate();
   },
   mounted: function mounted() {
@@ -1262,6 +1312,45 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -1313,7 +1402,8 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
         id: 3,
         name: 'Doctorate'
       }],
-      employmentStatus: ['Contractual', 'Permanent', 'Self-employed', 'Casual', 'Not Applicable']
+      employmentStatus: ['Contractual', 'Permanent', 'Self-employed', 'Casual', 'Not Applicable'],
+      countries: []
     };
   },
   methods: {
@@ -1342,6 +1432,14 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
         });
       });
     },
+    getCountries: function getCountries() {
+      var _this3 = this;
+
+      axios.get("/admin/countries").then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.countries = data.data;
+      });
+    },
     preventReload: function preventReload() {
       window.onbeforeunload = function () {
         return "Are you sure you want to refresh the window?, selected file will be removed!";
@@ -1358,33 +1456,33 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       this.uploadFile();
     },
     uploadFile: function uploadFile() {
-      var _this3 = this;
+      var _this4 = this;
 
       var session = new Date().getTime();
       var payload = new FormData();
       payload.append('file', this.file);
       payload.append('session', session);
-      axios.post("/admin/graduates/upload-file", payload).then(function (_ref3) {
-        var data = _ref3.data;
+      axios.post("/admin/graduates/upload-file", payload).then(function (_ref4) {
+        var data = _ref4.data;
 
         if (data.message == 'success') {
           localStorage.setItem('session', session);
-          _this3.ismultiple = true;
+          _this4.ismultiple = true;
         }
 
-        _this3.file = null;
-        _this3.$refs.fileInput.value = null;
+        _this4.file = null;
+        _this4.$refs.fileInput.value = null;
       });
     },
     getCourses: function getCourses() {
-      var _this4 = this;
+      var _this5 = this;
 
       var params = ''; // if(this.data.keyword)
       //     params = params + '&keyword=' + this.data.keyword
 
-      axios.get("/admin/courses?".concat(params)).then(function (_ref4) {
-        var data = _ref4.data;
-        _this4.courses = data.data;
+      axios.get("/admin/courses?".concat(params)).then(function (_ref5) {
+        var data = _ref5.data;
+        _this5.courses = data.data;
       });
     },
     pluck: function pluck(items, key) {
@@ -1396,7 +1494,7 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       this.$refs.file_input.click();
     },
     onFileChange: function onFileChange(file) {
-      var _this5 = this;
+      var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var imageFile, imageURL;
@@ -1416,22 +1514,22 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
                   break;
                 }
 
-                _this5.errorDialog = true;
-                _this5.errorText = 'Please choose an image file';
+                _this6.errorDialog = true;
+                _this6.errorText = 'Please choose an image file';
                 _context.next = 12;
                 break;
 
               case 7:
                 imageURL = URL.createObjectURL(imageFile);
-                _this5.avatar_blob = imageURL;
+                _this6.avatar_blob = imageURL;
                 _context.next = 11;
-                return _this5.createImageBase64(imageFile);
+                return _this6.createImageBase64(imageFile);
 
               case 11:
-                _this5.payload.image_base64 = _context.sent;
+                _this6.payload.image_base64 = _context.sent;
 
               case 12:
-                console.log(_this5.payload.image_base64);
+                console.log(_this6.payload.image_base64);
 
               case 13:
               case "end":
@@ -1448,7 +1546,7 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       });
     },
     save: function save() {
-      var _this6 = this;
+      var _this7 = this;
 
       if (!this.$refs.form.validate()) return;
       console.log(this.payload, "save payload"); // if(this.isedit){
@@ -1458,10 +1556,10 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
       // this.$emit('save',this.payload)
 
       this.payload.section = this.payload.section.toUpperCase();
-      axios.post("/admin/graduates", this.payload).then(function (_ref5) {
-        var data = _ref5.data;
+      axios.post("/admin/graduates", this.payload).then(function (_ref6) {
+        var data = _ref6.data;
 
-        _this6.$router.push({
+        _this7.$router.push({
           name: 'graduates'
         });
       });
@@ -1474,6 +1572,7 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
   },
   created: function created() {
     this.getCourses();
+    this.getCountries();
   },
   mounted: function mounted() {
     if (localStorage.getItem("session")) {
@@ -1799,29 +1898,249 @@ __webpack_require__.r(__webpack_exports__);
       return [{
         // text: this._lang('client.view.profile'),
         text: 'Profile',
-        route: "client-profile",
+        route: "profile",
         icon: "person"
       }, {
         // text: this._lang('client.view.statistics'),
-        text: 'Subscription',
-        route: "client-subscription",
-        icon: "mdi-chart-bar"
+        text: 'Points',
+        route: "graduate-profile",
+        icon: "mdi-seal"
+      } // {
+      //     // text: this._lang('client.view.subscriptions'),
+      //     text:'Documents',
+      //     route: "client-document",
+      //     icon: "mdi-file-document",
+      // },
+      // {
+      //     // text: this._lang('client.view.payments'),
+      //     text:'Bookings',
+      //     route: "client-booking",
+      //     icon: "mdi-bookmark-check-outline",
+      // },
+      // {
+      //     // text: this._lang('client.view.payments'),
+      //     text:'Credit',
+      //     route: "client-credit",
+      //     icon: "mdi-credit-card-outline",
+      // },
+      ];
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/points/index.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/pages/points/index.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// import GraduateFilter from './filter.vue'
+// import NewsForm from './form.vue'
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {},
+  data: function data() {
+    return {
+      payload: {
+        image_base64: null
+      },
+      showForm: false,
+      isupdate: false,
+      isdelete: false,
+      selectedItem: {},
+      details: {},
+      points: [],
+      data: {
+        title: "Points",
+        isFetching: false,
+        keyword: "",
+        filter: {}
+      },
+      footerPages: {
+        "items-per-page-options": [5, 10, 15, 20, 30, 40, 50, 100, -1]
+      },
+      options: {
+        itemsPerPage: 15
+      },
+      total: 0,
+      headers: [{
+        text: 'Id',
+        align: 'start',
+        sortable: true,
+        value: 'id'
       }, {
-        // text: this._lang('client.view.subscriptions'),
-        text: 'Documents',
-        route: "client-document",
-        icon: "mdi-file-document"
+        text: 'Sharer',
+        align: 'start',
+        sortable: false,
+        value: 'sharer'
       }, {
-        // text: this._lang('client.view.payments'),
-        text: 'Bookings',
-        route: "client-booking",
-        icon: "mdi-bookmark-check-outline"
+        text: 'Points',
+        align: 'start',
+        sortable: true,
+        value: 'point'
       }, {
-        // text: this._lang('client.view.payments'),
-        text: 'Credit',
-        route: "client-credit",
-        icon: "mdi-credit-card-outline"
-      }];
+        text: 'Status',
+        align: 'start',
+        sortable: true,
+        value: 'status'
+      }, {
+        text: 'Actions',
+        align: 'start',
+        sortable: false,
+        value: 'action'
+      }]
+    };
+  },
+  methods: {
+    addNew: function addNew() {
+      this.showForm = true;
+    },
+    fetchPage: function fetchPage() {
+      var _this = this;
+
+      this.data.isFetching = true;
+
+      var params = this._createParams(this.options);
+
+      params = params + this._createFilterParams(this.data.filter);
+
+      if (this.$route.params.graduates_id) {
+        params = params + '&graduates_id=' + this.$route.params.graduates_id;
+      }
+
+      console.log(this.data.keyword, "keyword");
+      if (this.data.keyword) params = params + '&keyword=' + this.data.keyword;
+      axios.get("/admin/points?".concat(params)).then(function (_ref) {
+        var data = _ref.data;
+        _this.points = data.data;
+        _this.data.isFetching = false;
+        _this.total = data.total;
+      });
+    },
+    resetFilter: function resetFilter() {},
+    save: function save() {
+      var _this2 = this;
+
+      if (this.isupdate) {
+        axios.put("/admin/news/".concat(this.payload.id), this.payload).then(function (_ref2) {
+          var data = _ref2.data;
+
+          _this2.fetchPage();
+
+          _this2.clear();
+        });
+        return;
+      }
+
+      axios.post("/admin/news", this.payload).then(function (_ref3) {
+        var data = _ref3.data;
+
+        _this2.fetchPage();
+
+        _this2.clear();
+      });
+    },
+    cancel: function cancel() {
+      this.clear();
+    },
+    clear: function clear() {
+      this.payload.image_base64 = null;
+      this.payload.description = "";
+      this.payload.title = "";
+      this.isupdate = false;
+      this.showForm = false;
+      this.isdelete = false;
+      this.details = {};
+      this.selectedItem = {};
+    },
+    showEdit: function showEdit(data) {
+      Object.assign(this.payload, data);
+      this.payload.image_base64 = this.payload.image;
+      this.isupdate = true;
+      this.showForm = true;
+    },
+    showDelete: function showDelete(val) {
+      Object.assign(this.selectedItem, val);
+      this.details.title = 'Delete';
+      this.details.message = "Are you sure you want to remove ".concat(this.selectedItem.title, "?");
+      this.isdelete = true;
+    },
+    remove: function remove() {
+      var _this3 = this;
+
+      axios["delete"]("/admin/news/".concat(this.selectedItem.id)).then(function (_ref4) {
+        var data = _ref4.data;
+
+        _this3.fetchPage();
+
+        _this3.cancel();
+      });
     }
   }
 });
@@ -2986,150 +3305,261 @@ var render = function () {
                                 1
                               ),
                               _vm._v(" "),
-                              _vm.payload.employed == 1
-                                ? _c(
-                                    "v-col",
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "5" },
+                                },
+                                [
+                                  _c("label", [_vm._v(" Employment date ")]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-menu",
                                     {
-                                      staticClass: "image-text-field",
-                                      attrs: { cols: "12", sm: "5" },
-                                    },
-                                    [
-                                      _c("label", [
-                                        _vm._v(" Employment date "),
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-menu",
+                                      attrs: {
+                                        "close-on-content-click": true,
+                                        transition: "scale-transition",
+                                        "offset-y": "",
+                                        "min-width": "auto",
+                                      },
+                                      scopedSlots: _vm._u([
                                         {
-                                          attrs: {
-                                            "close-on-content-click": true,
-                                            transition: "scale-transition",
-                                            "offset-y": "",
-                                            "min-width": "auto",
-                                          },
-                                          scopedSlots: _vm._u(
-                                            [
-                                              {
-                                                key: "activator",
-                                                fn: function (ref) {
-                                                  var on = ref.on
-                                                  var attrs = ref.attrs
-                                                  return [
-                                                    _c(
-                                                      "v-text-field",
-                                                      _vm._g(
-                                                        _vm._b(
-                                                          {
-                                                            attrs: {
-                                                              readonly: "",
-                                                              dense: "",
-                                                              filled: "",
-                                                            },
-                                                            model: {
-                                                              value:
-                                                                _vm.payload
-                                                                  .detail
-                                                                  .employment_date,
-                                                              callback:
-                                                                function ($$v) {
-                                                                  _vm.$set(
-                                                                    _vm.payload
-                                                                      .detail,
-                                                                    "employment_date",
-                                                                    $$v
-                                                                  )
-                                                                },
-                                                              expression:
-                                                                "payload.detail.employment_date",
-                                                            },
-                                                          },
-                                                          "v-text-field",
-                                                          attrs,
-                                                          false
-                                                        ),
-                                                        on
-                                                      )
-                                                    ),
-                                                  ]
-                                                },
-                                              },
-                                            ],
-                                            null,
-                                            false,
-                                            1063819766
-                                          ),
-                                        },
-                                        [
-                                          _vm._v(" "),
-                                          _c("v-date-picker", {
-                                            attrs: {
-                                              "no-title": "",
-                                              scrollable: "",
-                                            },
-                                            model: {
-                                              value:
-                                                _vm.payload.detail
-                                                  .employment_date,
-                                              callback: function ($$v) {
-                                                _vm.$set(
-                                                  _vm.payload.detail,
-                                                  "employment_date",
-                                                  $$v
+                                          key: "activator",
+                                          fn: function (ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _c(
+                                                "v-text-field",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      attrs: {
+                                                        readonly: "",
+                                                        dense: "",
+                                                        filled: "",
+                                                      },
+                                                      model: {
+                                                        value:
+                                                          _vm.payload.detail
+                                                            .employment_date,
+                                                        callback: function (
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.payload.detail,
+                                                            "employment_date",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "payload.detail.employment_date",
+                                                      },
+                                                    },
+                                                    "v-text-field",
+                                                    attrs,
+                                                    false
+                                                  ),
+                                                  on
                                                 )
-                                              },
-                                              expression:
-                                                "payload.detail.employment_date",
-                                            },
-                                          }),
-                                        ],
-                                        1
-                                      ),
-                                    ],
-                                    1
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _vm.payload.employed == "Yes"
-                                ? _c(
-                                    "v-col",
-                                    {
-                                      staticClass: "image-text-field",
-                                      attrs: { cols: "12", sm: "5" },
+                                              ),
+                                            ]
+                                          },
+                                        },
+                                      ]),
                                     },
                                     [
-                                      _c("label", [
-                                        _vm._v("Status of Employment "),
-                                      ]),
                                       _vm._v(" "),
-                                      _c("v-autocomplete", {
+                                      _c("v-date-picker", {
                                         attrs: {
-                                          items: _vm.employmentStatus,
-                                          "hide-details": "auto",
-                                          "menu-props": {
-                                            "background-color": "#777",
-                                          },
-                                          filled: "",
-                                          dense: "",
+                                          "no-title": "",
+                                          scrollable: "",
                                         },
                                         model: {
                                           value:
-                                            _vm.payload.detail
-                                              .employment_status,
+                                            _vm.payload.detail.employment_date,
                                           callback: function ($$v) {
                                             _vm.$set(
                                               _vm.payload.detail,
-                                              "employment_status",
+                                              "employment_date",
                                               $$v
                                             )
                                           },
                                           expression:
-                                            "payload.detail.employment_status",
+                                            "payload.detail.employment_date",
                                         },
                                       }),
                                     ],
                                     1
-                                  )
-                                : _vm._e(),
+                                  ),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "5" },
+                                },
+                                [
+                                  _c("label", [_vm._v(" Company name ")]),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      "hide-details": "auto",
+                                      filled: "",
+                                      dense: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.detail.company_name,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.payload.detail,
+                                          "company_name",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "payload.detail.company_name",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "3" },
+                                },
+                                [
+                                  _c("label", [_vm._v("Emp. status")]),
+                                  _vm._v(" "),
+                                  _c("v-autocomplete", {
+                                    attrs: {
+                                      items: _vm.employmentStatus,
+                                      "hide-details": "auto",
+                                      "menu-props": {
+                                        "background-color": "#777",
+                                      },
+                                      filled: "",
+                                      dense: "",
+                                    },
+                                    model: {
+                                      value:
+                                        _vm.payload.detail.employment_status,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.payload.detail,
+                                          "employment_status",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "payload.detail.employment_status",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "9" },
+                                },
+                                [
+                                  _c("label", [_vm._v(" Address ")]),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      "hide-details": "auto",
+                                      filled: "",
+                                      dense: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.detail.c_address,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.payload.detail,
+                                          "c_address",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "payload.detail.c_address",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "6" },
+                                },
+                                [
+                                  _c("label", [_vm._v(" City ")]),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      "hide-details": "auto",
+                                      filled: "",
+                                      dense: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.detail.c_city,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.payload.detail,
+                                          "c_city",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "payload.detail.c_city",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "6" },
+                                },
+                                [
+                                  _c("label", [_vm._v(" Country ")]),
+                                  _vm._v(" "),
+                                  _c("v-autocomplete", {
+                                    attrs: {
+                                      items: _vm.countries,
+                                      "item-value": "id",
+                                      "item-text": "name",
+                                      "hide-details": "auto",
+                                      filled: "",
+                                      dense: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.detail.country_id,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.payload.detail,
+                                          "country_id",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "payload.detail.country_id",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
                             ],
                             1
                           ),
@@ -4245,150 +4675,263 @@ var render = function () {
                                 1
                               ),
                               _vm._v(" "),
-                              _vm.payload.detail.employed == 1
-                                ? _c(
-                                    "v-col",
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "5" },
+                                },
+                                [
+                                  _c("label", [_vm._v(" Employment date ")]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-menu",
                                     {
-                                      staticClass: "image-text-field",
-                                      attrs: { cols: "12", sm: "5" },
-                                    },
-                                    [
-                                      _c("label", [
-                                        _vm._v(" Employment date "),
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-menu",
+                                      attrs: {
+                                        "close-on-content-click": true,
+                                        transition: "scale-transition",
+                                        "offset-y": "",
+                                        "min-width": "auto",
+                                      },
+                                      scopedSlots: _vm._u([
                                         {
-                                          attrs: {
-                                            "close-on-content-click": true,
-                                            transition: "scale-transition",
-                                            "offset-y": "",
-                                            "min-width": "auto",
-                                          },
-                                          scopedSlots: _vm._u(
-                                            [
-                                              {
-                                                key: "activator",
-                                                fn: function (ref) {
-                                                  var on = ref.on
-                                                  var attrs = ref.attrs
-                                                  return [
-                                                    _c(
-                                                      "v-text-field",
-                                                      _vm._g(
-                                                        _vm._b(
-                                                          {
-                                                            attrs: {
-                                                              readonly: "",
-                                                              dense: "",
-                                                              filled: "",
-                                                            },
-                                                            model: {
-                                                              value:
-                                                                _vm.payload
-                                                                  .detail
-                                                                  .employment_date,
-                                                              callback:
-                                                                function ($$v) {
-                                                                  _vm.$set(
-                                                                    _vm.payload
-                                                                      .detail,
-                                                                    "employment_date",
-                                                                    $$v
-                                                                  )
-                                                                },
-                                                              expression:
-                                                                "payload.detail.employment_date",
-                                                            },
-                                                          },
-                                                          "v-text-field",
-                                                          attrs,
-                                                          false
-                                                        ),
-                                                        on
-                                                      )
-                                                    ),
-                                                  ]
-                                                },
-                                              },
-                                            ],
-                                            null,
-                                            false,
-                                            1063819766
-                                          ),
-                                        },
-                                        [
-                                          _vm._v(" "),
-                                          _c("v-date-picker", {
-                                            attrs: {
-                                              "no-title": "",
-                                              scrollable: "",
-                                            },
-                                            model: {
-                                              value:
-                                                _vm.payload.detail
-                                                  .employment_date,
-                                              callback: function ($$v) {
-                                                _vm.$set(
-                                                  _vm.payload.detail,
-                                                  "employment_date",
-                                                  $$v
+                                          key: "activator",
+                                          fn: function (ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _c(
+                                                "v-text-field",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      attrs: {
+                                                        readonly: "",
+                                                        dense: "",
+                                                        filled: "",
+                                                      },
+                                                      model: {
+                                                        value:
+                                                          _vm.payload.detail
+                                                            .employment_date,
+                                                        callback: function (
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.payload.detail,
+                                                            "employment_date",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "payload.detail.employment_date",
+                                                      },
+                                                    },
+                                                    "v-text-field",
+                                                    attrs,
+                                                    false
+                                                  ),
+                                                  on
                                                 )
-                                              },
-                                              expression:
-                                                "payload.detail.employment_date",
-                                            },
-                                          }),
-                                        ],
-                                        1
-                                      ),
-                                    ],
-                                    1
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _vm.payload.employed == "Yes"
-                                ? _c(
-                                    "v-col",
-                                    {
-                                      staticClass: "image-text-field",
-                                      attrs: { cols: "12", sm: "5" },
+                                              ),
+                                            ]
+                                          },
+                                        },
+                                      ]),
                                     },
                                     [
-                                      _c("label", [
-                                        _vm._v("Status of Employment "),
-                                      ]),
                                       _vm._v(" "),
-                                      _c("v-autocomplete", {
+                                      _c("v-date-picker", {
                                         attrs: {
-                                          items: _vm.employmentStatus,
-                                          "hide-details": "auto",
-                                          "menu-props": {
-                                            "background-color": "#777",
-                                          },
-                                          filled: "",
-                                          dense: "",
+                                          "no-title": "",
+                                          scrollable: "",
                                         },
                                         model: {
                                           value:
-                                            _vm.payload.detail
-                                              .employment_status,
+                                            _vm.payload.detail.employment_date,
                                           callback: function ($$v) {
                                             _vm.$set(
                                               _vm.payload.detail,
-                                              "employment_status",
+                                              "employment_date",
                                               $$v
                                             )
                                           },
                                           expression:
-                                            "payload.detail.employment_status",
+                                            "payload.detail.employment_date",
                                         },
                                       }),
                                     ],
                                     1
-                                  )
-                                : _vm._e(),
+                                  ),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "5" },
+                                },
+                                [
+                                  _c("label", [_vm._v(" Company name ")]),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      "hide-details": "auto",
+                                      filled: "",
+                                      dense: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.detail.company_name,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.payload.detail,
+                                          "company_name",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "payload.detail.company_name",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "3" },
+                                },
+                                [
+                                  _c("label", [
+                                    _vm._v("Status of Employment "),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-autocomplete", {
+                                    attrs: {
+                                      items: _vm.employmentStatus,
+                                      "hide-details": "auto",
+                                      "menu-props": {
+                                        "background-color": "#777",
+                                      },
+                                      filled: "",
+                                      dense: "",
+                                    },
+                                    model: {
+                                      value:
+                                        _vm.payload.detail.employment_status,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.payload.detail,
+                                          "employment_status",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "payload.detail.employment_status",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "9" },
+                                },
+                                [
+                                  _c("label", [_vm._v(" Address ")]),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      "hide-details": "auto",
+                                      filled: "",
+                                      dense: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.detail.c_address,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.payload.detail,
+                                          "c_address",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "payload.detail.c_address",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "6" },
+                                },
+                                [
+                                  _c("label", [_vm._v(" City ")]),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      "hide-details": "auto",
+                                      filled: "",
+                                      dense: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.detail.c_city,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.payload.detail,
+                                          "c_city",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "payload.detail.c_city",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "image-text-field",
+                                  attrs: { cols: "12", sm: "6" },
+                                },
+                                [
+                                  _c("label", [_vm._v(" Country ")]),
+                                  _vm._v(" "),
+                                  _c("v-autocomplete", {
+                                    attrs: {
+                                      items: _vm.countries,
+                                      "item-value": "id",
+                                      "item-text": "name",
+                                      "hide-details": "auto",
+                                      filled: "",
+                                      dense: "",
+                                    },
+                                    model: {
+                                      value: _vm.payload.detail.country_id,
+                                      callback: function ($$v) {
+                                        _vm.$set(
+                                          _vm.payload.detail,
+                                          "country_id",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "payload.detail.country_id",
+                                    },
+                                  }),
+                                ],
+                                1
+                              ),
                             ],
                             1
                           ),
@@ -4639,6 +5182,116 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("content-view", { attrs: { menus: _vm.menus } })
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/points/index.vue?vue&type=template&id=68384dcc&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/pages/points/index.vue?vue&type=template&id=68384dcc& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-card",
+    { attrs: { elevation: "1", "max-height": "90vh" } },
+    [
+      _c(
+        "v-card-text",
+        [
+          _c("table-header", {
+            attrs: { data: _vm.data, hide: ["filter", "addNew"] },
+            on: {
+              addNew: _vm.addNew,
+              refresh: _vm.fetchPage,
+              search: _vm.fetchPage,
+            },
+          }),
+          _vm._v(" "),
+          _c("v-data-table", {
+            staticClass: "cursor-pointer table-fix-height",
+            attrs: {
+              headers: _vm.headers,
+              items: _vm.points,
+              "max-height": "100%",
+              "single-select": false,
+              "show-select": "",
+              search: _vm.data.keyword,
+              loading: _vm.data.isFetching,
+              "server-items-length": _vm.total,
+              "footer-props": _vm.footerPages,
+              options: _vm.options,
+              "items-per-page": _vm.options.itemsPerPage,
+              "fixed-header": "",
+            },
+            on: {
+              "update:options": [
+                function ($event) {
+                  _vm.options = $event
+                },
+                _vm.fetchPage,
+              ],
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "item.sharer",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _vm._v(
+                      "\n              " +
+                        _vm._s(item.graduate.fullname) +
+                        "\n          "
+                    ),
+                  ]
+                },
+              },
+              {
+                key: "item.status",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _vm._v(
+                      "\n              " +
+                        _vm._s(item.status == 1 ? "Active" : "Claim") +
+                        "\n          "
+                    ),
+                  ]
+                },
+              },
+              {
+                key: "item.action",
+                fn: function (ref) {
+                  var item = ref.item
+                  return undefined
+                },
+              },
+            ]),
+          }),
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("confirm-dialog", {
+        attrs: { details: _vm.details, show: _vm.isdelete },
+        on: { cancel: _vm.cancel, confirm: _vm.remove },
+      }),
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -5092,6 +5745,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_view_vue_vue_type_template_id_7bd93c52___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_view_vue_vue_type_template_id_7bd93c52___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/src/pages/points/index.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/src/pages/points/index.vue ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _index_vue_vue_type_template_id_68384dcc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=68384dcc& */ "./resources/js/src/pages/points/index.vue?vue&type=template&id=68384dcc&");
+/* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ "./resources/js/src/pages/points/index.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _index_vue_vue_type_template_id_68384dcc___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _index_vue_vue_type_template_id_68384dcc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/src/pages/points/index.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/src/pages/points/index.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/src/pages/points/index.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/points/index.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/src/pages/points/index.vue?vue&type=template&id=68384dcc&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/src/pages/points/index.vue?vue&type=template&id=68384dcc& ***!
+  \********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_68384dcc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=template&id=68384dcc& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/points/index.vue?vue&type=template&id=68384dcc&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_68384dcc___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_68384dcc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

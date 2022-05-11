@@ -29,12 +29,29 @@ class GraduateController extends Controller
 
     private function generatePoints($graduate, $code){
         $sharer = Graduate::where('share_code', $code)->first();
-        $enableDate = Carbon::parse($sharer->updated_at)->addMonth(1);
-        if($enableDate <= Carbon::now()){
+        $enableDate = Carbon::parse($graduate->updated_at)->addWeek(1);
+        $pointable = false;
+        if($graduate->detail){
+            $enableDetailDate = Carbon::parse($graduate->detail->updated_at)->addWeek(1);
+            if($enableDate <= Carbon::now() || $enableDetailDate <= Carbon::now()){
+                $pointable = true;
+            }else if(Carbon::parse($graduate->detail->updated_at) == Carbon::parse($graduate->detail->created_at)){
+                $pointable = true;
+            }
+        }else{
+            if($enableDate <= Carbon::now()){
+                $pointable = true;
+            }else if(Carbon::parse($graduate->updated_at) == Carbon::parse($graduate->created_at)){
+                $pointable = true;
+            }
+        }
+
+        if($pointable){
             $sharer->points()->create([
                 'point' => 30
             ]);
         }
+
     }
 
     public function updateProfile(Request $request, $id)

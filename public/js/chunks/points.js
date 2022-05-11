@@ -139,6 +139,11 @@ __webpack_require__.r(__webpack_exports__);
       var params = this._createParams(this.options);
 
       params = params + this._createFilterParams(this.data.filter);
+
+      if (this.$route.params.graduates_id) {
+        params = params + '&graduates_id=' + this.$route.params.graduates_id;
+      }
+
       console.log(this.data.keyword, "keyword");
       if (this.data.keyword) params = params + '&keyword=' + this.data.keyword;
       axios.get("/admin/points?".concat(params)).then(function (_ref) {

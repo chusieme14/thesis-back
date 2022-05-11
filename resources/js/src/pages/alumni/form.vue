@@ -230,7 +230,6 @@
                                         v-model="payload.section"
                                         :rules="[() => !!payload.section || '']"
                                         hide-details="auto"
-
                                         :menu-props="{'background-color':'#777'}"
                                         filled
                                         dense
@@ -268,7 +267,7 @@
                                         dense
                                     ></v-autocomplete>
                                 </v-col>
-                                <v-col v-if="payload.detail.employed==1" class="image-text-field" cols="12" sm="5">
+                                <v-col class="image-text-field" cols="12" sm="5">
                                     <label> Employment date </label>
                                     <v-menu
                                         :close-on-content-click="true"
@@ -294,13 +293,53 @@
                                         </v-date-picker>
                                     </v-menu>
                                 </v-col>
-                                <v-col v-if="payload.employed=='Yes'" class="image-text-field" cols="12" sm="5">
+                                <v-col class="image-text-field" cols="12" sm="5">
+                                    <label> Company name </label>
+                                    <v-text-field
+                                        v-model="payload.detail.company_name"
+                                        hide-details="auto"
+                                        filled
+                                        dense
+                                    ></v-text-field>
+                                    
+                                </v-col>
+                                <v-col class="image-text-field" cols="12" sm="3">
                                     <label>Status of Employment </label>
                                     <v-autocomplete
                                         v-model="payload.detail.employment_status"
                                         :items="employmentStatus"
                                         hide-details="auto"
                                         :menu-props="{'background-color':'#777'}"
+                                        filled
+                                        dense
+                                    ></v-autocomplete>
+                                </v-col>
+                                <v-col class="image-text-field" cols="12" sm="9">
+                                    <label> Address </label>
+                                    <v-text-field
+                                        v-model="payload.detail.c_address"
+                                        hide-details="auto"
+                                        filled
+                                        dense
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col class="image-text-field" cols="12" sm="6">
+                                    <label> City </label>
+                                    <v-text-field
+                                        v-model="payload.detail.c_city"
+                                        hide-details="auto"
+                                        filled
+                                        dense
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col class="image-text-field" cols="12" sm="6">
+                                    <label> Country </label>
+                                    <v-autocomplete
+                                        v-model="payload.detail.country_id"
+                                        :items="countries"
+                                        item-value="id"
+                                        item-text="name"
+                                        hide-details="auto"
                                         filled
                                         dense
                                     ></v-autocomplete>
@@ -406,7 +445,8 @@ export default {
                 'Self-employed',
                 'Casual',
                 'Not Applicable',
-            ]
+            ],
+            countries:[]
         }
     },
     methods:{
@@ -424,6 +464,11 @@ export default {
                 localStorage.removeItem("session");
                 this.$router.push({name:'graduates'})
 
+            })
+        },
+        getCountries(){
+            axios.get(`/admin/countries`).then(({data})=>{
+                this.countries = data.data
             })
         },
         preventReload() {
@@ -511,6 +556,7 @@ export default {
     },
     created(){
         this.getCourses()
+        this.getCountries()
     },
     mounted(){
         if(localStorage.getItem("session")){

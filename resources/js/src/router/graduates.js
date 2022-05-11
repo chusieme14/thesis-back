@@ -24,6 +24,15 @@ export default[
                     requiresAuth:true,
                 }
             },
+            {
+                path:'graduate-profile',
+                component: () => import(/* webpackChunkName: "alumni" */ '../pages/points/index.vue'),
+                name: 'graduate-profile',
+                meta:{ 
+                    parent:'/graduates',
+                    requiresAuth:true,
+                }
+            },
         ]
     },
 ]
