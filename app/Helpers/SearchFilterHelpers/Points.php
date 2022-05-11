@@ -16,6 +16,7 @@ class Points  {
     {
         $this->model->with('graduate');
         $this->searchColumns();
+        $this->byGraduate();
         $this->sortBy();
         
         $per_page = Request()->per_page;
@@ -31,6 +32,13 @@ class Points  {
             foreach ($searchable as $column) {
                 $this->model->orWhere($column, 'like', "%".$keyword."%");
             }
+        }
+    }
+
+    public function byGraduate()
+    {
+        if(Request()->graduates_id){
+            $this->model->where('graduate_id', Request()->graduates_id);
         }
     }
 
