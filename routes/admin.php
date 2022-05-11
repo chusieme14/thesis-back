@@ -7,6 +7,7 @@ use App\Http\Controllers\BackOffice\CourseController;
 use App\Http\Controllers\BackOffice\DepartmentController;
 use App\Http\Controllers\BackOffice\GraduateController;
 use App\Http\Controllers\BackOffice\NewsController;
+use App\Http\Controllers\PointController;
 
 Route::get('checkuser',[AuthController::class,'checkUser']);
 Route::post('login',[AuthController::class,'login']);
@@ -23,6 +24,7 @@ Route::group(['middleware'=>['auth:web']],function(){
     Route::post('announcement/send-save',[AnnouncementController::class, 'saveSend']);
     Route::resource('announcements',AnnouncementController::class);
     Route::resource('departments',DepartmentController::class);
+    Route::resource('points',PointController::class);
 
     Route::get('graduates/generate-pdf/{id}',[GraduateController::class, 'generatePdf']);
 });

@@ -29,4 +29,9 @@ export default [
         icon:'mdi-bullhorn-outline',
         route:'announcement'
     },
+    {
+        name:'Points',
+        icon:'mdi-seal',
+        route:'points'
+    },
 ]

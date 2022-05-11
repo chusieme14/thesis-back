@@ -33,4 +33,8 @@ class Graduate extends Authenticatable
         return $this->hasOne(GraduateDetail::class);
     }
 
+    public function points(){
+        return $this->hasMany(GraduatePoint::class);
+    }
+
 }

@@ -11,6 +11,7 @@ import admin from './admin'
 import courses from './courses'
 import departments from './department'
 import announcement from './announcement'
+import points from './points'
 
 Vue.use(Router)
 
@@ -31,6 +32,7 @@ const router = new Router({
         ...admin,
         ...courses,
         ...departments,
+        ...points,
         {
             path:'/login',
             component: () => import(/* webpackChunkName: "login" */'@/layout/login.vue'),
