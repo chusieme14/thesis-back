@@ -2,7 +2,7 @@
     <v-card>
         <v-card-text>
             <p></p>
-            <apexchart type="polarArea" :options="chartOptions" :series="series"></apexchart>
+            <apexchart type="pie" :options="chartOptions" :series="series"></apexchart>
         </v-card-text>
     </v-card>
 </template>
@@ -20,7 +20,7 @@ export default {
             series: [],
             chartOptions: {
                 chart: {
-                    type: 'polarArea',
+                    type: 'pie',
                     toolbar: {
                         show: true
                     },

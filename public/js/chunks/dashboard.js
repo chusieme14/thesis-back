@@ -104,7 +104,7 @@ __webpack_require__.r(__webpack_exports__);
       series: [],
       chartOptions: {
         chart: {
-          type: 'polarArea',
+          type: 'pie',
           toolbar: {
             show: true
           }
@@ -392,7 +392,7 @@ __webpack_require__.r(__webpack_exports__);
       series: [],
       chartOptions: {
         chart: {
-          type: 'polarArea',
+          type: 'pie',
           toolbar: {
             show: true
           }
@@ -608,7 +608,7 @@ __webpack_require__.r(__webpack_exports__);
       series: [],
       chartOptions: {
         chart: {
-          type: 'polarArea',
+          type: 'pie',
           toolbar: {
             show: true
           }
@@ -1166,7 +1166,7 @@ var render = function () {
           _vm._v(" "),
           _c("apexchart", {
             attrs: {
-              type: "polarArea",
+              type: "pie",
               options: _vm.chartOptions,
               series: _vm.series,
             },
@@ -1334,7 +1334,7 @@ var render = function () {
         [
           _c("apexchart", {
             attrs: {
-              type: "polarArea",
+              type: "pie",
               options: _vm.chartOptions,
               series: _vm.series,
             },
@@ -1460,7 +1460,7 @@ var render = function () {
         [
           _c("apexchart", {
             attrs: {
-              type: "polarArea",
+              type: "pie",
               options: _vm.chartOptions,
               series: _vm.series,
             },
