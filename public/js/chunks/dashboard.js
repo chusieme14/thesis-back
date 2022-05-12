@@ -1099,17 +1099,6 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js":
-/*!************************************************************!*\
-  !*** ./node_modules/vue-apexcharts/dist/vue-apexcharts.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/home/qonvex/projects/thesis-back/node_modules/vue-apexcharts/dist/vue-apexcharts.js'");
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/dashboard/charts/attainment.vue?vue&type=template&id=1d2fea5e&":
 /*!*****************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/pages/dashboard/charts/attainment.vue?vue&type=template&id=1d2fea5e& ***!

@@ -561,7 +561,7 @@ export default {
     created(){
         this.getCourses()
         this.getCountries()
-        this.fetchGraduate()
+        // this.fetchGraduate()
     },
     mounted(){
         if(localStorage.getItem("session")){
@@ -581,7 +581,7 @@ export default {
     },
     watch:{
         $route (to, from){
-           this.fetchGraduate()
+        //    this.fetchGraduate()
         }
     }
     
