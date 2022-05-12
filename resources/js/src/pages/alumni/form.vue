@@ -6,7 +6,7 @@
             <v-btn @click="triggerInputFile()" color="success">Multiple add</v-btn>
             <input @change="handleFileUpload()" ref="fileInput" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" hidden>
         </v-card-title>
-        <v-card-text>
+        <v-card-text class="main-container">
             <v-form ref="form">
                 <v-container>
                     <v-row>
@@ -592,5 +592,9 @@ export default {
     .custom-card-action{
         display: flex;
         justify-content: flex-end;
+    }
+    .main-container{
+        max-height: 79vh;
+        overflow: auto;
     }
 </style>

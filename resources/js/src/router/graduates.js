@@ -12,27 +12,35 @@ export default[
         name:'graduates-create'
     },
     {
-        path: "/graduates/:graduates_id",
-        component: () => import(/* webpackChunkName: "alumni" */ '../pages/alumni/view.vue'),
-        children: [
-            {
-                path:'profile',
-                component: () => import(/* webpackChunkName: "alumni" */ '../pages/alumni/edit.vue'),
-                name: 'profile',
-                meta:{ 
-                    parent:'/graduates',
-                    requiresAuth:true,
-                }
-            },
-            {
-                path:'graduate-profile',
-                component: () => import(/* webpackChunkName: "alumni" */ '../pages/points/index.vue'),
-                name: 'graduate-profile',
-                meta:{ 
-                    parent:'/graduates',
-                    requiresAuth:true,
-                }
-            },
-        ]
+        path:'/graduates/:graduates_id/profile',
+        component: () => import(/* webpackChunkName: "alumni" */ '../pages/alumni/edit.vue'),
+        name: 'profile',
+        meta:{ 
+            requiresAuth:true,
+        }
     },
+    // {
+    //     path: "/graduates/:graduates_id",
+    //     component: () => import(/* webpackChunkName: "alumni" */ '../pages/alumni/view.vue'),
+    //     children: [
+    //         {
+    //             path:'profile',
+    //             component: () => import(/* webpackChunkName: "alumni" */ '../pages/alumni/edit.vue'),
+    //             name: 'profile',
+    //             meta:{ 
+    //                 parent:'/graduates',
+    //                 requiresAuth:true,
+    //             }
+    //         },
+    //         {
+    //             path:'graduate-profile',
+    //             component: () => import(/* webpackChunkName: "alumni" */ '../pages/points/index.vue'),
+    //             name: 'graduate-profile',
+    //             meta:{ 
+    //                 parent:'/graduates',
+    //                 requiresAuth:true,
+    //             }
+    //         },
+    //     ]
+    // },
 ]
