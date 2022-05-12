@@ -14,10 +14,8 @@ export default[
     {
         path:'/graduates/:graduates_id/profile',
         component: () => import(/* webpackChunkName: "alumni" */ '../pages/alumni/edit.vue'),
-        name: 'profile',
-        meta:{ 
-            requiresAuth:true,
-        }
+        meta:{ requiresAuth:true },
+        name: 'profile'
     },
     // {
     //     path: "/graduates/:graduates_id",

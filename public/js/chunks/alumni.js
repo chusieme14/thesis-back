@@ -792,7 +792,8 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
   },
   created: function created() {
     this.getCourses();
-    this.getCountries(); // this.fetchGraduate()
+    this.getCountries();
+    this.fetchGraduate();
   },
   mounted: function mounted() {
     if (localStorage.getItem("session")) {
@@ -813,7 +814,8 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
     }
   },
   watch: {
-    $route: function $route(to, from) {//    this.fetchGraduate()
+    $route: function $route(to, from) {
+      this.fetchGraduate();
     }
   }
 });
