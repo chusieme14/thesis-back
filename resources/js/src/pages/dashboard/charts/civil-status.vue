@@ -1,5 +1,5 @@
 <template>
-    <v-card max-height="425">
+    <v-card>
         <v-card-text>
             <p></p>
             <apexchart type="polarArea" :options="chartOptions" :series="series"></apexchart>

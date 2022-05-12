@@ -1,9 +1,13 @@
 <template>
     <div class="login-main-container">
         <div class="left-container">
+            <div class="left-container1">
+                <!-- <img src="/sample/logo.png" alt=""> -->
+            </div>
         </div>
         <div class="right-container">
             <div class="right-inner-container">
+                <img class="test-class" src="/sample/logo.png" alt="">
                 <h2>Sign in</h2>
                 <v-layout justify-center row>
                     <v-flex md10>
@@ -28,7 +32,7 @@
                     <v-flex class="class-text" md10>
                         <small v-if="iserror" class="errormessege">Invalid email or password</small>
                     </v-flex>
-                    <v-btn color="#89ABB5" @click="login">VALIDER</v-btn>
+                    <v-btn color="#89ABB5" @click="login">Login</v-btn>
                 </v-layout>
             </div>
         </div>
@@ -76,5 +80,10 @@ export default {
     .errormessege{
         color: red;
     }
+}
+.test-class{
+    // position: absolute;
+    width: 200px;
+    display: none;
 }
 </style>

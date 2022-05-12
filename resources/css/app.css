@@ -31,7 +31,15 @@
 }
 .left-container{
     width: calc(100% - 450px);
-    background-color: #161616;
+    /* background-color: #161616; */
+    display: flex;
+    justify-content: center;
+}
+.left-container1{
+    /* background-color: #161616; */
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 .table-header-main-container{
     display: flex;

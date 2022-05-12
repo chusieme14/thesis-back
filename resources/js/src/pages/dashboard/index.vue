@@ -12,30 +12,34 @@
             </v-col>
         </v-row>
         <v-row no-gutters>
-            <v-col cols="12" sm="3">
+            <v-col cols="12" sm="4">
               <employment v-if="isemployment" :data="employments"></employment>
             </v-col>
-            <v-col cols="12" sm="3">
+            <v-col cols="12" sm="4">
               <employment-status v-if="isemploymentstatus" :data="employmentStatus"></employment-status>
             </v-col>
-            <v-col cols="12" sm="3">
+            <v-col cols="12" sm="4">
               <work v-if="iswork" :data="work"></work>
-            </v-col>
-            <v-col cols="12" sm="3">
-              <attainment v-if="isattainment" :data="attainment"></attainment>
             </v-col>
         </v-row>
         <v-row no-gutters>
-            <v-col cols="12" sm="3">
+            <v-col cols="12" sm="4">
+              <attainment v-if="isattainment" :data="attainment"></attainment>
+            </v-col>
+            <v-col cols="12" sm="4">
               <income v-if="isincome" :data="income"></income>
             </v-col>
-            <v-col cols="12" sm="3">
+            <v-col cols="12" sm="4">
               <time-job v-if="istime_jobs" :data="time_jobs"></time-job>
             </v-col>
-            <v-col cols="12" sm="3">
+            
+        </v-row>
+        <v-row no-gutters>
+           
+            <v-col cols="12" sm="4">
               <curriculum v-if="iscurriculum" :data="curriculum"></curriculum>
             </v-col>
-            <v-col cols="12" sm="3">
+            <v-col cols="12" sm="4">
               <promotion v-if="ispromotion" :data="promotion"></promotion>
             </v-col>
         </v-row>

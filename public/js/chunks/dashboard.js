@@ -856,6 +856,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -1112,7 +1116,6 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { attrs: { height: "292" } },
     [
       _c(
         "v-card-text",
@@ -1155,7 +1158,6 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { attrs: { "max-height": "425" } },
     [
       _c(
         "v-card-text",
@@ -1200,7 +1202,6 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { attrs: { height: "292" } },
     [
       _c(
         "v-card-text",
@@ -1243,7 +1244,6 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { attrs: { height: "292" } },
     [
       _c(
         "v-card-text",
@@ -1286,7 +1286,6 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { attrs: { height: "292" } },
     [
       _c(
         "v-card-text",
@@ -1329,7 +1328,6 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { attrs: { height: "425" } },
     [
       _c(
         "v-card-text",
@@ -1372,7 +1370,6 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { attrs: { height: "292" } },
     [
       _c(
         "v-card-text",
@@ -1415,7 +1412,6 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { attrs: { height: "292" } },
     [
       _c(
         "v-card-text",
@@ -1458,7 +1454,6 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { attrs: { height: "425" } },
     [
       _c(
         "v-card-text",
@@ -1501,7 +1496,6 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { attrs: { height: "292" } },
     [
       _c(
         "v-card-text",
@@ -1544,7 +1538,6 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { attrs: { height: "292" } },
     [
       _c(
         "v-card-text",
@@ -1635,7 +1628,7 @@ var render = function () {
         [
           _c(
             "v-col",
-            { attrs: { cols: "12", sm: "3" } },
+            { attrs: { cols: "12", sm: "4" } },
             [
               _vm.isemployment
                 ? _c("employment", { attrs: { data: _vm.employments } })
@@ -1646,7 +1639,7 @@ var render = function () {
           _vm._v(" "),
           _c(
             "v-col",
-            { attrs: { cols: "12", sm: "3" } },
+            { attrs: { cols: "12", sm: "4" } },
             [
               _vm.isemploymentstatus
                 ? _c("employment-status", {
@@ -1659,17 +1652,46 @@ var render = function () {
           _vm._v(" "),
           _c(
             "v-col",
-            { attrs: { cols: "12", sm: "3" } },
+            { attrs: { cols: "12", sm: "4" } },
             [_vm.iswork ? _c("work", { attrs: { data: _vm.work } }) : _vm._e()],
+            1
+          ),
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-row",
+        { attrs: { "no-gutters": "" } },
+        [
+          _c(
+            "v-col",
+            { attrs: { cols: "12", sm: "4" } },
+            [
+              _vm.isattainment
+                ? _c("attainment", { attrs: { data: _vm.attainment } })
+                : _vm._e(),
+            ],
             1
           ),
           _vm._v(" "),
           _c(
             "v-col",
-            { attrs: { cols: "12", sm: "3" } },
+            { attrs: { cols: "12", sm: "4" } },
             [
-              _vm.isattainment
-                ? _c("attainment", { attrs: { data: _vm.attainment } })
+              _vm.isincome
+                ? _c("income", { attrs: { data: _vm.income } })
+                : _vm._e(),
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { attrs: { cols: "12", sm: "4" } },
+            [
+              _vm.istime_jobs
+                ? _c("time-job", { attrs: { data: _vm.time_jobs } })
                 : _vm._e(),
             ],
             1
@@ -1684,29 +1706,7 @@ var render = function () {
         [
           _c(
             "v-col",
-            { attrs: { cols: "12", sm: "3" } },
-            [
-              _vm.isincome
-                ? _c("income", { attrs: { data: _vm.income } })
-                : _vm._e(),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { attrs: { cols: "12", sm: "3" } },
-            [
-              _vm.istime_jobs
-                ? _c("time-job", { attrs: { data: _vm.time_jobs } })
-                : _vm._e(),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { attrs: { cols: "12", sm: "3" } },
+            { attrs: { cols: "12", sm: "4" } },
             [
               _vm.iscurriculum
                 ? _c("curriculum", { attrs: { data: _vm.curriculum } })
@@ -1717,7 +1717,7 @@ var render = function () {
           _vm._v(" "),
           _c(
             "v-col",
-            { attrs: { cols: "12", sm: "3" } },
+            { attrs: { cols: "12", sm: "4" } },
             [
               _vm.ispromotion
                 ? _c("promotion", { attrs: { data: _vm.promotion } })
