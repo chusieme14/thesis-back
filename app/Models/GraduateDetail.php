@@ -15,7 +15,8 @@ class GraduateDetail extends Model
         'prof_exam_passed', 'awards', 'employed',
         'employment_date', 'employment_status',
         'company_name', 'c_address',
-        'c_city', 'country_id',
+        'c_city', 'country_id', 'income', 'time_jobs',
+        'curriculum', 'promotion'
     ];
 
     public function graduate()

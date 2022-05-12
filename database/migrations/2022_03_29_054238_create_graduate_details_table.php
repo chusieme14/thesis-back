@@ -30,6 +30,10 @@ class CreateGraduateDetailsTable extends Migration
             $table->string('c_address')->nullable();
             $table->text('c_city')->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
+            $table->integer('income')->nullable();
+            $table->integer('time_jobs')->nullable();
+            $table->integer('curriculum')->nullable();
+            $table->integer('promotion')->nullable();
             $table->timestamps();
         });
     }

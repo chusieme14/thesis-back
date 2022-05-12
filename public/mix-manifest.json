@@ -10,8 +10,8 @@
     "/js/chunks/department.js": "/js/chunks/department.js",
     "/js/chunks/news.js": "/js/chunks/news.js",
     "/js/chunks/organization.js": "/js/chunks/organization.js",
+    "/js/chunks/points.js": "/js/chunks/points.js",
     "/js/chunks/roles.js": "/js/chunks/roles.js",
     "/js/chunks/vendors~alumni~department~news.js": "/js/chunks/vendors~alumni~department~news.js",
-    "/js/chunks/vendors~dashboard.js": "/js/chunks/vendors~dashboard.js",
-    "/js/chunks/points.js": "/js/chunks/points.js"
+    "/js/chunks/vendors~dashboard.js": "/js/chunks/vendors~dashboard.js"
 }
