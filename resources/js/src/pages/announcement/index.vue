@@ -48,7 +48,7 @@
                 </template>
                 <template v-slot:item.action="{ item }">
                     <v-row>
-                        <v-btn :disabled="item.status==2" color="success" icon>
+                        <v-btn :disabled="item.status==2" @click="send(item)" color="success" icon>
                             <v-icon small>
                                 mdi-send-outline
                             </v-icon>
@@ -58,11 +58,11 @@
                                 mdi-content-copy
                             </v-icon>
                         </v-btn> -->
-                        <table-action :item="item" 
+                        <!-- <table-action :item="item" 
                             @editItem="showEdit"
-                            :disable="item.status==2?['edit']:['']" 
-                            @deleteItem="showDelete"
-                        ></table-action>
+                            :disable="item.status==2?['edit']:['']"
+                            :hide="['delete']"
+                        ></table-action> -->
                     </v-row>
                 </template>
                 
@@ -210,6 +210,13 @@ export default {
         saveSend(){
             this.payload.status = 2
             axios.post(`/admin/announcement/send-save`, this.payload).then(({data})=>{
+                this.fetchPage()
+                this.clear()
+            })
+        },
+        send(data){
+            console.log(data,"sdjkasjkdhjkh")
+            axios.get(`/admin/announcement/send/${data.id}`).then(({data})=>{
                 this.fetchPage()
                 this.clear()
             })

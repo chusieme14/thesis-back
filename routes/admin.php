@@ -24,6 +24,7 @@ Route::group(['middleware'=>['auth:web']],function(){
     Route::resource('courses',CourseController::class);
     Route::resource('news',NewsController::class);
     Route::post('announcement/send-save',[AnnouncementController::class, 'saveSend']);
+    Route::get('announcement/send/{id}',[AnnouncementController::class, 'send']);
     Route::resource('announcements',AnnouncementController::class);
     Route::resource('departments',DepartmentController::class);
     Route::resource('points',PointController::class);

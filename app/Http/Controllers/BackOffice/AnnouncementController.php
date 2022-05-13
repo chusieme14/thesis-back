@@ -96,5 +96,18 @@ class AnnouncementController extends Controller
 
     }
 
+    public function send($id)
+    {
+        $announcement = Announcement::where('id', $id)->first();
+        $announcement->update(['status'=>2]);
+        if($announcement->option==1){
+            $this->sendSection($announcement);
+        }elseif ($announcement->option==2) {
+            $this->sendCourse($announcement);
+        }elseif ($announcement->option==3) {
+            $this->sendDepartment($announcement);
+        }
+    }
+
 
 }

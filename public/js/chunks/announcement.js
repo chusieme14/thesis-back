@@ -497,6 +497,18 @@ __webpack_require__.r(__webpack_exports__);
 
         _this3.clear();
       });
+    },
+    send: function send(data) {
+      var _this4 = this;
+
+      console.log(data, "sdjkasjkdhjkh");
+      axios.get("/admin/announcement/send/".concat(data.id)).then(function (_ref4) {
+        var data = _ref4.data;
+
+        _this4.fetchPage();
+
+        _this4.clear();
+      });
     }
   }
 });
@@ -1259,6 +1271,11 @@ var render = function () {
                               color: "success",
                               icon: "",
                             },
+                            on: {
+                              click: function ($event) {
+                                return _vm.send(item)
+                              },
+                            },
                           },
                           [
                             _c("v-icon", { attrs: { small: "" } }, [
@@ -1269,17 +1286,6 @@ var render = function () {
                           ],
                           1
                         ),
-                        _vm._v(" "),
-                        _c("table-action", {
-                          attrs: {
-                            item: item,
-                            disable: item.status == 2 ? ["edit"] : [""],
-                          },
-                          on: {
-                            editItem: _vm.showEdit,
-                            deleteItem: _vm.showDelete,
-                          },
-                        }),
                       ],
                       1
                     ),

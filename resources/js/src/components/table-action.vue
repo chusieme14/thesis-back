@@ -16,6 +16,7 @@
             icon
             @click.stop="$emit('deleteItem', item)"
             :disabled="disable.includes('delete')"
+            v-if="!hide.includes('delete')"
         >
             <v-icon small>
                 mdi-delete
