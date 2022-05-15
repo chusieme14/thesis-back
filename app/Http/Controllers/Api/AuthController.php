@@ -49,6 +49,9 @@ class AuthController extends Controller
         ]);
         if($request->detail){
             $graduate->detail()->create($request->detail);
+            if($request->detail['company_name']){
+                $graduate->empHistory()->create($request->detail);
+            }
         }
         if($request->image_base64){
             $graduate->update([

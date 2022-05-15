@@ -33,6 +33,15 @@ export default[
                     requiresAuth:true,
                 }
             },
+            {
+                path:'graduate-employment-history',
+                component: () => import(/* webpackChunkName: "alumni" */ '../pages/alumni/emp-history.vue'),
+                name: 'graduate-employment-history',
+                meta:{ 
+                    parent:'/graduates',
+                    requiresAuth:true,
+                }
+            },
         ]
     },
 ]

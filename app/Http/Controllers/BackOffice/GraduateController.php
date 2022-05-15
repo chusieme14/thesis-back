@@ -30,6 +30,9 @@ class GraduateController extends Controller
         ]);
         if($request->detail){
             $graduate->detail()->create($request->detail);
+            if($request->detail['company_name']){
+                $graduate->empHistory()->create($request->detail);
+            }
         }
         if($request->image_base64){
             $graduate->update([
@@ -55,8 +58,14 @@ class GraduateController extends Controller
         
         if($graduate->detail){
             $graduate->detail->update($request->detail);
+            if($request->detail['company_name']){
+                $graduate->empHistory()->create($request->detail);
+            }
         }else{
             $graduate->detail()->create($request->detail);
+            if($request->detail['company_name']){
+                $graduate->empHistory()->create($request->detail);
+            }
         }
 
         if($request->avatar != $request->image_base64){

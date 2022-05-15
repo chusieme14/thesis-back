@@ -1069,6 +1069,120 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/emp-history.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/pages/alumni/emp-history.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {},
+  data: function data() {
+    return {
+      data: {
+        title: "Employment history",
+        isFetching: false,
+        keyword: "",
+        filter: {}
+      },
+      footerPages: {
+        "items-per-page-options": [5, 10, 15, 20, 30, 40, 50, 100, -1]
+      },
+      options: {
+        itemsPerPage: 15
+      },
+      total: 0,
+      headers: [{
+        text: 'Id',
+        align: 'start',
+        sortable: false,
+        value: 'id'
+      }, {
+        text: 'Company name',
+        align: 'start',
+        sortable: false,
+        value: 'company_name'
+      }, {
+        text: 'Employment date',
+        align: 'start',
+        sortable: false,
+        value: 'employment_date'
+      }, {
+        text: 'City',
+        align: 'start',
+        sortable: false,
+        value: 'c_city'
+      }, {
+        text: 'Country',
+        align: 'start',
+        sortable: false,
+        value: 'country'
+      }],
+      histories: []
+    };
+  },
+  methods: {
+    fetchPage: function fetchPage() {
+      var _this = this;
+
+      this.data.isFetching = true;
+
+      var params = this._createParams(this.options);
+
+      params = params + this._createFilterParams(this.data.filter);
+      console.log(this.data.keyword, "keyword");
+      if (this.data.keyword) params = params + '&keyword=' + this.data.keyword;
+      axios.get("/admin/graduates-employment-history?".concat(params)).then(function (_ref) {
+        var data = _ref.data;
+        _this.histories = data.data;
+        _this.data.isFetching = false;
+        _this.total = data.total;
+      });
+    }
+  },
+  computed: {}
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/filter.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/pages/alumni/filter.vue?vue&type=script&lang=js& ***!
@@ -1525,6 +1639,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -1601,6 +1716,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
+    viewGraduate: function viewGraduate(val) {
+      this.$router.push({
+        name: 'profile',
+        params: {
+          graduates_id: val.id
+        }
+      });
+    },
     addNew: function addNew() {
       this.$router.push({
         name: 'graduates-create'
@@ -1744,6 +1867,11 @@ __webpack_require__.r(__webpack_exports__);
         text: 'Points',
         route: "graduate-profile",
         icon: "mdi-seal"
+      }, {
+        // text: this._lang('client.view.statistics'),
+        text: 'Employment history',
+        route: "graduate-employment-history",
+        icon: "mdi-clipboard-list-outline"
       } // {
       //     // text: this._lang('client.view.subscriptions'),
       //     text:'Documents',
@@ -5308,6 +5436,95 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/emp-history.vue?vue&type=template&id=689a9f1c&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/pages/alumni/emp-history.vue?vue&type=template&id=689a9f1c& ***!
+  \********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-card",
+    { attrs: { elevation: "1", "max-height": "92vh" } },
+    [
+      _c(
+        "v-card-text",
+        [
+          _c("table-header", {
+            attrs: { data: _vm.data, hide: ["filter", "addNew"] },
+            scopedSlots: _vm._u([
+              {
+                key: "custom_filter",
+                fn: function () {
+                  return [
+                    _c("gun-filter", { attrs: { filter: _vm.data.filter } }),
+                  ]
+                },
+                proxy: true,
+              },
+            ]),
+          }),
+          _vm._v(" "),
+          _c("v-data-table", {
+            attrs: {
+              headers: _vm.headers,
+              items: _vm.histories,
+              "max-height": "100%",
+              "single-select": false,
+              search: _vm.data.keyword,
+              "server-items-length": _vm.total,
+              "footer-props": _vm.footerPages,
+              options: _vm.options,
+              "items-per-page": _vm.options.itemsPerPage,
+              loading: _vm.data.isFetching,
+              "fixed-header": "",
+            },
+            on: {
+              "update:options": [
+                function ($event) {
+                  _vm.options = $event
+                },
+                _vm.fetchPage,
+              ],
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "item.country",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(item.country.name) +
+                        "\n            "
+                    ),
+                  ]
+                },
+              },
+            ]),
+          }),
+        ],
+        1
+      ),
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/filter.vue?vue&type=template&id=3bdc1a65&":
 /*!***************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/pages/alumni/filter.vue?vue&type=template&id=3bdc1a65& ***!
@@ -5687,6 +5904,7 @@ var render = function () {
                 },
                 _vm.fetchPage,
               ],
+              "click:row": _vm.viewGraduate,
             },
             scopedSlots: _vm._u([
               {
@@ -7185,6 +7403,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_template_id_d7e19592_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_edit_vue_vue_type_template_id_d7e19592_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/src/pages/alumni/emp-history.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/src/pages/alumni/emp-history.vue ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _emp_history_vue_vue_type_template_id_689a9f1c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./emp-history.vue?vue&type=template&id=689a9f1c& */ "./resources/js/src/pages/alumni/emp-history.vue?vue&type=template&id=689a9f1c&");
+/* harmony import */ var _emp_history_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./emp-history.vue?vue&type=script&lang=js& */ "./resources/js/src/pages/alumni/emp-history.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _emp_history_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _emp_history_vue_vue_type_template_id_689a9f1c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _emp_history_vue_vue_type_template_id_689a9f1c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/src/pages/alumni/emp-history.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/src/pages/alumni/emp-history.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/src/pages/alumni/emp-history.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_emp_history_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./emp-history.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/emp-history.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_emp_history_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/src/pages/alumni/emp-history.vue?vue&type=template&id=689a9f1c&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/src/pages/alumni/emp-history.vue?vue&type=template&id=689a9f1c& ***!
+  \**************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_emp_history_vue_vue_type_template_id_689a9f1c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./emp-history.vue?vue&type=template&id=689a9f1c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/pages/alumni/emp-history.vue?vue&type=template&id=689a9f1c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_emp_history_vue_vue_type_template_id_689a9f1c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_emp_history_vue_vue_type_template_id_689a9f1c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

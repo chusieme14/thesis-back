@@ -10,6 +10,7 @@ use App\Http\Controllers\BackOffice\GraduateController;
 use App\Http\Controllers\BackOffice\DepartmentController;
 use App\Http\Controllers\BackOffice\AnnouncementController;
 use App\Http\Controllers\BackOffice\DashboardController;
+use App\Http\Controllers\BackOffice\EmploymentHistoryController;
 
 Route::get('checkuser',[AuthController::class,'checkUser']);
 Route::post('login',[AuthController::class,'login']);
@@ -21,6 +22,7 @@ Route::group(['middleware'=>['auth:web']],function(){
     Route::delete('graduates/temp-uploads/{session}/remove',[GraduateController::class, 'removeTempUploads']);
     Route::get('graduates/temp-uploads/{session}/save',[GraduateController::class, 'saveMultiple']);
     Route::resource('graduates',GraduateController::class);
+    Route::resource('graduates-employment-history',EmploymentHistoryController::class);
     Route::resource('courses',CourseController::class);
     Route::resource('news',NewsController::class);
     Route::post('announcement/send-save',[AnnouncementController::class, 'saveSend']);

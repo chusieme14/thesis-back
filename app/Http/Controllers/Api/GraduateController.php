@@ -16,8 +16,14 @@ class GraduateController extends Controller
         $graduate->update($request->all());
         if($graduate->detail){
             $graduate->detail->update($request->detail);
+            if($request->detail['company_name']){
+                $graduate->empHistory()->create($request->detail);
+            }
         }else{
             $graduate->detail()->create($request->detail);
+            if($request->detail['company_name']){
+                $graduate->empHistory()->create($request->detail);
+            }
         }
         if($request->code){
             if($graduate->share_code != $request->code){

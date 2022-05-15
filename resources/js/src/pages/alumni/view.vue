@@ -19,6 +19,12 @@ export default {
                     route: "graduate-profile",
                     icon: "mdi-seal",
                 },
+                {
+                    // text: this._lang('client.view.statistics'),
+                    text:'Employment history',
+                    route: "graduate-employment-history",
+                    icon: "mdi-clipboard-list-outline",
+                },
                 // {
                 //     // text: this._lang('client.view.subscriptions'),
                 //     text:'Documents',

@@ -28,6 +28,7 @@
                 :loading="data.isFetching"
                 @update:options="fetchPage"
                 fixed-header
+                @click:row="viewGraduate"
             >
                 <template v-slot:item.image="{ item }">
                     <v-avatar
@@ -158,6 +159,9 @@ export default {
         }
     }, 
     methods:{
+        viewGraduate(val){
+            this.$router.push({name:'profile', params: {graduates_id: val.id}})
+        },
         addNew(){
             this.$router.push({name:'graduates-create'})
         },

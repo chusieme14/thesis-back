@@ -2,7 +2,7 @@
     <div class="client-main-container">
         <v-navigation-drawer
             class="accent-4 client-sub"
-            width="200" 
+            width="250" 
             height="92vh" 
             permanent
         >
@@ -58,7 +58,7 @@ export default {
     color: #070707 !important;
 }
 .client-inner-container{
-    width: calc(100% - 200px);
+    width: calc(100% - 250px);
 }
 .client-main-container{
     display: flex;
