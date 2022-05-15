@@ -88,7 +88,7 @@
     cursor: pointer !important;
 }
 .dashboard-main-container{
-    height: 86vh;
+    height: 83vh;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -97,4 +97,7 @@
     display: flex;
     justify-content: center;
     flex-direction: row;
+}
+.class-year{
+    max-width: 317px !important;
 }

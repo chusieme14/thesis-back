@@ -1,6 +1,18 @@
 <template>
     <v-card >
-        <v-card-title>Employment status</v-card-title>
+        <v-card-title>Employment status
+            <v-spacer></v-spacer>
+            <v-autocomplete
+                v-model="batch"
+                :items="years"
+                hide-details="auto"
+                label="Year Graduated"
+                class="class-year"
+                @change="getEmploymentStatus"
+                filled
+                dense
+            ></v-autocomplete>
+        </v-card-title>
         <v-card-text class="dashboard-main-container">
             <div class="dashboard-inner-container">
                 <apexchart v-if="isemploymentstatus" width="800" type="pie" :options="chartOptions" :series="series"></apexchart>
@@ -49,13 +61,24 @@ export default {
                     }
                 }]
             },
-            isemploymentstatus:false
+            isemploymentstatus:false,
+            batch:null
         }
     },
     methods:{
         getEmploymentStatus(){
             this.isemploymentstatus = false
-            axios.get(`/admin/get-employment-status`).then(({data})=>{
+            let params=''
+            if(this.$route.params.department_id){
+                params = params + '&department_id='+this.$route.params.department_id
+            }
+            if(this.$route.params.course_id){
+                params = params + '&course_id='+this.$route.params.course_id
+            }
+            if(this.batch){
+                params = params + '&batch='+this.batch
+            }
+            axios.get(`/admin/get-employment-status?${params}`).then(({data})=>{
                 this.series = data
                 this.isemploymentstatus = true
             })
@@ -63,7 +86,18 @@ export default {
     },
     mounted(){
         this.getEmploymentStatus()
-    }
+    },
+    computed:{
+        years(){
+            let schoolYear = []
+            let year = new Date().getFullYear()
+            let startYear = year - 10
+            for (let start = year-1; start >= startYear; start--) {
+                schoolYear.push(`${start}-${start+1}`)
+            }
+            return schoolYear
+        }
+    },
     // watch:{
     //     "data":{
     //         handler(val){

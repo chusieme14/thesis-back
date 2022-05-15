@@ -1,6 +1,18 @@
 <template>
     <v-card >
-        <v-card-title>Civil Status</v-card-title>
+        <v-card-title>Civil Status
+            <v-spacer></v-spacer>
+            <v-autocomplete
+                v-model="batch"
+                :items="years"
+                hide-details="auto"
+                label="Year Graduated"
+                class="class-year"
+                @change="getCivilStatus"
+                filled
+                dense
+            ></v-autocomplete>
+        </v-card-title>
         <v-card-text class="dashboard-main-container">
             <div class="dashboard-inner-container">
                 <apexchart v-if="iscivil" width="800" type="pie" :options="chartOptions" :series="series"></apexchart>
@@ -48,13 +60,24 @@ export default {
                 }]
             },
             // civil_status:[],
-            iscivil:false
+            iscivil:false,
+            batch:null
         }
     },
     methods:{
         async getCivilStatus(){
             this.iscivil = false
-            await axios.get(`/admin/get-civil-statistics`).then(({data})=>{
+            let params=''
+            if(this.$route.params.department_id){
+                params = params + '&department_id='+this.$route.params.department_id
+            }
+            if(this.$route.params.course_id){
+                params = params + '&course_id='+this.$route.params.course_id
+            }
+            if(this.batch){
+                params = params + '&batch='+this.batch
+            }
+            await axios.get(`/admin/get-civil-statistics?${params}`).then(({data})=>{
                 this.series = data
                 this.iscivil = true
             })
@@ -62,6 +85,18 @@ export default {
     },
     created(){
         this.getCivilStatus()
+        console.log(this.$route.params.department_id,"sajdgsadhjdg")
+    },
+    computed:{
+        years(){
+            let schoolYear = []
+            let year = new Date().getFullYear()
+            let startYear = year - 10
+            for (let start = year-1; start >= startYear; start--) {
+                schoolYear.push(`${start}-${start+1}`)
+            }
+            return schoolYear
+        }
     },
     // watch:{
     //     "civil_status":{

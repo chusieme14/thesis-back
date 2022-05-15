@@ -203,6 +203,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -261,6 +263,14 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    viewCourse: function viewCourse(val) {
+      this.$router.push({
+        name: 'courses-civil-status',
+        params: {
+          course_id: val.id
+        }
+      });
+    },
     addNew: function addNew() {
       this.details.title = 'Add course';
       this.showForm = true;
@@ -617,6 +627,7 @@ var render = function () {
           }),
           _vm._v(" "),
           _c("v-data-table", {
+            staticClass: "cursor-pointer",
             attrs: {
               headers: _vm.headers,
               items: _vm.graduates,
@@ -638,6 +649,7 @@ var render = function () {
                 },
                 _vm.fetchPage,
               ],
+              "click:row": _vm.viewCourse,
             },
             scopedSlots: _vm._u([
               {

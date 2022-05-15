@@ -1,6 +1,18 @@
 <template>
     <v-card >
-       <v-card-title>Gross Monthly Income</v-card-title>
+       <v-card-title>Gross Monthly Income
+           <v-spacer></v-spacer>
+            <v-autocomplete
+                v-model="batch"
+                :items="years"
+                hide-details="auto"
+                label="Year Graduated"
+                class="class-year"
+                @change="getIncome"
+                filled
+                dense
+            ></v-autocomplete>
+       </v-card-title>
         <v-card-text class="dashboard-main-container">
             <div class="dashboard-inner-container">
                 <apexchart v-if="isincome" width="800" type="pie" :options="chartOptions" :series="series"></apexchart>
@@ -50,13 +62,24 @@ export default {
                     }
                 }]
             },
-            isincome:false
+            isincome:false,
+            batch:null
         }
     },
     methods:{
         getIncome(){
             this.isincome = false
-            axios.get(`/admin/get-income`).then(({data})=>{
+            let params=''
+            if(this.$route.params.department_id){
+                params = params + '&department_id='+this.$route.params.department_id
+            }
+            if(this.$route.params.course_id){
+                params = params + '&course_id='+this.$route.params.course_id
+            }
+            if(this.batch){
+                params = params + '&batch='+this.batch
+            }
+            axios.get(`/admin/get-income?${params}`).then(({data})=>{
                 this.series = data
                 this.isincome = true
             })
@@ -64,6 +87,17 @@ export default {
     },
     mounted(){
         this.getIncome()
+    },
+    computed:{
+        years(){
+            let schoolYear = []
+            let year = new Date().getFullYear()
+            let startYear = year - 10
+            for (let start = year-1; start >= startYear; start--) {
+                schoolYear.push(`${start}-${start+1}`)
+            }
+            return schoolYear
+        }
     },
     // watch:{
     //     "data":{

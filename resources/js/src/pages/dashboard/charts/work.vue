@@ -1,6 +1,18 @@
 <template>
     <v-card>
-        <v-card-title>Place of work</v-card-title>
+        <v-card-title>Place of work
+            <v-spacer></v-spacer>
+            <v-autocomplete
+                v-model="batch"
+                :items="years"
+                hide-details="auto"
+                label="Year Graduated"
+                class="class-year"
+                @change="getWork"
+                filled
+                dense
+            ></v-autocomplete>
+        </v-card-title>
         <v-card-text class="dashboard-main-container">
             <div class="dashboard-inner-container">
                 <apexchart v-if="iswork" width="800" type="pie" :options="chartOptions" :series="series"></apexchart>
@@ -55,7 +67,17 @@ export default {
     methods:{
         getWork(){
             this.iswork = false
-            axios.get(`/admin/get-work`).then(({data})=>{
+            let params=''
+            if(this.$route.params.department_id){
+                params = params + '&department_id='+this.$route.params.department_id
+            }
+            if(this.$route.params.course_id){
+                params = params + '&course_id='+this.$route.params.course_id
+            }
+            if(this.batch){
+                params = params + '&batch='+this.batch
+            }
+            axios.get(`/admin/get-work?${params}`).then(({data})=>{
                 this.series = data
                 this.iswork = true
             })
@@ -63,7 +85,18 @@ export default {
     },
     mounted(){
         this.getWork()
-    }
+    },
+    computed:{
+        years(){
+            let schoolYear = []
+            let year = new Date().getFullYear()
+            let startYear = year - 10
+            for (let start = year-1; start >= startYear; start--) {
+                schoolYear.push(`${start}-${start+1}`)
+            }
+            return schoolYear
+        }
+    },
     // watch:{
     //     "data":{
     //         handler(val){

@@ -24,7 +24,9 @@
                 :items-per-page="options.itemsPerPage"
                 :loading="data.isFetching"
                 @update:options="fetchPage"
+                @click:row="viewCourse"
                 fixed-header
+                class="cursor-pointer"
             >
                 <template v-slot:item.department="{ item }">
                     {{item.department.name}}
@@ -127,6 +129,9 @@ export default {
         }
     }, 
     methods:{
+        viewCourse(val){
+            this.$router.push({ name: 'courses-civil-status', params: { course_id: val.id } })
+        },
         addNew(){
             this.details.title = 'Add course'
             this.showForm = true

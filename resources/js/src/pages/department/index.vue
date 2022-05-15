@@ -28,6 +28,7 @@
                 :options.sync="options"
                 :items-per-page="options.itemsPerPage"
                 @update:options="fetchPage"
+                @click:row="viewDepartment"
                 class="cursor-pointer table-fix-height"
                 fixed-header
             >
@@ -131,6 +132,9 @@ export default {
         }
     },
     methods:{
+        viewDepartment(val){
+            this.$router.push({ name: 'dep-civil-status', params: { department_id: val.id } })
+        },
         cancel(){
             this.clear()
         },
