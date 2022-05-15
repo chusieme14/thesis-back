@@ -1,7 +1,10 @@
 <template>
     <v-card>
-        <v-card-text>
-            <apexchart type="pie" :options="chartOptions" :series="series"></apexchart>
+        <v-card-title>Location of Residents</v-card-title>
+        <v-card-text class="dashboard-main-container">
+            <div class="dashboard-inner-container">
+                <apexchart v-if="isresidence" width="800" type="pie" :options="chartOptions" :series="series"></apexchart>
+            </div>
         </v-card-text>
     </v-card>
 </template>
@@ -19,6 +22,7 @@ export default {
             series: [],
             chartOptions: {
                 chart: {
+                    width:800,
                     type: 'pie',
                     toolbar: {
                         show: true
@@ -28,9 +32,9 @@ export default {
                     colors: ['#fff']
                 },
                 labels:['City', 'Municipalty', 'No data'],
-                title:{
-                    text: "Location of Residents",
-                },
+                // title:{
+                //     text: "Location of Residents",
+                // },
                 fill: {
                     opacity: 0.8
                 },
@@ -46,15 +50,28 @@ export default {
                     }
                 }]
             },
+            isresidence:false
         }
     },
-    watch:{
-        "data":{
-            handler(val){
-                this.series = val
-            },immediate:true
-        }
-    }
+    methods:{
+        getResidence(){
+        this.isresidence = false
+        axios.get(`/admin/get-residence`).then(({data})=>{
+          this.series = data
+          this.isresidence = true
+        })
+      },
+    },
+    mounted(){
+        this.getResidence()
+    },
+    // watch:{
+    //     "data":{
+    //         handler(val){
+    //             this.series = val
+    //         },immediate:true
+    //     }
+    // }
     
 }
 </script>

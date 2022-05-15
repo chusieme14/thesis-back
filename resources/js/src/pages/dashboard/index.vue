@@ -98,86 +98,86 @@ export default {
         }
     },
     methods:{
-      getCivilStatus(){
-        this.iscivil = false
-        axios.get(`/admin/get-civil-statistics`).then(({data})=>{
-          this.civil_status = data
-          this.iscivil = true
-          this.getGender()
-        })
-      },
-      getGender(){
-        this.isgender = false
-        axios.get(`/admin/get-gender`).then(({data})=>{
-          this.gender = data
-          this.isgender = true
-          this.getResidence()
-        })
-      },
-      getResidence(){
-        this.isresidence = false
-        axios.get(`/admin/get-residence`).then(({data})=>{
-          this.residence = data
-          this.isresidence = true
-          this.getEmployment()
-        })
-      },
-      getEmployment(){
-        this.isemployment = false
-        axios.get(`/admin/get-employment`).then(({data})=>{
-          this.employments = data
-          this.isemployment = true
-          this.getEmploymentStatus()
-        })
-      },
-      getEmploymentStatus(){
-        this.isemploymentstatus = false
-        axios.get(`/admin/get-employment-status`).then(({data})=>{
-          this.employmentStatus = data
-          this.isemploymentstatus = true
-          this.getWork()
-        })
-      },
-      getWork(){
-        this.iswork = false
-        axios.get(`/admin/get-work`).then(({data})=>{
-          this.work = data
-          this.iswork = true
-          this.getAttainment()
-        })
-      },
-      getAttainment(){
-        this.isattainment = false
-        axios.get(`/admin/get-attainment`).then(({data})=>{
-          this.attainment = data
-          this.isattainment = true
-          this.getIncome()
-        })
-      },
-      getIncome(){
-        this.isincome = false
-        axios.get(`/admin/get-income`).then(({data})=>{
-          this.income = data
-          this.isincome = true
-          this.getTimeJobs()
-        })
-      },
-      getTimeJobs(){
-        this.istime_jobs = false
-        axios.get(`/admin/get-time-jobs`).then(({data})=>{
-          this.time_jobs = data
-          this.istime_jobs = true
-          this.getCurriculum()
-        })
-      },
-      getCurriculum(){
-        this.iscurriculum = false
-        axios.get(`/admin/get-curriculum`).then(({data})=>{
-          this.curriculum = data
-          this.iscurriculum = true
-          this.getPromotion()
-        })
-      },
+      // getCivilStatus(){
+      //   this.iscivil = false
+      //   axios.get(`/admin/get-civil-statistics`).then(({data})=>{
+      //     this.civil_status = data
+      //     this.iscivil = true
+      //     this.getGender()
+      //   })
+      // },
+      // getGender(){
+      //   this.isgender = false
+      //   axios.get(`/admin/get-gender`).then(({data})=>{
+      //     this.gender = data
+      //     this.isgender = true
+      //     this.getResidence()
+      //   })
+      // },
+      // getResidence(){
+      //   this.isresidence = false
+      //   axios.get(`/admin/get-residence`).then(({data})=>{
+      //     this.residence = data
+      //     this.isresidence = true
+      //     this.getEmployment()
+      //   })
+      // },
+      // getEmployment(){
+      //   this.isemployment = false
+      //   axios.get(`/admin/get-employment`).then(({data})=>{
+      //     this.employments = data
+      //     this.isemployment = true
+      //     this.getEmploymentStatus()
+      //   })
+      // },
+      // getEmploymentStatus(){
+      //   this.isemploymentstatus = false
+      //   axios.get(`/admin/get-employment-status`).then(({data})=>{
+      //     this.employmentStatus = data
+      //     this.isemploymentstatus = true
+      //     this.getWork()
+      //   })
+      // },
+      // getWork(){
+      //   this.iswork = false
+      //   axios.get(`/admin/get-work`).then(({data})=>{
+      //     this.work = data
+      //     this.iswork = true
+      //     this.getAttainment()
+      //   })
+      // },
+      // getAttainment(){
+      //   this.isattainment = false
+      //   axios.get(`/admin/get-attainment`).then(({data})=>{
+      //     this.attainment = data
+      //     this.isattainment = true
+      //     this.getIncome()
+      //   })
+      // },
+      // getIncome(){
+      //   this.isincome = false
+      //   axios.get(`/admin/get-income`).then(({data})=>{
+      //     this.income = data
+      //     this.isincome = true
+      //     this.getTimeJobs()
+      //   })
+      // },
+      // getTimeJobs(){
+      //   this.istime_jobs = false
+      //   axios.get(`/admin/get-time-jobs`).then(({data})=>{
+      //     this.time_jobs = data
+      //     this.istime_jobs = true
+      //     this.getCurriculum()
+      //   })
+      // },
+      // getCurriculum(){
+      //   this.iscurriculum = false
+      //   axios.get(`/admin/get-curriculum`).then(({data})=>{
+      //     this.curriculum = data
+      //     this.iscurriculum = true
+      //     this.getPromotion()
+      //   })
+      // },
       getPromotion(){
         this.ispromotion = false
         axios.get(`/admin/get-promotion`).then(({data})=>{

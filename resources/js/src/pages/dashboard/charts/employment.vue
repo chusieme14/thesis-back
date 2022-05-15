@@ -1,7 +1,10 @@
 <template>
     <v-card >
-        <v-card-text>
-            <apexchart type="pie" :options="chartOptions" :series="series"></apexchart>
+        <v-card-title>Employment</v-card-title>
+        <v-card-text class="dashboard-main-container">
+            <div class="dashboard-inner-container">
+                <apexchart v-if="isemployment" width="800" type="pie" :options="chartOptions" :series="series"></apexchart>
+            </div>
         </v-card-text>
     </v-card>
 </template>
@@ -11,14 +14,15 @@ export default {
     components:{
         'apexchart':VueApexCharts
     },
-    props:{
-        data:{}
-    },
+    // props:{
+    //     data:{}
+    // },
     data(){
         return{
             series: [],
             chartOptions: {
                 chart: {
+                    width:800,
                     type: 'pie',
                     toolbar: {
                         show: true
@@ -28,9 +32,9 @@ export default {
                     colors: ['#fff']
                 },
                 labels:['Yes', 'No', 'No data'],
-                title:{
-                    text: "Employment",
-                },
+                // title:{
+                //     text: "Employment",
+                // },
                 fill: {
                     opacity: 0.8
                 },
@@ -46,15 +50,28 @@ export default {
                     }
                 }]
             },
+            isemployment:false
         }
     },
-    watch:{
-        "data":{
-            handler(val){
-                this.series = val
-            },immediate:true
-        }
+    methods:{
+        getEmployment(){
+            this.isemployment = false
+            axios.get(`/admin/get-employment`).then(({data})=>{
+                this.series = data
+                this.isemployment = true
+            })
+        },
+    },
+    mounted(){
+        this.getEmployment()
     }
+    // watch:{
+    //     "data":{
+    //         handler(val){
+    //             this.series = val
+    //         },immediate:true
+    //     }
+    // }
     
 }
 </script>

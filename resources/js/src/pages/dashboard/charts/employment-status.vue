@@ -1,7 +1,10 @@
 <template>
     <v-card >
-        <v-card-text>
-            <apexchart type="pie" :options="chartOptions" :series="series"></apexchart>
+        <v-card-title>Employment status</v-card-title>
+        <v-card-text class="dashboard-main-container">
+            <div class="dashboard-inner-container">
+                <apexchart v-if="isemploymentstatus" width="800" type="pie" :options="chartOptions" :series="series"></apexchart>
+            </div>
         </v-card-text>
     </v-card>
 </template>
@@ -11,9 +14,9 @@ export default {
     components:{
         'apexchart':VueApexCharts
     },
-    props:{
-        data:{}
-    },
+    // props:{
+    //     data:{}
+    // },
     data(){
         return{
             series: [],
@@ -28,9 +31,9 @@ export default {
                     colors: ['#fff']
                 },
                 labels:['Contractual', 'Permanent', 'Self-employed', 'Casual', 'Not Applicable'],
-                title:{
-                    text: "Employment status",
-                },
+                // title:{
+                //     text: "Employment status",
+                // },
                 fill: {
                     opacity: 0.8
                 },
@@ -46,15 +49,28 @@ export default {
                     }
                 }]
             },
+            isemploymentstatus:false
         }
     },
-    watch:{
-        "data":{
-            handler(val){
-                this.series = val
-            },immediate:true
-        }
+    methods:{
+        getEmploymentStatus(){
+            this.isemploymentstatus = false
+            axios.get(`/admin/get-employment-status`).then(({data})=>{
+                this.series = data
+                this.isemploymentstatus = true
+            })
+        },
+    },
+    mounted(){
+        this.getEmploymentStatus()
     }
+    // watch:{
+    //     "data":{
+    //         handler(val){
+    //             this.series = val
+    //         },immediate:true
+    //     }
+    // }
     
 }
 </script>

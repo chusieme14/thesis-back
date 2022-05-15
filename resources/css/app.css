@@ -88,3 +88,14 @@
 .cursor-pointer{
     cursor: pointer !important;
 }
+.dashboard-main-container{
+    height: 86vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.dashboard-inner-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
