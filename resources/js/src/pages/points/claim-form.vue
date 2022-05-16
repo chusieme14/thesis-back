@@ -1,34 +1,46 @@
 <template>
     <v-card>
-        <v-card-title>Claim Points</v-card-title>
+        <v-card-title>Claim Points
+            <v-spacer></v-spacer>
+            <p>{{totalPoints+'Pts.'}}</p>
+        </v-card-title>
         <v-card-text>
             <div>
                 <v-icon
-                    v-if="payload.isall==1"
+                    v-if="isall==1"
                     class="custom-checkbox"
-                    @click="payload.isall=0"
+                    @click="isall=0"
                 >
                     mdi-checkbox-marked
                 </v-icon>
                 <v-icon
                     v-else
                     class="custom-checkbox"
-                    @click="payload.isall=1"
+                    @click="isall=1"
                 >
                     mdi-checkbox-blank-outline
                 </v-icon>
                 All Points
             </div>
-            <div class="class-button">
-                <v-btn class="mr-5" x-large color="primary">Id</v-btn>
-                <v-btn x-large color="primary">Load</v-btn>
+            <div class="form-main-container">
+                <v-btn @click="claimId" class="mr-5" x-large color="success">Id</v-btn>
+                <v-btn @click="$emit('claimLoad')" x-large color="success">Load</v-btn>
             </div>
         </v-card-text>
-        <v-card-actions>
+        <!-- <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn @click="$emit('cancel')" color="error">Cancel</v-btn>
             <v-btn color="success">Claim</v-btn>
-        </v-card-actions>
+        </v-card-actions> -->
+        <v-snackbar
+            :timeout="-1"
+            v-model="isInsufficient"
+            tile
+            top
+            color="red accent-2"
+        >
+            Point's is not enough to get a free Id
+        </v-snackbar>
     </v-card>
 </template>
 <script>
@@ -38,21 +50,57 @@ export default {
     },
     data(){
         return{
-
+            totalPoints:0,
+            isall:0,
+            isInsufficient:false
         }
     },
     methods:{
-
+        getTotalPoints(){
+            axios.get(`/admin/total-points/${this.payload.graduate_id}`).then(({data})=>{
+                this.totalPoints = data
+            })
+        },
+        claimId(){
+            if(this.totalPoints < 300){
+                this.isInsufficient = true
+                setTimeout(() => {
+                    this.isInsufficient = false
+                }, 3000);
+                return
+            }
+            this.$emit('claimId')
+        }
     },
     mounted(){
 
+    },
+    watch:{
+        "isall":{
+            handler(val){
+                if(val){
+                    this.getTotalPoints()
+                }
+            },immediate:true
+        },
+        "payload":{
+            handler(val){
+                this.totalPoints = val.point
+            },immediate:true
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
-    .class-button{
+    .form-main-container{
         margin-top: 10px;
         display: flex;
         justify-content: center;
+
+        button{
+            font-size: 20px;
+            height: 100px !important;
+            width: 170px !important;
+        }
     }
 </style>

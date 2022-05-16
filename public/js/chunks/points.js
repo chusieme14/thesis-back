@@ -42,15 +42,69 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     payload: {}
   },
   data: function data() {
-    return {};
+    return {
+      totalPoints: 0,
+      isall: 0,
+      isInsufficient: false
+    };
   },
-  methods: {},
-  mounted: function mounted() {}
+  methods: {
+    getTotalPoints: function getTotalPoints() {
+      var _this = this;
+
+      axios.get("/admin/total-points/".concat(this.payload.graduate_id)).then(function (_ref) {
+        var data = _ref.data;
+        _this.totalPoints = data;
+      });
+    },
+    claimId: function claimId() {
+      var _this2 = this;
+
+      if (this.totalPoints < 300) {
+        this.isInsufficient = true;
+        setTimeout(function () {
+          _this2.isInsufficient = false;
+        }, 3000);
+        return;
+      }
+
+      this.$emit('claimId');
+    }
+  },
+  mounted: function mounted() {},
+  watch: {
+    "isall": {
+      handler: function handler(val) {
+        if (val) {
+          this.getTotalPoints();
+        }
+      },
+      immediate: true
+    },
+    "payload": {
+      handler: function handler(val) {
+        this.totalPoints = val.point;
+      },
+      immediate: true
+    }
+  }
 });
 
 /***/ }),
@@ -65,7 +119,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _claim_form_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./claim-form.vue */ "./resources/js/src/pages/points/claim-form.vue");
-//
 //
 //
 //
@@ -208,6 +261,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     claimPoints: function claimPoints(val) {
+      Object.assign(this.selectedItem, val);
       this.isclaim = true;
     },
     addNew: function addNew() {
@@ -311,7 +365,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".class-button[data-v-03a0131d] {\n  margin-top: 10px;\n  display: flex;\n  justify-content: center;\n}", ""]);
+exports.push([module.i, ".form-main-container[data-v-03a0131d] {\n  margin-top: 10px;\n  display: flex;\n  justify-content: center;\n}\n.form-main-container button[data-v-03a0131d] {\n  font-size: 20px;\n  height: 100px !important;\n  width: 170px !important;\n}", ""]);
 
 // exports
 
@@ -366,20 +420,29 @@ var render = function () {
   return _c(
     "v-card",
     [
-      _c("v-card-title", [_vm._v("Claim Points")]),
+      _c(
+        "v-card-title",
+        [
+          _vm._v("Claim Points\n        "),
+          _c("v-spacer"),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(_vm.totalPoints + "Pts."))]),
+        ],
+        1
+      ),
       _vm._v(" "),
       _c("v-card-text", [
         _c(
           "div",
           [
-            _vm.payload.isall == 1
+            _vm.isall == 1
               ? _c(
                   "v-icon",
                   {
                     staticClass: "custom-checkbox",
                     on: {
                       click: function ($event) {
-                        _vm.payload.isall = 0
+                        _vm.isall = 0
                       },
                     },
                   },
@@ -395,7 +458,7 @@ var render = function () {
                     staticClass: "custom-checkbox",
                     on: {
                       click: function ($event) {
-                        _vm.payload.isall = 1
+                        _vm.isall = 1
                       },
                     },
                   },
@@ -412,46 +475,48 @@ var render = function () {
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "class-button" },
+          { staticClass: "form-main-container" },
           [
             _c(
               "v-btn",
               {
                 staticClass: "mr-5",
-                attrs: { "x-large": "", color: "primary" },
+                attrs: { "x-large": "", color: "success" },
+                on: { click: _vm.claimId },
               },
               [_vm._v("Id")]
             ),
             _vm._v(" "),
-            _c("v-btn", { attrs: { "x-large": "", color: "primary" } }, [
-              _vm._v("Load"),
-            ]),
+            _c(
+              "v-btn",
+              {
+                attrs: { "x-large": "", color: "success" },
+                on: {
+                  click: function ($event) {
+                    return _vm.$emit("claimLoad")
+                  },
+                },
+              },
+              [_vm._v("Load")]
+            ),
           ],
           1
         ),
       ]),
       _vm._v(" "),
       _c(
-        "v-card-actions",
-        [
-          _c("v-spacer"),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "error" },
-              on: {
-                click: function ($event) {
-                  return _vm.$emit("cancel")
-                },
-              },
+        "v-snackbar",
+        {
+          attrs: { timeout: -1, tile: "", top: "", color: "red accent-2" },
+          model: {
+            value: _vm.isInsufficient,
+            callback: function ($$v) {
+              _vm.isInsufficient = $$v
             },
-            [_vm._v("Cancel")]
-          ),
-          _vm._v(" "),
-          _c("v-btn", { attrs: { color: "success" } }, [_vm._v("Claim")]),
-        ],
-        1
+            expression: "isInsufficient",
+          },
+        },
+        [_vm._v("\n        Point's is not enough to get a free Id\n    ")]
       ),
     ],
     1
@@ -618,7 +683,7 @@ var render = function () {
       _c(
         "v-dialog",
         {
-          attrs: { persistent: "", "max-width": "400px" },
+          attrs: { "max-width": "400px" },
           model: {
             value: _vm.isclaim,
             callback: function ($$v) {
@@ -629,7 +694,7 @@ var render = function () {
         },
         [
           _c("claim-form", {
-            attrs: { payload: _vm.payload },
+            attrs: { payload: _vm.selectedItem },
             on: { cancel: _vm.cancel, save: _vm.save },
           }),
         ],

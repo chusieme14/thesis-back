@@ -23,7 +23,7 @@ export default {
         display: flex;
         justify-content: center;
         flex-direction: column;
-        background-color: #4caf50 ;
+        background-color: #006048 ;
     }
     .avatar-container{
         margin: 10px;

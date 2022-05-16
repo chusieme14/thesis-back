@@ -50,12 +50,12 @@ export default {
 <style scoped>
 .active-route {
     /* @apply bg-yellow-400; */
-    color: #070707 !important;
-    background-color: #3f8320;
+    color: white !important;
+    background-color: #006048;
 }
 .active-route div {
     /* @apply text-black; */
-    color: #070707 !important;
+    color: white !important;
 }
 .client-inner-container{
     width: calc(100% - 250px);

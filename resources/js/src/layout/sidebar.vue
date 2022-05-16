@@ -1,18 +1,17 @@
 <template>
     <v-navigation-drawer
         class=" accent-4"
-        dark
         width=350
         :mini-variant="drawer"
-        color="success"
+        color="white"
         permanent
     >
         <v-list>
             <v-img
-                lazy-src="/sample/sample_logo.png"
-                max-height="100"
-                max-width="200"
-                src="/sample/sample_logo.png"
+                lazy-src="/sample/nwssuseal2.png"
+                max-height="120"
+                max-width="250"
+                src="/sample/nwssuseal2.png"
             ></v-img>
             <v-list-item
                 v-for="item in Menuitems"
@@ -21,7 +20,7 @@
                 @click.stop="$route.name != item.name?$router.push({name: item.route}):''"
             >
                 <v-list-item-icon v-if="drawer">
-                    <v-tooltip right color="#3f8320">
+                    <v-tooltip right color="">
                         <template v-slot:activator="{ on, attrs }">
                             <v-icon
                                 v-bind="attrs"
@@ -40,7 +39,7 @@
 
         <template v-slot:append>
             <div class="pa-2">
-                <v-btn @click="logout" block color="success">
+                <v-btn @click="logout"  block color="white">
                     Logout
                 </v-btn>
             </div>
@@ -86,8 +85,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.active {
-	color: #070707 !important;
-    background-color: #3f8320;
-}
+    .active {
+        color: white !important;
+        background-color:#006048;
+    }
 </style>

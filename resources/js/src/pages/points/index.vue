@@ -62,11 +62,10 @@
       </v-card-text>
       <v-dialog
           v-model="isclaim"
-          persistent
           max-width="400px"
       >
           <claim-form 
-              :payload="payload" 
+              :payload="selectedItem" 
               @cancel="cancel"
               @save="save"
           ></claim-form>
@@ -148,6 +147,7 @@ export default {
     },
     methods:{
         claimPoints(val){
+            Object.assign(this.selectedItem, val)
             this.isclaim = true
         },
         addNew(){

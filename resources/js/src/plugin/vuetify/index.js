@@ -7,7 +7,14 @@ import '@mdi/font/css/materialdesignicons.css'
 Vue.use(Vuetify)
 
 const opts = {
-	
+	theme: {
+        themes: {
+            light: {
+                success: '#006048',
+                primary: '#f39c12'
+            },
+        },
+    },
 }
 
 export default new Vuetify(opts)

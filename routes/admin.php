@@ -29,6 +29,7 @@ Route::group(['middleware'=>['auth:web']],function(){
     Route::get('announcement/send/{id}',[AnnouncementController::class, 'send']);
     Route::resource('announcements',AnnouncementController::class);
     Route::resource('departments',DepartmentController::class);
+    Route::get('total-points/{graduate_id}',[PointController::class, 'totalPoints']);
     Route::resource('points',PointController::class);
     Route::get('countries' ,[CountryController::class,'all']);
     Route::get('get-civil-statistics' ,[DashboardController::class,'civilStatus']);
