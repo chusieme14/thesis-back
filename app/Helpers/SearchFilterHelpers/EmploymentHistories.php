@@ -16,6 +16,7 @@ class EmploymentHistories {
     {
         $this->searchColumns();
         $this->sortBy();
+        $this->byGraduate();
         
         $per_page = Request()->per_page;
         if ($per_page=='-1' || !isset(Request()->per_page)) return $this->model->paginate($this->model->count());
@@ -30,6 +31,13 @@ class EmploymentHistories {
             foreach ($searchable as $column) {
                 $this->model->orWhere($column, 'like', "%".$keyword."%");
             }
+        }
+    }
+
+    public function byGraduate()
+    {
+        if(Request()->graduate_id){
+            $this->model->where('graduate_id', Request()->graduate_id);
         }
     }
 

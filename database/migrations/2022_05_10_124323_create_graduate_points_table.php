@@ -18,6 +18,7 @@ class CreateGraduatePointsTable extends Migration
             $table->unsignedBigInteger('graduate_id');
             $table->integer('point');
             $table->integer('status')->default(1);
+            $table->string('exchangewith')->nullable();
             $table->timestamps();
         });
     }

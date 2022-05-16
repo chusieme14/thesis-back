@@ -33,6 +33,25 @@
                 {{item.status==1?"Active":"Claim"}}
             </template>
             <template v-slot:item.action="{ item }">
+                <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                            class="mx-2" 
+                            fab
+                            small
+                            color="primary"
+                            v-bind="attrs"
+                            v-on="on"
+                            :disabled="item.status==2"
+                            @click="claimPoints(item)"
+                        >
+                        <v-icon>
+                            mdi-cash
+                        </v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Claim</span>
+                </v-tooltip>
                 <!-- <table-action :item="item" 
                     @editItem="" 
                     @deleteItem="showDelete"
@@ -41,17 +60,17 @@
           </v-data-table>
 
       </v-card-text>
-      <!-- <v-dialog
-          v-model="showForm"
+      <v-dialog
+          v-model="isclaim"
           persistent
-          max-width="800px"
+          max-width="400px"
       >
-          <news-form 
+          <claim-form 
               :payload="payload" 
               @cancel="cancel"
               @save="save"
-          ></news-form>
-      </v-dialog> -->
+          ></claim-form>
+      </v-dialog>
         <confirm-dialog
             :details="details"
             :show="isdelete"
@@ -62,14 +81,16 @@
 </template>
 <script>
 // import GraduateFilter from './filter.vue'
-// import NewsForm from './form.vue'
+import ClaimForm from './claim-form.vue'
 export default {
     components:{
+        ClaimForm
     },
     data(){
         return {
           payload:{
-              image_base64:null
+              image_base64:null,
+              isall:0,
           },
           showForm:false,
           isupdate:false,
@@ -121,10 +142,14 @@ export default {
                 sortable: false,
                 value: 'action',
             },
-          ]
+          ],
+          isclaim:false
         }
     },
     methods:{
+        claimPoints(val){
+            this.isclaim = true
+        },
         addNew(){
             this.showForm = true
         },
@@ -172,7 +197,7 @@ export default {
             this.payload.description = ""
             this.payload.title = ""
             this.isupdate = false
-            this.showForm = false
+            this.isclaim = false
             this.isdelete = false
             this.details = {}
             this.selectedItem = {}

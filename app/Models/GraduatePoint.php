@@ -12,7 +12,7 @@ class GraduatePoint extends Model
     protected $table = 'graduate_points';
 
     protected $fillable = [
-        'graduate_id','point', 'status'
+        'graduate_id','point', 'status', 'exchangewith'
     ];
 
     public function graduate()

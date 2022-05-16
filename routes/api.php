@@ -21,6 +21,7 @@ use App\Http\Controllers\BackOffice\GraduateController;
 */
 Route::post('login' ,[AuthController::class,'login']);
 Route::get('courses' ,[CourseController::class,'all']);
+Route::get('countries' ,[CountryController::class,'all']);
 Route::post('register' ,[AuthController::class,'register']);
 Route::group(['middleware'=>['auth:api']],function(){
     Route::get('user-details' ,[AuthController::class,'details']);
@@ -30,6 +31,6 @@ Route::group(['middleware'=>['auth:api']],function(){
     Route::put('graduates/{id}' ,[ApiGraduateController::class,'updateInfo']);
     Route::put('update-graduate-profile/{id}' ,[ApiGraduateController::class,'updateProfile']);
     Route::put('update-graduate-password/{id}' ,[ApiGraduateController::class,'updatePassword']);
-    Route::get('countries' ,[CountryController::class,'all']);
+    // Route::get('countries' ,[CountryController::class,'all']);
     Route::get('posts' ,[PostController::class,'all']);
 });

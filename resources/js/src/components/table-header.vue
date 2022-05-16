@@ -73,6 +73,8 @@
             </div>
             <v-menu offset-y left nudge-bottom="5" :close-on-content-click="false">
                 <template v-slot:activator="{ on, attrs }">
+                    <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
                     <v-btn
                         fab
                         tile
@@ -84,6 +86,9 @@
                     >
                         <v-icon>mdi-filter-plus-outline</v-icon>
                     </v-btn>
+                    </template>
+                    <span>Filter</span>
+                    </v-tooltip>
                 </template>
                 <v-card min-width="300">
                     <v-card-text>
@@ -108,17 +113,24 @@
                     </v-card-actions>
                 </v-card>
             </v-menu>
-            <v-btn
-                fab
-                tile
-                color="success"
-                @click.stop="$emit('addNew')"
-                v-if="!hide.includes('addNew')"
-                :disabled="disable.includes('addNew')"
-                class="ml-3"
-            >
-                <v-icon>mdi-plus</v-icon>
-            </v-btn>
+            <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    v-bind="attrs"
+                    v-on="on"
+                    fab
+                    tile
+                    color="success"
+                    @click.stop="$emit('addNew')"
+                    v-if="!hide.includes('addNew')"
+                    :disabled="disable.includes('addNew')"
+                    class="ml-3"
+                >
+                    <v-icon>mdi-plus</v-icon>
+                </v-btn>
+            </template>
+                <span>Add new</span>
+            </v-tooltip>
         </div>
     </v-toolbar>
 </template>

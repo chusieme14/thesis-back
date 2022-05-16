@@ -3,6 +3,8 @@
         <v-card-text>
             <table-header
                 :data="data"
+                @refresh="fetchPage"
+                @search="fetchPage"
                 :hide="['filter','addNew']"
             >
                 <template v-slot:custom_filter>
@@ -90,9 +92,7 @@ export default {
     methods:{
         fetchPage(){
             this.data.isFetching = true
-            let params = this._createParams(this.options);
-            params = params + this._createFilterParams(this.data.filter)
-            console.log(this.data.keyword,"keyword")
+            let params = 'graduate_id=' +this.$route.params.graduates_id
             if(this.data.keyword)
                 params = params + '&keyword=' + this.data.keyword
             axios.get(`/admin/graduates-employment-history?${params}`).then(({data})=>{
