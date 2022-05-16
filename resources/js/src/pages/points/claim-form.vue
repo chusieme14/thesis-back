@@ -24,7 +24,7 @@
             </div>
             <div class="form-main-container">
                 <v-btn @click="claimId" class="mr-5" x-large color="success">Id</v-btn>
-                <v-btn @click="$emit('claimLoad')" x-large color="success">Load</v-btn>
+                <v-btn @click="claimLoad" x-large color="success">Load</v-btn>
             </div>
         </v-card-text>
         <!-- <v-card-actions>
@@ -39,7 +39,7 @@
             top
             color="red accent-2"
         >
-            Point's is not enough to get a free Id
+            {{message}}
         </v-snackbar>
     </v-card>
 </template>
@@ -52,7 +52,8 @@ export default {
         return{
             totalPoints:0,
             isall:0,
-            isInsufficient:false
+            isInsufficient:false,
+            message:null
         }
     },
     methods:{
@@ -63,13 +64,19 @@ export default {
         },
         claimId(){
             if(this.totalPoints < 300){
+                this.message = 'Point\'s is not enough to get a free Id '+ this.totalPoints+'/300'
                 this.isInsufficient = true
                 setTimeout(() => {
                     this.isInsufficient = false
                 }, 3000);
                 return
             }
+            this.payload.isall = this.isall
             this.$emit('claimId')
+        },
+        claimLoad(){
+            this.payload.isall = this.isall
+            this.$emit('claimLoad')
         }
     },
     mounted(){
@@ -80,6 +87,8 @@ export default {
             handler(val){
                 if(val){
                     this.getTotalPoints()
+                }else{
+                    this.totalPoints = this.payload.point
                 }
             },immediate:true
         },

@@ -39,7 +39,7 @@
 
         <template v-slot:append>
             <div class="pa-2">
-                <v-btn @click="logout"  block color="white">
+                <v-btn class="class-logout" @click="logout" block color="#006048">
                     Logout
                 </v-btn>
             </div>
@@ -88,5 +88,8 @@ export default {
     .active {
         color: white !important;
         background-color:#006048;
+    }
+    .class-logout{
+        color: white !important;
     }
 </style>

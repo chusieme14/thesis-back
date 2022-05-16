@@ -39,7 +39,7 @@
                             class="mx-2" 
                             fab
                             small
-                            color="primary"
+                            color="success"
                             v-bind="attrs"
                             v-on="on"
                             :disabled="item.status==2"
@@ -67,7 +67,8 @@
           <claim-form 
               :payload="selectedItem" 
               @cancel="cancel"
-              @save="save"
+              @claimLoad="claimLoad"
+              @claimId="claimId"
           ></claim-form>
       </v-dialog>
         <confirm-dialog
@@ -136,6 +137,18 @@ export default {
                 value: 'status',
             },
             {
+                text: 'Claim by',
+                align: 'start',
+                sortable: true,
+                value: 'exchangewith',
+            },
+            {
+                text: 'Claim date',
+                align: 'start',
+                sortable: true,
+                value: 'claim_date',
+            },
+            {
                 text: 'Actions',
                 align: 'start',
                 sortable: false,
@@ -146,6 +159,18 @@ export default {
         }
     },
     methods:{
+        claimLoad(){
+            axios.put(`/admin/claim-load-points/${this.selectedItem.id}`, this.selectedItem).then(({data})=>{
+                this.fetchPage()
+                this.clear()
+            })
+        },
+        claimId(){
+            axios.put(`/admin/claim-id-points/${this.selectedItem.id}`, this.selectedItem).then(({data})=>{
+                this.fetchPage()
+                this.clear()
+            })
+        },
         claimPoints(val){
             Object.assign(this.selectedItem, val)
             this.isclaim = true

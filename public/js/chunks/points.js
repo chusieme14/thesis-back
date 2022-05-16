@@ -62,7 +62,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       totalPoints: 0,
       isall: 0,
-      isInsufficient: false
+      isInsufficient: false,
+      message: null
     };
   },
   methods: {
@@ -78,6 +79,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       if (this.totalPoints < 300) {
+        this.message = 'Point\'s is not enough to get a free Id ' + this.totalPoints + '/300';
         this.isInsufficient = true;
         setTimeout(function () {
           _this2.isInsufficient = false;
@@ -85,7 +87,12 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
+      this.payload.isall = this.isall;
       this.$emit('claimId');
+    },
+    claimLoad: function claimLoad() {
+      this.payload.isall = this.isall;
+      this.$emit('claimLoad');
     }
   },
   mounted: function mounted() {},
@@ -94,6 +101,8 @@ __webpack_require__.r(__webpack_exports__);
       handler: function handler(val) {
         if (val) {
           this.getTotalPoints();
+        } else {
+          this.totalPoints = this.payload.point;
         }
       },
       immediate: true
@@ -119,6 +128,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _claim_form_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./claim-form.vue */ "./resources/js/src/pages/points/claim-form.vue");
+//
 //
 //
 //
@@ -251,6 +261,16 @@ __webpack_require__.r(__webpack_exports__);
         sortable: true,
         value: 'status'
       }, {
+        text: 'Claim by',
+        align: 'start',
+        sortable: true,
+        value: 'exchangewith'
+      }, {
+        text: 'Claim date',
+        align: 'start',
+        sortable: true,
+        value: 'claim_date'
+      }, {
         text: 'Actions',
         align: 'start',
         sortable: false,
@@ -260,6 +280,28 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    claimLoad: function claimLoad() {
+      var _this = this;
+
+      axios.put("/admin/claim-load-points/".concat(this.selectedItem.id), this.selectedItem).then(function (_ref) {
+        var data = _ref.data;
+
+        _this.fetchPage();
+
+        _this.clear();
+      });
+    },
+    claimId: function claimId() {
+      var _this2 = this;
+
+      axios.put("/admin/claim-id-points/".concat(this.selectedItem.id), this.selectedItem).then(function (_ref2) {
+        var data = _ref2.data;
+
+        _this2.fetchPage();
+
+        _this2.clear();
+      });
+    },
     claimPoints: function claimPoints(val) {
       Object.assign(this.selectedItem, val);
       this.isclaim = true;
@@ -268,7 +310,7 @@ __webpack_require__.r(__webpack_exports__);
       this.showForm = true;
     },
     fetchPage: function fetchPage() {
-      var _this = this;
+      var _this3 = this;
 
       this.data.isFetching = true;
 
@@ -282,34 +324,34 @@ __webpack_require__.r(__webpack_exports__);
 
       console.log(this.data.keyword, "keyword");
       if (this.data.keyword) params = params + '&keyword=' + this.data.keyword;
-      axios.get("/admin/points?".concat(params)).then(function (_ref) {
-        var data = _ref.data;
-        _this.points = data.data;
-        _this.data.isFetching = false;
-        _this.total = data.total;
+      axios.get("/admin/points?".concat(params)).then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.points = data.data;
+        _this3.data.isFetching = false;
+        _this3.total = data.total;
       });
     },
     resetFilter: function resetFilter() {},
     save: function save() {
-      var _this2 = this;
+      var _this4 = this;
 
       if (this.isupdate) {
-        axios.put("/admin/news/".concat(this.payload.id), this.payload).then(function (_ref2) {
-          var data = _ref2.data;
+        axios.put("/admin/news/".concat(this.payload.id), this.payload).then(function (_ref4) {
+          var data = _ref4.data;
 
-          _this2.fetchPage();
+          _this4.fetchPage();
 
-          _this2.clear();
+          _this4.clear();
         });
         return;
       }
 
-      axios.post("/admin/news", this.payload).then(function (_ref3) {
-        var data = _ref3.data;
+      axios.post("/admin/news", this.payload).then(function (_ref5) {
+        var data = _ref5.data;
 
-        _this2.fetchPage();
+        _this4.fetchPage();
 
-        _this2.clear();
+        _this4.clear();
       });
     },
     cancel: function cancel() {
@@ -338,14 +380,14 @@ __webpack_require__.r(__webpack_exports__);
       this.isdelete = true;
     },
     remove: function remove() {
-      var _this3 = this;
+      var _this5 = this;
 
-      axios["delete"]("/admin/news/".concat(this.selectedItem.id)).then(function (_ref4) {
-        var data = _ref4.data;
+      axios["delete"]("/admin/news/".concat(this.selectedItem.id)).then(function (_ref6) {
+        var data = _ref6.data;
 
-        _this3.fetchPage();
+        _this5.fetchPage();
 
-        _this3.cancel();
+        _this5.cancel();
       });
     }
   }
@@ -491,11 +533,7 @@ var render = function () {
               "v-btn",
               {
                 attrs: { "x-large": "", color: "success" },
-                on: {
-                  click: function ($event) {
-                    return _vm.$emit("claimLoad")
-                  },
-                },
+                on: { click: _vm.claimLoad },
               },
               [_vm._v("Load")]
             ),
@@ -516,7 +554,7 @@ var render = function () {
             expression: "isInsufficient",
           },
         },
-        [_vm._v("\n        Point's is not enough to get a free Id\n    ")]
+        [_vm._v("\n        " + _vm._s(_vm.message) + "\n    ")]
       ),
     ],
     1
@@ -637,7 +675,7 @@ var render = function () {
                                           attrs: {
                                             fab: "",
                                             small: "",
-                                            color: "primary",
+                                            color: "success",
                                             disabled: item.status == 2,
                                           },
                                           on: {
@@ -695,7 +733,11 @@ var render = function () {
         [
           _c("claim-form", {
             attrs: { payload: _vm.selectedItem },
-            on: { cancel: _vm.cancel, save: _vm.save },
+            on: {
+              cancel: _vm.cancel,
+              claimLoad: _vm.claimLoad,
+              claimId: _vm.claimId,
+            },
           }),
         ],
         1

@@ -29,6 +29,8 @@ Route::group(['middleware'=>['auth:web']],function(){
     Route::get('announcement/send/{id}',[AnnouncementController::class, 'send']);
     Route::resource('announcements',AnnouncementController::class);
     Route::resource('departments',DepartmentController::class);
+    Route::put('claim-load-points/{point_id}',[PointController::class, 'claimLoadPoints']);
+    Route::put('claim-id-points/{point_id}',[PointController::class, 'claimId']);
     Route::get('total-points/{graduate_id}',[PointController::class, 'totalPoints']);
     Route::resource('points',PointController::class);
     Route::get('countries' ,[CountryController::class,'all']);

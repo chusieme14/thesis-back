@@ -30,7 +30,10 @@ class Points  {
         if(Request()->keyword && Request()->keyword!="null"){
             $keyword = Request()->keyword;
             foreach ($searchable as $column) {
-                $this->model->orWhere($column, 'like', "%".$keyword."%");
+                $this->model->whereHas('graduate', function($q) use($keyword){
+                    $q->whereRaw("CONCAT(TRIM(`first_name`),' ', TRIM(`last_name`)) LIKE "."'%" .$keyword. "%'");
+                });
+                // $this->model->orWhere($column, 'like', "%".$keyword."%");
             }
         }
     }
