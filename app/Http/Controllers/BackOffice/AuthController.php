@@ -41,4 +41,9 @@ class AuthController extends Controller
 
         return "success";
     }
+
+    public function getLoginUser()
+    {
+        return Auth::User();
+    }
 }

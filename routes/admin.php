@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PointController;
 use App\Http\Controllers\Api\CountryController;
+use App\Http\Controllers\BackOffice\AdminController;
 use App\Http\Controllers\BackOffice\AuthController;
 use App\Http\Controllers\BackOffice\NewsController;
 use App\Http\Controllers\BackOffice\CourseController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\BackOffice\EmploymentHistoryController;
 Route::get('checkuser',[AuthController::class,'checkUser']);
 Route::post('login',[AuthController::class,'login']);
 Route::group(['middleware'=>['auth:web']],function(){
+    Route::get('get-user',[AuthController::class,'getLoginUser']);
     Route::get('logout',[AuthController::class,'logout']);
     
     Route::post('graduates/upload-file',[GraduateController::class, 'fileImport']);
@@ -22,6 +24,8 @@ Route::group(['middleware'=>['auth:web']],function(){
     Route::delete('graduates/temp-uploads/{session}/remove',[GraduateController::class, 'removeTempUploads']);
     Route::get('graduates/temp-uploads/{session}/save',[GraduateController::class, 'saveMultiple']);
     Route::resource('graduates',GraduateController::class);
+    Route::get('check-email',[AdminController::class, 'checkEmail']);
+    Route::resource('admins',AdminController::class);
     Route::resource('graduates-employment-history',EmploymentHistoryController::class);
     Route::resource('courses',CourseController::class);
     Route::resource('news',NewsController::class);

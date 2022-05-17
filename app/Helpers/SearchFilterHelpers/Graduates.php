@@ -18,6 +18,7 @@ class Graduates {
         $this->searchColumns();
         $this->sortBy();
         $this->byBatch();
+        $this->byCourse();
         $per_page = Request()->per_page;
         if ($per_page=='-1' || !isset(Request()->per_page)) return $this->model->paginate($this->model->count());
         return $this->model->paginate($per_page);
@@ -40,6 +41,12 @@ class Graduates {
     public function byBatch(){
         if(Request()->batch){
             $this->model->where('batch', 'like', '%'.Request()->batch.'%');
+        }
+    }
+
+    public function byCourse(){
+        if(Request()->course_id){
+            $this->model->where('course_id', Request()->course_id);
         }
     }
 

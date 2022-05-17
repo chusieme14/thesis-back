@@ -1,6 +1,6 @@
 export default [
     {
-        name:'dashboard',
+        name:'Reports',
         icon:'mdi-view-dashboard',
         route:'dashboard'
     },
@@ -33,5 +33,10 @@ export default [
         name:'Points',
         icon:'mdi-seal',
         route:'points'
+    },
+    {
+        name:'Admins',
+        icon:'mdi-account-group',
+        route:'admins'
     },
 ]

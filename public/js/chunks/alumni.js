@@ -2493,7 +2493,7 @@ __webpack_require__.r(__webpack_exports__);
         stroke: {
           colors: ['#fff']
         },
-        labels: ['Yes', 'No', 'No data'],
+        labels: ['Employed', 'Unemployed', 'No data'],
         // title:{
         //     text: "Employment",
         // },

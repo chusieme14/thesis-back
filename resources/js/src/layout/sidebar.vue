@@ -10,7 +10,7 @@
             <v-img
                 lazy-src="/sample/nwssuseal2.png"
                 max-height="120"
-                max-width="250"
+                max-width="290"
                 src="/sample/nwssuseal2.png"
             ></v-img>
             <v-list-item

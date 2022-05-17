@@ -18,5 +18,18 @@ class Admin extends Authenticatable
         'email',
         'password',
         'avatar',
+        'department_id',
     ];
+    protected $with = ['department'];
+    protected $appends = ['fullname'];
+    protected $hidden = ['password'];
+
+    public function getFullNameAttribute(){
+        return ucfirst($this->first_name). ' '. ucfirst($this->last_name);
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

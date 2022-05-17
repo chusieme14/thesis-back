@@ -1,6 +1,11 @@
 <template>
     <div class="main-container">
-        <v-app-bar-nav-icon @click="$emit('setDrawer',!drawer)"></v-app-bar-nav-icon>
+        <div class="main-inner-container">
+            <v-app-bar-nav-icon class="inner-nav" @click="$emit('setDrawer',!drawer)"></v-app-bar-nav-icon>
+            <div class="inner-text">
+                <h2>NwSSU ALUMNI WEB TRACER</h2>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -30,5 +35,17 @@ export default {
         span{
             font-weight: 600;
         }
+    }
+    .main-inner-container{
+        display: flex;
+    }
+    .inner-text{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        color: white;
+    }
+    .inner-nav{
+        color: white !important;
     }
 </style>

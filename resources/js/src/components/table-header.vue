@@ -73,8 +73,8 @@
             </div>
             <v-menu offset-y left nudge-bottom="5" :close-on-content-click="false">
                 <template v-slot:activator="{ on, attrs }">
-                    <v-tooltip top>
-                    <template v-slot:activator="{ on, attrs }">
+                    <!-- <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }"> -->
                     <v-btn
                         fab
                         tile
@@ -86,9 +86,9 @@
                     >
                         <v-icon>mdi-filter-plus-outline</v-icon>
                     </v-btn>
-                    </template>
-                    <span>Filter</span>
-                    </v-tooltip>
+                    <!-- </template> -->
+                    <!-- <span>Filter</span>
+                    </v-tooltip> -->
                 </template>
                 <v-card min-width="300">
                     <v-card-text>

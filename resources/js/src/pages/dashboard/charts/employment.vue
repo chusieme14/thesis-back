@@ -43,7 +43,7 @@ export default {
                 stroke: {
                     colors: ['#fff']
                 },
-                labels:['Yes', 'No', 'No data'],
+                labels:['Employed', 'Unemployed', 'No data'],
                 // title:{
                 //     text: "Employment",
                 // },
