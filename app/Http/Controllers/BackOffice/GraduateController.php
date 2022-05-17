@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\tempGraduate;
 use Illuminate\Http\Request;
 use App\Imports\GraduatesImport;
+use App\Models\EmploymentHistory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
@@ -59,7 +60,10 @@ class GraduateController extends Controller
         if($graduate->detail){
             $graduate->detail->update($request->detail);
             if($request->detail['company_name']){
-                $graduate->empHistory()->create($request->detail);
+                $history = EmploymentHistory::where('graduate_id', $id)->orderBy('created_at', 'desc')->first();
+                if($history->company_name != $request->detail['company_name']){
+                    $graduate->empHistory()->create($request->detail);
+                }
             }
         }else{
             $graduate->detail()->create($request->detail);

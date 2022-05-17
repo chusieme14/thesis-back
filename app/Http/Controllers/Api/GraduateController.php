@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\EmploymentHistory;
 use App\Models\Graduate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -17,7 +18,10 @@ class GraduateController extends Controller
         if($graduate->detail){
             $graduate->detail->update($request->detail);
             if($request->detail['company_name']){
-                $graduate->empHistory()->create($request->detail);
+                $history = EmploymentHistory::where('graduate_id', $id)->orderBy('created_at', 'desc')->first();
+                if($history->company_name != $request->detail['company_name']){
+                    $graduate->empHistory()->create($request->detail);
+                }
             }
         }else{
             $graduate->detail()->create($request->detail);
