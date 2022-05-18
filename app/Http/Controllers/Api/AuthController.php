@@ -49,7 +49,7 @@ class AuthController extends Controller
         ]);
         if($request->detail){
             $graduate->detail()->create($request->detail);
-            if($request->detail['company_name']){
+            if(isset($request->detail['company_name'])){
                 $graduate->empHistory()->create($request->detail);
             }
         }
