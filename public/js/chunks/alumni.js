@@ -1904,8 +1904,43 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1931,7 +1966,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default.a
+    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default.a
   },
   // props:{
   //     data:{}
@@ -1949,7 +1984,7 @@ __webpack_require__.r(__webpack_exports__);
         stroke: {
           colors: ['#fff']
         },
-        labels: ['Baccalaureate', 'Masteral', 'Doctorate', 'No data'],
+        labels: ['Baccalaureate', 'Masteral', 'Doctorate'],
         // title:{
         //     text: "Highest Educational Attainment"
         // },
@@ -1969,7 +2004,12 @@ __webpack_require__.r(__webpack_exports__);
         }]
       },
       isattainment: false,
-      batch: null
+      batch: null,
+      department_id: null,
+      course_id: null,
+      courses: [],
+      departments: [],
+      hasdata: false
     };
   },
   methods: {
@@ -1977,29 +2017,100 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.isattainment = false;
+      this.hasdata = false;
       var params = '';
 
-      if (this.$route.params.department_id) {
-        params = params + '&department_id=' + this.$route.params.department_id;
+      if (this.department_id) {
+        localStorage.setItem('department_id', this.department_id);
+        localStorage.removeItem('course_id');
+        params = params + '&department_id=' + this.department_id;
       }
 
-      if (this.$route.params.course_id) {
-        params = params + '&course_id=' + this.$route.params.course_id;
+      if (this.course_id) {
+        localStorage.setItem('course_id', this.course_id);
+        params = params + '&course_id=' + this.course_id;
       }
 
       if (this.batch) {
+        localStorage.setItem('batch', this.batch);
         params = params + '&batch=' + this.batch;
       }
 
       axios.get("/admin/get-attainment?".concat(params)).then(function (_ref) {
         var data = _ref.data;
         _this.series = data;
+
+        _this.series.forEach(function (element) {
+          if (element > 0) _this.hasdata = true;
+        });
+
         _this.isattainment = true;
+      });
+    },
+    getCourses: function getCourses() {
+      var _this2 = this;
+
+      var params = '';
+
+      if (this.department_id) {
+        params = 'department_id=' + this.department_id;
+      }
+
+      axios.get("/admin/courses?".concat(params)).then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.courses = data.data;
+      });
+    },
+    getDepartments: function getDepartments() {
+      var _this3 = this;
+
+      axios.get("/admin/departments").then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.departments = data.data;
       });
     }
   },
-  mounted: function mounted() {
-    this.getAttainment();
+  created: function created() {
+    var _this4 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return parseInt(localStorage.getItem('department_id'));
+
+            case 2:
+              _this4.department_id = _context.sent;
+              _context.next = 5;
+              return parseInt(localStorage.getItem('course_id'));
+
+            case 5:
+              _this4.course_id = _context.sent;
+              _context.next = 8;
+              return localStorage.getItem('batch');
+
+            case 8:
+              _this4.batch = _context.sent;
+              _context.next = 11;
+              return _this4.getDepartments();
+
+            case 11:
+              _context.next = 13;
+              return _this4.getCourses();
+
+            case 13:
+              _context.next = 15;
+              return _this4.getAttainment();
+
+            case 15:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   computed: {
     years: function years() {
@@ -2066,6 +2177,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2088,7 +2226,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         stroke: {
           colors: ['#fff']
         },
-        labels: ['Single', 'Married', 'Separated', 'Widowed', 'No data'],
+        labels: ['Single', 'Married', 'Separated', 'Widowed'],
         fill: {
           opacity: 0.8
         },
@@ -2106,7 +2244,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       // civil_status:[],
       iscivil: false,
-      batch: null
+      batch: null,
+      department_id: null,
+      course_id: null,
+      courses: [],
+      departments: [],
+      hasdata: false
     };
   },
   methods: {
@@ -2120,39 +2263,110 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _this.iscivil = false;
+                _this.hasdata = false;
                 params = '';
 
-                if (_this.$route.params.department_id) {
-                  params = params + '&department_id=' + _this.$route.params.department_id;
+                if (_this.department_id) {
+                  localStorage.setItem('department_id', _this.department_id);
+                  _this.course_id = null;
+                  localStorage.removeItem('course_id');
+                  params = params + '&department_id=' + _this.department_id;
                 }
 
-                if (_this.$route.params.course_id) {
-                  params = params + '&course_id=' + _this.$route.params.course_id;
+                if (_this.course_id) {
+                  localStorage.setItem('course_id', _this.course_id);
+                  params = params + '&course_id=' + _this.course_id;
                 }
 
                 if (_this.batch) {
+                  localStorage.setItem('batch', _this.batch);
                   params = params + '&batch=' + _this.batch;
                 }
 
-                _context.next = 7;
+                _context.next = 8;
                 return axios.get("/admin/get-civil-statistics?".concat(params)).then(function (_ref) {
                   var data = _ref.data;
                   _this.series = data;
+
+                  _this.series.forEach(function (element) {
+                    if (element > 0) _this.hasdata = true;
+                  });
+
                   _this.iscivil = true;
                 });
 
-              case 7:
+              case 8:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
+    },
+    getCourses: function getCourses() {
+      var _this2 = this;
+
+      var params = '';
+
+      if (this.department_id) {
+        params = 'department_id=' + this.department_id;
+      }
+
+      axios.get("/admin/courses?".concat(params)).then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.courses = data.data;
+      });
+    },
+    getDepartments: function getDepartments() {
+      var _this3 = this;
+
+      axios.get("/admin/departments").then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.departments = data.data;
+      });
     }
   },
   created: function created() {
-    this.getCivilStatus();
-    console.log(this.$route.params.department_id, "sajdgsadhjdg");
+    var _this4 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return parseInt(localStorage.getItem('department_id'));
+
+            case 2:
+              _this4.department_id = _context2.sent;
+              _context2.next = 5;
+              return parseInt(localStorage.getItem('course_id'));
+
+            case 5:
+              _this4.course_id = _context2.sent;
+              _context2.next = 8;
+              return localStorage.getItem('batch');
+
+            case 8:
+              _this4.batch = _context2.sent;
+              _context2.next = 11;
+              return _this4.getDepartments();
+
+            case 11:
+              _context2.next = 13;
+              return _this4.getCourses();
+
+            case 13:
+              _context2.next = 15;
+              return _this4.getCivilStatus();
+
+            case 15:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
   },
   computed: {
     years: function years() {
@@ -2187,8 +2401,43 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2214,7 +2463,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default.a
+    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default.a
   },
   // props:{
   //     data:{}
@@ -2232,7 +2481,7 @@ __webpack_require__.r(__webpack_exports__);
         stroke: {
           colors: ['#fff']
         },
-        labels: ['Yes', 'No', 'No data'],
+        labels: ['Yes', 'No'],
         // title:{
         //     text: "Relevance of the Curriculum",
         // },
@@ -2252,7 +2501,12 @@ __webpack_require__.r(__webpack_exports__);
         }]
       },
       iscurriculum: false,
-      batch: null
+      batch: null,
+      department_id: null,
+      course_id: null,
+      courses: [],
+      departments: [],
+      hasdata: false
     };
   },
   methods: {
@@ -2260,29 +2514,100 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.iscurriculum = false;
+      this.hasdata = false;
       var params = '';
 
-      if (this.$route.params.department_id) {
-        params = params + '&department_id=' + this.$route.params.department_id;
+      if (this.department_id) {
+        localStorage.setItem('department_id', this.department_id);
+        localStorage.removeItem('course_id');
+        params = params + '&department_id=' + this.department_id;
       }
 
-      if (this.$route.params.course_id) {
-        params = params + '&course_id=' + this.$route.params.course_id;
+      if (this.course_id) {
+        localStorage.setItem('course_id', this.course_id);
+        params = params + '&course_id=' + this.course_id;
       }
 
       if (this.batch) {
+        localStorage.setItem('batch', this.batch);
         params = params + '&batch=' + this.batch;
       }
 
       axios.get("/admin/get-curriculum?".concat(params)).then(function (_ref) {
         var data = _ref.data;
         _this.series = data;
+
+        _this.series.forEach(function (element) {
+          if (element > 0) _this.hasdata = true;
+        });
+
         _this.iscurriculum = true;
+      });
+    },
+    getCourses: function getCourses() {
+      var _this2 = this;
+
+      var params = '';
+
+      if (this.department_id) {
+        params = 'department_id=' + this.department_id;
+      }
+
+      axios.get("/admin/courses?".concat(params)).then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.courses = data.data;
+      });
+    },
+    getDepartments: function getDepartments() {
+      var _this3 = this;
+
+      axios.get("/admin/departments").then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.departments = data.data;
       });
     }
   },
-  mounted: function mounted() {
-    this.getCurriculum();
+  created: function created() {
+    var _this4 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return parseInt(localStorage.getItem('department_id'));
+
+            case 2:
+              _this4.department_id = _context.sent;
+              _context.next = 5;
+              return parseInt(localStorage.getItem('course_id'));
+
+            case 5:
+              _this4.course_id = _context.sent;
+              _context.next = 8;
+              return localStorage.getItem('batch');
+
+            case 8:
+              _this4.batch = _context.sent;
+              _context.next = 11;
+              return _this4.getDepartments();
+
+            case 11:
+              _context.next = 13;
+              return _this4.getCourses();
+
+            case 13:
+              _context.next = 15;
+              return _this4.getCurriculum();
+
+            case 15:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   computed: {
     years: function years() {
@@ -2317,8 +2642,43 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2344,7 +2704,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default.a
+    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default.a
   },
   // props:{
   //     data:{}
@@ -2362,7 +2722,7 @@ __webpack_require__.r(__webpack_exports__);
         stroke: {
           colors: ['#fff']
         },
-        labels: ['Contractual', 'Permanent', 'Self-employed', 'Casual', 'Not Applicable'],
+        labels: ['Contractual', 'Permanent', 'Self-employed', 'Casual'],
         // title:{
         //     text: "Employment status",
         // },
@@ -2382,7 +2742,12 @@ __webpack_require__.r(__webpack_exports__);
         }]
       },
       isemploymentstatus: false,
-      batch: null
+      batch: null,
+      department_id: null,
+      course_id: null,
+      courses: [],
+      departments: [],
+      hasdata: false
     };
   },
   methods: {
@@ -2390,29 +2755,100 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.isemploymentstatus = false;
+      this.hasdata = false;
       var params = '';
 
-      if (this.$route.params.department_id) {
-        params = params + '&department_id=' + this.$route.params.department_id;
+      if (this.department_id) {
+        localStorage.setItem('department_id', this.department_id);
+        localStorage.removeItem('course_id');
+        params = params + '&department_id=' + this.department_id;
       }
 
-      if (this.$route.params.course_id) {
-        params = params + '&course_id=' + this.$route.params.course_id;
+      if (this.course_id) {
+        localStorage.setItem('course_id', this.course_id);
+        params = params + '&course_id=' + this.course_id;
       }
 
       if (this.batch) {
+        localStorage.setItem('batch', this.batch);
         params = params + '&batch=' + this.batch;
       }
 
       axios.get("/admin/get-employment-status?".concat(params)).then(function (_ref) {
         var data = _ref.data;
         _this.series = data;
+
+        _this.series.forEach(function (element) {
+          if (element > 0) _this.hasdata = true;
+        });
+
         _this.isemploymentstatus = true;
+      });
+    },
+    getCourses: function getCourses() {
+      var _this2 = this;
+
+      var params = '';
+
+      if (this.department_id) {
+        params = 'department_id=' + this.department_id;
+      }
+
+      axios.get("/admin/courses?".concat(params)).then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.courses = data.data;
+      });
+    },
+    getDepartments: function getDepartments() {
+      var _this3 = this;
+
+      axios.get("/admin/departments").then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.departments = data.data;
       });
     }
   },
-  mounted: function mounted() {
-    this.getEmploymentStatus();
+  created: function created() {
+    var _this4 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return parseInt(localStorage.getItem('department_id'));
+
+            case 2:
+              _this4.department_id = _context.sent;
+              _context.next = 5;
+              return parseInt(localStorage.getItem('course_id'));
+
+            case 5:
+              _this4.course_id = _context.sent;
+              _context.next = 8;
+              return localStorage.getItem('batch');
+
+            case 8:
+              _this4.batch = _context.sent;
+              _context.next = 11;
+              return _this4.getDepartments();
+
+            case 11:
+              _context.next = 13;
+              return _this4.getCourses();
+
+            case 13:
+              _context.next = 15;
+              return _this4.getEmploymentStatus();
+
+            case 15:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   computed: {
     years: function years() {
@@ -2447,8 +2883,43 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2474,7 +2945,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default.a
+    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default.a
   },
   // props:{
   //     data:{}
@@ -2493,7 +2964,7 @@ __webpack_require__.r(__webpack_exports__);
         stroke: {
           colors: ['#fff']
         },
-        labels: ['Employed', 'Unemployed', 'No data'],
+        labels: ['Employed', 'Unemployed'],
         // title:{
         //     text: "Employment",
         // },
@@ -2513,7 +2984,12 @@ __webpack_require__.r(__webpack_exports__);
         }]
       },
       isemployment: false,
-      batch: null
+      batch: null,
+      department_id: null,
+      course_id: null,
+      courses: [],
+      departments: [],
+      hasdata: false
     };
   },
   methods: {
@@ -2521,29 +2997,100 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.isemployment = false;
+      this.hasdata = false;
       var params = '';
 
-      if (this.$route.params.department_id) {
-        params = params + '&department_id=' + this.$route.params.department_id;
+      if (this.department_id) {
+        localStorage.setItem('department_id', this.department_id);
+        localStorage.removeItem('course_id');
+        params = params + '&department_id=' + this.department_id;
       }
 
-      if (this.$route.params.course_id) {
-        params = params + '&course_id=' + this.$route.params.course_id;
+      if (this.course_id) {
+        localStorage.setItem('course_id', this.course_id);
+        params = params + '&course_id=' + this.course_id;
       }
 
       if (this.batch) {
+        localStorage.setItem('batch', this.batch);
         params = params + '&batch=' + this.batch;
       }
 
       axios.get("/admin/get-employment?".concat(params)).then(function (_ref) {
         var data = _ref.data;
         _this.series = data;
+
+        _this.series.forEach(function (element) {
+          if (element > 0) _this.hasdata = true;
+        });
+
         _this.isemployment = true;
+      });
+    },
+    getCourses: function getCourses() {
+      var _this2 = this;
+
+      var params = '';
+
+      if (this.department_id) {
+        params = 'department_id=' + this.department_id;
+      }
+
+      axios.get("/admin/courses?".concat(params)).then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.courses = data.data;
+      });
+    },
+    getDepartments: function getDepartments() {
+      var _this3 = this;
+
+      axios.get("/admin/departments").then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.departments = data.data;
       });
     }
   },
-  mounted: function mounted() {
-    this.getEmployment();
+  created: function created() {
+    var _this4 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return parseInt(localStorage.getItem('department_id'));
+
+            case 2:
+              _this4.department_id = _context.sent;
+              _context.next = 5;
+              return parseInt(localStorage.getItem('course_id'));
+
+            case 5:
+              _this4.course_id = _context.sent;
+              _context.next = 8;
+              return localStorage.getItem('batch');
+
+            case 8:
+              _this4.batch = _context.sent;
+              _context.next = 11;
+              return _this4.getDepartments();
+
+            case 11:
+              _context.next = 13;
+              return _this4.getCourses();
+
+            case 13:
+              _context.next = 15;
+              return _this4.getEmployment();
+
+            case 15:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   computed: {
     years: function years() {
@@ -2578,8 +3125,43 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2605,7 +3187,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default.a
+    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default.a
   },
   data: function data() {
     return {
@@ -2621,7 +3203,7 @@ __webpack_require__.r(__webpack_exports__);
         stroke: {
           colors: ['#fff']
         },
-        labels: ['Male', 'Female', 'No data'],
+        labels: ['Male', 'Female', 'Transgender', 'Non-binary', 'Prefer not to respond'],
         // title:{
         //     text: "Gender"
         // },
@@ -2641,7 +3223,12 @@ __webpack_require__.r(__webpack_exports__);
         }]
       },
       isgender: false,
-      batch: null
+      batch: null,
+      department_id: null,
+      course_id: null,
+      courses: [],
+      departments: [],
+      hasdata: false
     };
   },
   methods: {
@@ -2649,29 +3236,100 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.isgender = false;
+      this.hasdata = false;
       var params = '';
 
-      if (this.$route.params.department_id) {
-        params = params + '&department_id=' + this.$route.params.department_id;
+      if (this.department_id) {
+        localStorage.setItem('department_id', this.department_id);
+        localStorage.removeItem('course_id');
+        params = params + '&department_id=' + this.department_id;
       }
 
-      if (this.$route.params.course_id) {
-        params = params + '&course_id=' + this.$route.params.course_id;
+      if (this.course_id) {
+        localStorage.setItem('course_id', this.course_id);
+        params = params + '&course_id=' + this.course_id;
       }
 
       if (this.batch) {
+        localStorage.setItem('batch', this.batch);
         params = params + '&batch=' + this.batch;
       }
 
       axios.get("/admin/get-gender?".concat(params)).then(function (_ref) {
         var data = _ref.data;
         _this.series = data;
+
+        _this.series.forEach(function (element) {
+          if (element > 0) _this.hasdata = true;
+        });
+
         _this.isgender = true;
+      });
+    },
+    getCourses: function getCourses() {
+      var _this2 = this;
+
+      var params = '';
+
+      if (this.department_id) {
+        params = 'department_id=' + this.department_id;
+      }
+
+      axios.get("/admin/courses?".concat(params)).then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.courses = data.data;
+      });
+    },
+    getDepartments: function getDepartments() {
+      var _this3 = this;
+
+      axios.get("/admin/departments").then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.departments = data.data;
       });
     }
   },
-  mounted: function mounted() {
-    this.getGender();
+  created: function created() {
+    var _this4 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return parseInt(localStorage.getItem('department_id'));
+
+            case 2:
+              _this4.department_id = _context.sent;
+              _context.next = 5;
+              return parseInt(localStorage.getItem('course_id'));
+
+            case 5:
+              _this4.course_id = _context.sent;
+              _context.next = 8;
+              return localStorage.getItem('batch');
+
+            case 8:
+              _this4.batch = _context.sent;
+              _context.next = 11;
+              return _this4.getDepartments();
+
+            case 11:
+              _context.next = 13;
+              return _this4.getCourses();
+
+            case 13:
+              _context.next = 15;
+              return _this4.getGender();
+
+            case 15:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   computed: {
     years: function years() {
@@ -2699,8 +3357,43 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2726,7 +3419,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default.a
+    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default.a
   },
   // props:{
   //     data:{}
@@ -2745,7 +3438,7 @@ __webpack_require__.r(__webpack_exports__);
         stroke: {
           colors: ['#fff']
         },
-        labels: ['below 5,000', '5,000 - 10,000', '10,000 - 15,000', '15,000 - 20,000', '20,000 - 25,000', 'above 25,000', 'No data'],
+        labels: ['below 5,000', '5,000 - 10,000', '10,000 - 15,000', '15,000 - 20,000', '20,000 - 25,000', 'above 25,000'],
         // title:{
         //     text: "Gross Monthly Income",
         // },
@@ -2765,7 +3458,12 @@ __webpack_require__.r(__webpack_exports__);
         }]
       },
       isincome: false,
-      batch: null
+      batch: null,
+      department_id: null,
+      course_id: null,
+      courses: [],
+      departments: [],
+      hasdata: false
     };
   },
   methods: {
@@ -2773,29 +3471,100 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.isincome = false;
+      this.hasdata = false;
       var params = '';
 
-      if (this.$route.params.department_id) {
-        params = params + '&department_id=' + this.$route.params.department_id;
+      if (this.department_id) {
+        localStorage.setItem('department_id', this.department_id);
+        localStorage.removeItem('course_id');
+        params = params + '&department_id=' + this.department_id;
       }
 
-      if (this.$route.params.course_id) {
-        params = params + '&course_id=' + this.$route.params.course_id;
+      if (this.course_id) {
+        localStorage.setItem('course_id', this.course_id);
+        params = params + '&course_id=' + this.course_id;
       }
 
       if (this.batch) {
+        localStorage.setItem('batch', this.batch);
         params = params + '&batch=' + this.batch;
       }
 
       axios.get("/admin/get-income?".concat(params)).then(function (_ref) {
         var data = _ref.data;
         _this.series = data;
+
+        _this.series.forEach(function (element) {
+          if (element > 0) _this.hasdata = true;
+        });
+
         _this.isincome = true;
+      });
+    },
+    getCourses: function getCourses() {
+      var _this2 = this;
+
+      var params = '';
+
+      if (this.department_id) {
+        params = 'department_id=' + this.department_id;
+      }
+
+      axios.get("/admin/courses?".concat(params)).then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.courses = data.data;
+      });
+    },
+    getDepartments: function getDepartments() {
+      var _this3 = this;
+
+      axios.get("/admin/departments").then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.departments = data.data;
       });
     }
   },
-  mounted: function mounted() {
-    this.getIncome();
+  created: function created() {
+    var _this4 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return parseInt(localStorage.getItem('department_id'));
+
+            case 2:
+              _this4.department_id = _context.sent;
+              _context.next = 5;
+              return parseInt(localStorage.getItem('course_id'));
+
+            case 5:
+              _this4.course_id = _context.sent;
+              _context.next = 8;
+              return localStorage.getItem('batch');
+
+            case 8:
+              _this4.batch = _context.sent;
+              _context.next = 11;
+              return _this4.getDepartments();
+
+            case 11:
+              _context.next = 13;
+              return _this4.getCourses();
+
+            case 13:
+              _context.next = 15;
+              return _this4.getIncome();
+
+            case 15:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   computed: {
     years: function years() {
@@ -2830,8 +3599,43 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2857,7 +3661,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default.a
+    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default.a
   },
   // props:{
   //     data:{}
@@ -2875,7 +3679,7 @@ __webpack_require__.r(__webpack_exports__);
         stroke: {
           colors: ['#fff']
         },
-        labels: ['Yes', 'No', 'N/A'],
+        labels: ['Yes', 'No'],
         // title:{
         //     text: "Promotion",
         // },
@@ -2894,7 +3698,13 @@ __webpack_require__.r(__webpack_exports__);
           }
         }]
       },
-      ispromotion: true
+      ispromotion: true,
+      batch: null,
+      department_id: null,
+      course_id: null,
+      courses: [],
+      departments: [],
+      hasdata: false
     };
   },
   methods: {
@@ -2902,29 +3712,100 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.ispromotion = false;
+      this.hasdata = false;
       var params = '';
 
-      if (this.$route.params.department_id) {
-        params = params + '&department_id=' + this.$route.params.department_id;
+      if (this.department_id) {
+        localStorage.setItem('department_id', this.department_id);
+        localStorage.removeItem('course_id');
+        params = params + '&department_id=' + this.department_id;
       }
 
-      if (this.$route.params.course_id) {
-        params = params + '&course_id=' + this.$route.params.course_id;
+      if (this.course_id) {
+        localStorage.setItem('course_id', this.course_id);
+        params = params + '&course_id=' + this.course_id;
       }
 
       if (this.batch) {
+        localStorage.setItem('batch', this.batch);
         params = params + '&batch=' + this.batch;
       }
 
       axios.get("/admin/get-promotion?".concat(params)).then(function (_ref) {
         var data = _ref.data;
         _this.series = data;
+
+        _this.series.forEach(function (element) {
+          if (element > 0) _this.hasdata = true;
+        });
+
         _this.ispromotion = true;
+      });
+    },
+    getCourses: function getCourses() {
+      var _this2 = this;
+
+      var params = '';
+
+      if (this.department_id) {
+        params = 'department_id=' + this.department_id;
+      }
+
+      axios.get("/admin/courses?".concat(params)).then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.courses = data.data;
+      });
+    },
+    getDepartments: function getDepartments() {
+      var _this3 = this;
+
+      axios.get("/admin/departments").then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.departments = data.data;
       });
     }
   },
-  mounted: function mounted() {
-    this.getPromotion();
+  created: function created() {
+    var _this4 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return parseInt(localStorage.getItem('department_id'));
+
+            case 2:
+              _this4.department_id = _context.sent;
+              _context.next = 5;
+              return parseInt(localStorage.getItem('course_id'));
+
+            case 5:
+              _this4.course_id = _context.sent;
+              _context.next = 8;
+              return localStorage.getItem('batch');
+
+            case 8:
+              _this4.batch = _context.sent;
+              _context.next = 11;
+              return _this4.getDepartments();
+
+            case 11:
+              _context.next = 13;
+              return _this4.getCourses();
+
+            case 13:
+              _context.next = 15;
+              return _this4.getPromotion();
+
+            case 15:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   computed: {
     years: function years() {
@@ -2959,8 +3840,42 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2986,7 +3901,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default.a
+    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default.a
   },
   props: {
     data: {}
@@ -3005,7 +3920,7 @@ __webpack_require__.r(__webpack_exports__);
         stroke: {
           colors: ['#fff']
         },
-        labels: ['City', 'Municipalty', 'No data'],
+        labels: ['City', 'Municipalty'],
         // title:{
         //     text: "Location of Residents",
         // },
@@ -3025,7 +3940,12 @@ __webpack_require__.r(__webpack_exports__);
         }]
       },
       isresidence: false,
-      batch: null
+      batch: null,
+      department_id: null,
+      course_id: null,
+      courses: [],
+      departments: [],
+      hasdata: false
     };
   },
   methods: {
@@ -3033,29 +3953,100 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.isresidence = false;
+      this.hasdata = false;
       var params = '';
 
-      if (this.$route.params.department_id) {
-        params = params + '&department_id=' + this.$route.params.department_id;
+      if (this.department_id) {
+        localStorage.setItem('department_id', this.department_id);
+        localStorage.removeItem('course_id');
+        params = params + '&department_id=' + this.department_id;
       }
 
-      if (this.$route.params.course_id) {
-        params = params + '&course_id=' + this.$route.params.course_id;
+      if (this.course_id) {
+        localStorage.setItem('course_id', this.course_id);
+        params = params + '&course_id=' + this.course_id;
       }
 
       if (this.batch) {
+        localStorage.setItem('batch', this.batch);
         params = params + '&batch=' + this.batch;
       }
 
       axios.get("/admin/get-residence?".concat(params)).then(function (_ref) {
         var data = _ref.data;
         _this.series = data;
+
+        _this.series.forEach(function (element) {
+          if (element > 0) _this.hasdata = true;
+        });
+
         _this.isresidence = true;
+      });
+    },
+    getCourses: function getCourses() {
+      var _this2 = this;
+
+      var params = '';
+
+      if (this.department_id) {
+        params = 'department_id=' + this.department_id;
+      }
+
+      axios.get("/admin/courses?".concat(params)).then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.courses = data.data;
+      });
+    },
+    getDepartments: function getDepartments() {
+      var _this3 = this;
+
+      axios.get("/admin/departments").then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.departments = data.data;
       });
     }
   },
-  mounted: function mounted() {
-    this.getResidence();
+  created: function created() {
+    var _this4 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return parseInt(localStorage.getItem('department_id'));
+
+            case 2:
+              _this4.department_id = _context.sent;
+              _context.next = 5;
+              return parseInt(localStorage.getItem('course_id'));
+
+            case 5:
+              _this4.course_id = _context.sent;
+              _context.next = 8;
+              return localStorage.getItem('batch');
+
+            case 8:
+              _this4.batch = _context.sent;
+              _context.next = 11;
+              return _this4.getDepartments();
+
+            case 11:
+              _context.next = 13;
+              return _this4.getCourses();
+
+            case 13:
+              _context.next = 15;
+              return _this4.getResidence();
+
+            case 15:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   computed: {
     years: function years() {
@@ -3090,8 +4081,43 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3117,7 +4143,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default.a
+    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default.a
   },
   // props:{
   //     data:{}
@@ -3135,7 +4161,7 @@ __webpack_require__.r(__webpack_exports__);
         stroke: {
           colors: ['#fff']
         },
-        labels: ['Less than a month', '1 - 6 months', '7 - 11 months', '1 - 2 years', '2 - 3 years', '3 - 4 years', 'No data'],
+        labels: ['Less than a month', '1 - 6 months', '7 - 11 months', '1 - 2 years', '2 - 3 years', '3 - 4 years'],
         // title:{
         //     text: "Time to Get the Job",
         // },
@@ -3155,7 +4181,12 @@ __webpack_require__.r(__webpack_exports__);
         }]
       },
       istime_jobs: false,
-      batch: null
+      batch: null,
+      department_id: null,
+      course_id: null,
+      courses: [],
+      departments: [],
+      hasdata: false
     };
   },
   methods: {
@@ -3163,29 +4194,100 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.istime_jobs = false;
+      this.hasdata = false;
       var params = '';
 
-      if (this.$route.params.department_id) {
-        params = params + '&department_id=' + this.$route.params.department_id;
+      if (this.department_id) {
+        localStorage.setItem('department_id', this.department_id);
+        localStorage.removeItem('course_id');
+        params = params + '&department_id=' + this.department_id;
       }
 
-      if (this.$route.params.course_id) {
-        params = params + '&course_id=' + this.$route.params.course_id;
+      if (this.course_id) {
+        localStorage.setItem('course_id', this.course_id);
+        params = params + '&course_id=' + this.course_id;
       }
 
       if (this.batch) {
+        localStorage.setItem('batch', this.batch);
         params = params + '&batch=' + this.batch;
       }
 
       axios.get("/admin/get-time-jobs?".concat(params)).then(function (_ref) {
         var data = _ref.data;
         _this.series = data;
+
+        _this.series.forEach(function (element) {
+          if (element > 0) _this.hasdata = true;
+        });
+
         _this.istime_jobs = true;
+      });
+    },
+    getCourses: function getCourses() {
+      var _this2 = this;
+
+      var params = '';
+
+      if (this.department_id) {
+        params = 'department_id=' + this.department_id;
+      }
+
+      axios.get("/admin/courses?".concat(params)).then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.courses = data.data;
+      });
+    },
+    getDepartments: function getDepartments() {
+      var _this3 = this;
+
+      axios.get("/admin/departments").then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.departments = data.data;
       });
     }
   },
-  mounted: function mounted() {
-    this.getTimeJobs();
+  created: function created() {
+    var _this4 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return parseInt(localStorage.getItem('department_id'));
+
+            case 2:
+              _this4.department_id = _context.sent;
+              _context.next = 5;
+              return parseInt(localStorage.getItem('course_id'));
+
+            case 5:
+              _this4.course_id = _context.sent;
+              _context.next = 8;
+              return localStorage.getItem('batch');
+
+            case 8:
+              _this4.batch = _context.sent;
+              _context.next = 11;
+              return _this4.getDepartments();
+
+            case 11:
+              _context.next = 13;
+              return _this4.getCourses();
+
+            case 13:
+              _context.next = 15;
+              return _this4.getTimeJobs();
+
+            case 15:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   computed: {
     years: function years() {
@@ -3220,8 +4322,43 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
-/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3247,7 +4384,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default.a
+    'apexchart': vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default.a
   },
   // props:{
   //     data:{}
@@ -3265,7 +4402,7 @@ __webpack_require__.r(__webpack_exports__);
         stroke: {
           colors: ['#fff']
         },
-        labels: ['Local', 'Abroad', 'No data'],
+        labels: ['Local', 'Abroad'],
         // title:{
         //     text: "Place of work",
         // },
@@ -3284,7 +4421,13 @@ __webpack_require__.r(__webpack_exports__);
           }
         }]
       },
-      iswork: false
+      iswork: false,
+      batch: null,
+      department_id: null,
+      course_id: null,
+      courses: [],
+      departments: [],
+      hasdata: false
     };
   },
   methods: {
@@ -3292,29 +4435,100 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.iswork = false;
+      this.hasdata = false;
       var params = '';
 
-      if (this.$route.params.department_id) {
-        params = params + '&department_id=' + this.$route.params.department_id;
+      if (this.department_id) {
+        localStorage.setItem('department_id', this.department_id);
+        localStorage.removeItem('course_id');
+        params = params + '&department_id=' + this.department_id;
       }
 
-      if (this.$route.params.course_id) {
-        params = params + '&course_id=' + this.$route.params.course_id;
+      if (this.course_id) {
+        localStorage.setItem('course_id', this.course_id);
+        params = params + '&course_id=' + this.course_id;
       }
 
       if (this.batch) {
+        localStorage.setItem('batch', this.batch);
         params = params + '&batch=' + this.batch;
       }
 
       axios.get("/admin/get-work?".concat(params)).then(function (_ref) {
         var data = _ref.data;
         _this.series = data;
+
+        _this.series.forEach(function (element) {
+          if (element > 0) _this.hasdata = true;
+        });
+
         _this.iswork = true;
+      });
+    },
+    getCourses: function getCourses() {
+      var _this2 = this;
+
+      var params = '';
+
+      if (this.department_id) {
+        params = 'department_id=' + this.department_id;
+      }
+
+      axios.get("/admin/courses?".concat(params)).then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.courses = data.data;
+      });
+    },
+    getDepartments: function getDepartments() {
+      var _this3 = this;
+
+      axios.get("/admin/departments").then(function (_ref3) {
+        var data = _ref3.data;
+        _this3.departments = data.data;
       });
     }
   },
-  mounted: function mounted() {
-    this.getWork();
+  created: function created() {
+    var _this4 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return parseInt(localStorage.getItem('department_id'));
+
+            case 2:
+              _this4.department_id = _context.sent;
+              _context.next = 5;
+              return parseInt(localStorage.getItem('course_id'));
+
+            case 5:
+              _this4.course_id = _context.sent;
+              _context.next = 8;
+              return localStorage.getItem('batch');
+
+            case 8:
+              _this4.batch = _context.sent;
+              _context.next = 11;
+              return _this4.getDepartments();
+
+            case 11:
+              _context.next = 13;
+              return _this4.getCourses();
+
+            case 13:
+              _context.next = 15;
+              return _this4.getWork();
+
+            case 15:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   computed: {
     years: function years() {
@@ -5823,9 +7037,56 @@ var render = function () {
     [
       _c(
         "v-card-title",
+        { staticClass: "class-chart-head" },
         [
           _vm._v("Highest Educational Attainment\n        "),
-          _c("v-spacer"),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.departments,
+              "item-text": "abbreviation",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Department",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: {
+              change: function ($event) {
+                _vm.getAttainment(), _vm.getCourses()
+              },
+            },
+            model: {
+              value: _vm.department_id,
+              callback: function ($$v) {
+                _vm.department_id = $$v
+              },
+              expression: "department_id",
+            },
+          }),
+          _vm._v(" "),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.courses,
+              "item-text": "code",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Course",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: { change: _vm.getAttainment },
+            model: {
+              value: _vm.course_id,
+              callback: function ($$v) {
+                _vm.course_id = $$v
+              },
+              expression: "course_id",
+            },
+          }),
           _vm._v(" "),
           _c("v-autocomplete", {
             staticClass: "class-year",
@@ -5833,6 +7094,7 @@ var render = function () {
               items: _vm.years,
               "hide-details": "auto",
               label: "Year Graduated",
+              placeholder: "All",
               filled: "",
               dense: "",
             },
@@ -5854,7 +7116,7 @@ var render = function () {
           "div",
           { staticClass: "dashboard-inner-container" },
           [
-            _vm.isattainment
+            _vm.isattainment && _vm.hasdata
               ? _c("apexchart", {
                   attrs: {
                     width: "800",
@@ -5864,6 +7126,8 @@ var render = function () {
                   },
                 })
               : _vm._e(),
+            _vm._v(" "),
+            !_vm.hasdata ? _c("h3", [_vm._v("No data found")]) : _vm._e(),
           ],
           1
         ),
@@ -5899,9 +7163,56 @@ var render = function () {
     [
       _c(
         "v-card-title",
+        { staticClass: "class-chart-head" },
         [
           _vm._v("Civil Status\n        "),
-          _c("v-spacer"),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.departments,
+              "item-text": "abbreviation",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Department",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: {
+              change: function ($event) {
+                _vm.getCivilStatus(), _vm.getCourses()
+              },
+            },
+            model: {
+              value: _vm.department_id,
+              callback: function ($$v) {
+                _vm.department_id = $$v
+              },
+              expression: "department_id",
+            },
+          }),
+          _vm._v(" "),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.courses,
+              "item-text": "code",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Course",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: { change: _vm.getCivilStatus },
+            model: {
+              value: _vm.course_id,
+              callback: function ($$v) {
+                _vm.course_id = $$v
+              },
+              expression: "course_id",
+            },
+          }),
           _vm._v(" "),
           _c("v-autocomplete", {
             staticClass: "class-year",
@@ -5909,6 +7220,7 @@ var render = function () {
               items: _vm.years,
               "hide-details": "auto",
               label: "Year Graduated",
+              placeholder: "All",
               filled: "",
               dense: "",
             },
@@ -5930,7 +7242,7 @@ var render = function () {
           "div",
           { staticClass: "dashboard-inner-container" },
           [
-            _vm.iscivil
+            _vm.iscivil && _vm.hasdata
               ? _c("apexchart", {
                   attrs: {
                     width: "800",
@@ -5940,6 +7252,8 @@ var render = function () {
                   },
                 })
               : _vm._e(),
+            _vm._v(" "),
+            !_vm.hasdata ? _c("h3", [_vm._v("No data found")]) : _vm._e(),
           ],
           1
         ),
@@ -5975,9 +7289,56 @@ var render = function () {
     [
       _c(
         "v-card-title",
+        { staticClass: "class-chart-head" },
         [
           _vm._v("Relevance of the Curriculum\n        "),
-          _c("v-spacer"),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.departments,
+              "item-text": "abbreviation",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Department",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: {
+              change: function ($event) {
+                _vm.getCurriculum(), _vm.getCourses()
+              },
+            },
+            model: {
+              value: _vm.department_id,
+              callback: function ($$v) {
+                _vm.department_id = $$v
+              },
+              expression: "department_id",
+            },
+          }),
+          _vm._v(" "),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.courses,
+              "item-text": "code",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Course",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: { change: _vm.getCurriculum },
+            model: {
+              value: _vm.course_id,
+              callback: function ($$v) {
+                _vm.course_id = $$v
+              },
+              expression: "course_id",
+            },
+          }),
           _vm._v(" "),
           _c("v-autocomplete", {
             staticClass: "class-year",
@@ -5985,6 +7346,7 @@ var render = function () {
               items: _vm.years,
               "hide-details": "auto",
               label: "Year Graduated",
+              placeholder: "All",
               filled: "",
               dense: "",
             },
@@ -6006,7 +7368,7 @@ var render = function () {
           "div",
           { staticClass: "dashboard-inner-container" },
           [
-            _vm.iscurriculum
+            _vm.iscurriculum && _vm.hasdata
               ? _c("apexchart", {
                   attrs: {
                     width: "800",
@@ -6016,6 +7378,8 @@ var render = function () {
                   },
                 })
               : _vm._e(),
+            _vm._v(" "),
+            !_vm.hasdata ? _c("h3", [_vm._v("No data found")]) : _vm._e(),
           ],
           1
         ),
@@ -6051,9 +7415,56 @@ var render = function () {
     [
       _c(
         "v-card-title",
+        { staticClass: "class-chart-head" },
         [
           _vm._v("Employment status\n        "),
-          _c("v-spacer"),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.departments,
+              "item-text": "abbreviation",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Department",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: {
+              change: function ($event) {
+                _vm.getEmploymentStatus(), _vm.getCourses()
+              },
+            },
+            model: {
+              value: _vm.department_id,
+              callback: function ($$v) {
+                _vm.department_id = $$v
+              },
+              expression: "department_id",
+            },
+          }),
+          _vm._v(" "),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.courses,
+              "item-text": "code",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Course",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: { change: _vm.getEmploymentStatus },
+            model: {
+              value: _vm.course_id,
+              callback: function ($$v) {
+                _vm.course_id = $$v
+              },
+              expression: "course_id",
+            },
+          }),
           _vm._v(" "),
           _c("v-autocomplete", {
             staticClass: "class-year",
@@ -6061,6 +7472,7 @@ var render = function () {
               items: _vm.years,
               "hide-details": "auto",
               label: "Year Graduated",
+              placeholder: "All",
               filled: "",
               dense: "",
             },
@@ -6082,7 +7494,7 @@ var render = function () {
           "div",
           { staticClass: "dashboard-inner-container" },
           [
-            _vm.isemploymentstatus
+            _vm.isemploymentstatus && _vm.hasdata
               ? _c("apexchart", {
                   attrs: {
                     width: "800",
@@ -6092,6 +7504,8 @@ var render = function () {
                   },
                 })
               : _vm._e(),
+            _vm._v(" "),
+            !_vm.hasdata ? _c("h3", [_vm._v("No data found")]) : _vm._e(),
           ],
           1
         ),
@@ -6127,9 +7541,56 @@ var render = function () {
     [
       _c(
         "v-card-title",
+        { staticClass: "class-chart-head" },
         [
           _vm._v("Employment\n        "),
-          _c("v-spacer"),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.departments,
+              "item-text": "abbreviation",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Department",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: {
+              change: function ($event) {
+                _vm.getEmployment(), _vm.getCourses()
+              },
+            },
+            model: {
+              value: _vm.department_id,
+              callback: function ($$v) {
+                _vm.department_id = $$v
+              },
+              expression: "department_id",
+            },
+          }),
+          _vm._v(" "),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.courses,
+              "item-text": "code",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Course",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: { change: _vm.getEmployment },
+            model: {
+              value: _vm.course_id,
+              callback: function ($$v) {
+                _vm.course_id = $$v
+              },
+              expression: "course_id",
+            },
+          }),
           _vm._v(" "),
           _c("v-autocomplete", {
             staticClass: "class-year",
@@ -6137,6 +7598,7 @@ var render = function () {
               items: _vm.years,
               "hide-details": "auto",
               label: "Year Graduated",
+              placeholder: "All",
               filled: "",
               dense: "",
             },
@@ -6158,7 +7620,7 @@ var render = function () {
           "div",
           { staticClass: "dashboard-inner-container" },
           [
-            _vm.isemployment
+            _vm.isemployment && _vm.hasdata
               ? _c("apexchart", {
                   attrs: {
                     width: "800",
@@ -6168,6 +7630,8 @@ var render = function () {
                   },
                 })
               : _vm._e(),
+            _vm._v(" "),
+            !_vm.hasdata ? _c("h3", [_vm._v("No data found")]) : _vm._e(),
           ],
           1
         ),
@@ -6203,9 +7667,56 @@ var render = function () {
     [
       _c(
         "v-card-title",
+        { staticClass: "class-chart-head" },
         [
           _vm._v("Gender\n        "),
-          _c("v-spacer"),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.departments,
+              "item-text": "abbreviation",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Department",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: {
+              change: function ($event) {
+                _vm.getGender(), _vm.getCourses()
+              },
+            },
+            model: {
+              value: _vm.department_id,
+              callback: function ($$v) {
+                _vm.department_id = $$v
+              },
+              expression: "department_id",
+            },
+          }),
+          _vm._v(" "),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.courses,
+              "item-text": "code",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Course",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: { change: _vm.getGender },
+            model: {
+              value: _vm.course_id,
+              callback: function ($$v) {
+                _vm.course_id = $$v
+              },
+              expression: "course_id",
+            },
+          }),
           _vm._v(" "),
           _c("v-autocomplete", {
             staticClass: "class-year",
@@ -6213,6 +7724,7 @@ var render = function () {
               items: _vm.years,
               "hide-details": "auto",
               label: "Year Graduated",
+              placeholder: "All",
               filled: "",
               dense: "",
             },
@@ -6234,7 +7746,7 @@ var render = function () {
           "div",
           { staticClass: "dashboard-inner-container" },
           [
-            _vm.isgender
+            _vm.isgender && _vm.hasdata
               ? _c("apexchart", {
                   attrs: {
                     width: "800",
@@ -6244,6 +7756,8 @@ var render = function () {
                   },
                 })
               : _vm._e(),
+            _vm._v(" "),
+            !_vm.hasdata ? _c("h3", [_vm._v("No data found")]) : _vm._e(),
           ],
           1
         ),
@@ -6279,9 +7793,56 @@ var render = function () {
     [
       _c(
         "v-card-title",
+        { staticClass: "class-chart-head" },
         [
           _vm._v("Gross Monthly Income\n       "),
-          _c("v-spacer"),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.departments,
+              "item-text": "abbreviation",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Department",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: {
+              change: function ($event) {
+                _vm.getIncome(), _vm.getCourses()
+              },
+            },
+            model: {
+              value: _vm.department_id,
+              callback: function ($$v) {
+                _vm.department_id = $$v
+              },
+              expression: "department_id",
+            },
+          }),
+          _vm._v(" "),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.courses,
+              "item-text": "code",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Course",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: { change: _vm.getIncome },
+            model: {
+              value: _vm.course_id,
+              callback: function ($$v) {
+                _vm.course_id = $$v
+              },
+              expression: "course_id",
+            },
+          }),
           _vm._v(" "),
           _c("v-autocomplete", {
             staticClass: "class-year",
@@ -6289,6 +7850,7 @@ var render = function () {
               items: _vm.years,
               "hide-details": "auto",
               label: "Year Graduated",
+              placeholder: "All",
               filled: "",
               dense: "",
             },
@@ -6310,7 +7872,7 @@ var render = function () {
           "div",
           { staticClass: "dashboard-inner-container" },
           [
-            _vm.isincome
+            _vm.isincome && _vm.hasdata
               ? _c("apexchart", {
                   attrs: {
                     width: "800",
@@ -6320,6 +7882,8 @@ var render = function () {
                   },
                 })
               : _vm._e(),
+            _vm._v(" "),
+            !_vm.hasdata ? _c("h3", [_vm._v("No data found")]) : _vm._e(),
           ],
           1
         ),
@@ -6355,9 +7919,56 @@ var render = function () {
     [
       _c(
         "v-card-title",
+        { staticClass: "class-chart-head" },
         [
           _vm._v("Promotion\n        "),
-          _c("v-spacer"),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.departments,
+              "item-text": "abbreviation",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Department",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: {
+              change: function ($event) {
+                _vm.getPromotion(), _vm.getCourses()
+              },
+            },
+            model: {
+              value: _vm.department_id,
+              callback: function ($$v) {
+                _vm.department_id = $$v
+              },
+              expression: "department_id",
+            },
+          }),
+          _vm._v(" "),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.courses,
+              "item-text": "code",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Course",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: { change: _vm.getPromotion },
+            model: {
+              value: _vm.course_id,
+              callback: function ($$v) {
+                _vm.course_id = $$v
+              },
+              expression: "course_id",
+            },
+          }),
           _vm._v(" "),
           _c("v-autocomplete", {
             staticClass: "class-year",
@@ -6365,6 +7976,7 @@ var render = function () {
               items: _vm.years,
               "hide-details": "auto",
               label: "Year Graduated",
+              placeholder: "All",
               filled: "",
               dense: "",
             },
@@ -6386,7 +7998,7 @@ var render = function () {
           "div",
           { staticClass: "dashboard-inner-container" },
           [
-            _vm.ispromotion
+            _vm.ispromotion && _vm.hasdata
               ? _c("apexchart", {
                   attrs: {
                     width: "800",
@@ -6396,6 +8008,8 @@ var render = function () {
                   },
                 })
               : _vm._e(),
+            _vm._v(" "),
+            !_vm.hasdata ? _c("h3", [_vm._v("No data found")]) : _vm._e(),
           ],
           1
         ),
@@ -6431,9 +8045,56 @@ var render = function () {
     [
       _c(
         "v-card-title",
+        { staticClass: "class-chart-head" },
         [
-          _vm._v("Location of Residents\n        "),
-          _c("v-spacer"),
+          _vm._v("Location of Residents\n         "),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.departments,
+              "item-text": "abbreviation",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Department",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: {
+              change: function ($event) {
+                _vm.getResidence(), _vm.getCourses()
+              },
+            },
+            model: {
+              value: _vm.department_id,
+              callback: function ($$v) {
+                _vm.department_id = $$v
+              },
+              expression: "department_id",
+            },
+          }),
+          _vm._v(" "),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.courses,
+              "item-text": "code",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Course",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: { change: _vm.getResidence },
+            model: {
+              value: _vm.course_id,
+              callback: function ($$v) {
+                _vm.course_id = $$v
+              },
+              expression: "course_id",
+            },
+          }),
           _vm._v(" "),
           _c("v-autocomplete", {
             staticClass: "class-year",
@@ -6441,6 +8102,7 @@ var render = function () {
               items: _vm.years,
               "hide-details": "auto",
               label: "Year Graduated",
+              placeholder: "All",
               filled: "",
               dense: "",
             },
@@ -6507,9 +8169,56 @@ var render = function () {
     [
       _c(
         "v-card-title",
+        { staticClass: "class-chart-head" },
         [
           _vm._v("Time to Get the Job\n        "),
-          _c("v-spacer"),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.departments,
+              "item-text": "abbreviation",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Department",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: {
+              change: function ($event) {
+                _vm.getTimeJobs(), _vm.getCourses()
+              },
+            },
+            model: {
+              value: _vm.department_id,
+              callback: function ($$v) {
+                _vm.department_id = $$v
+              },
+              expression: "department_id",
+            },
+          }),
+          _vm._v(" "),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.courses,
+              "item-text": "code",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Course",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: { change: _vm.getTimeJobs },
+            model: {
+              value: _vm.course_id,
+              callback: function ($$v) {
+                _vm.course_id = $$v
+              },
+              expression: "course_id",
+            },
+          }),
           _vm._v(" "),
           _c("v-autocomplete", {
             staticClass: "class-year",
@@ -6517,6 +8226,7 @@ var render = function () {
               items: _vm.years,
               "hide-details": "auto",
               label: "Year Graduated",
+              placeholder: "All",
               filled: "",
               dense: "",
             },
@@ -6538,7 +8248,7 @@ var render = function () {
           "div",
           { staticClass: "dashboard-inner-container" },
           [
-            _vm.istime_jobs
+            _vm.istime_jobs && _vm.hasdata
               ? _c("apexchart", {
                   attrs: {
                     width: "800",
@@ -6548,6 +8258,8 @@ var render = function () {
                   },
                 })
               : _vm._e(),
+            _vm._v(" "),
+            !_vm.hasdata ? _c("h3", [_vm._v("No data found")]) : _vm._e(),
           ],
           1
         ),
@@ -6583,9 +8295,56 @@ var render = function () {
     [
       _c(
         "v-card-title",
+        { staticClass: "class-chart-head" },
         [
           _vm._v("Place of work\n        "),
-          _c("v-spacer"),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.departments,
+              "item-text": "abbreviation",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Department",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: {
+              change: function ($event) {
+                _vm.getWork(), _vm.getCourses()
+              },
+            },
+            model: {
+              value: _vm.department_id,
+              callback: function ($$v) {
+                _vm.department_id = $$v
+              },
+              expression: "department_id",
+            },
+          }),
+          _vm._v(" "),
+          _c("v-autocomplete", {
+            staticClass: "class-year",
+            attrs: {
+              items: _vm.courses,
+              "item-text": "code",
+              "item-value": "id",
+              "hide-details": "auto",
+              label: "Course",
+              placeholder: "All",
+              filled: "",
+              dense: "",
+            },
+            on: { change: _vm.getWork },
+            model: {
+              value: _vm.course_id,
+              callback: function ($$v) {
+                _vm.course_id = $$v
+              },
+              expression: "course_id",
+            },
+          }),
           _vm._v(" "),
           _c("v-autocomplete", {
             staticClass: "class-year",
@@ -6593,6 +8352,7 @@ var render = function () {
               items: _vm.years,
               "hide-details": "auto",
               label: "Year Graduated",
+              placeholder: "All",
               filled: "",
               dense: "",
             },
@@ -6614,7 +8374,7 @@ var render = function () {
           "div",
           { staticClass: "dashboard-inner-container" },
           [
-            _vm.iswork
+            _vm.iswork && _vm.hasdata
               ? _c("apexchart", {
                   attrs: {
                     width: "800",
@@ -6624,6 +8384,8 @@ var render = function () {
                   },
                 })
               : _vm._e(),
+            _vm._v(" "),
+            !_vm.hasdata ? _c("h3", [_vm._v("No data found")]) : _vm._e(),
           ],
           1
         ),

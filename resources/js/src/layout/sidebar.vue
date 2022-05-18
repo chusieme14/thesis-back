@@ -20,7 +20,7 @@
                 @click.stop="$route.name != item.name?$router.push({name: item.route}):''"
             >
                 <v-list-item-icon v-if="drawer">
-                    <v-tooltip right color="">
+                    <v-tooltip right color="success">
                         <template v-slot:activator="{ on, attrs }">
                             <v-icon
                                 v-bind="attrs"
@@ -33,7 +33,13 @@
                 <v-list-item-icon v-else>
                     <v-icon>{{item.icon}}</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title >{{item.name.toUpperCase()}}</v-list-item-title>
+                <v-tooltip top color="primary" v-if="getCurrentUrl != item.route">
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-list-item-title v-bind="attrs" v-on="on">{{item.name.toUpperCase()}}</v-list-item-title>
+                    </template>
+                    <span>{{item.tooltip }}</span>
+                </v-tooltip>
+                <v-list-item-title v-else>{{item.name.toUpperCase()}}</v-list-item-title>
             </v-list-item>
         </v-list>
 

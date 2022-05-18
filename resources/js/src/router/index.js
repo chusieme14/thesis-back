@@ -47,6 +47,12 @@ const router = new Router({
 })
 router.beforeEach((to, from, next) => {
     Axios.get(`/admin/checkuser`).then(({data})=>{
+        if(from.meta.parent=="/dashboard" && !to.meta.parent){
+            localStorage.removeItem('department_id')
+            localStorage.removeItem('batch')
+            localStorage.removeItem('course_id')
+        }
+        console.log(from.meta.parent,"from")
         if(to.name=='login' && data){
             next({
                 name: 'not-found',

@@ -12,6 +12,5 @@
     "/js/chunks/points.js": "/js/chunks/points.js",
     "/js/chunks/roles.js": "/js/chunks/roles.js",
     "/js/chunks/vendors~admin~alumni~department~news.js": "/js/chunks/vendors~admin~alumni~department~news.js",
-    "/js/chunks/vendors~alumni.js": "/js/chunks/vendors~alumni.js",
-    "/js/chunks/vendors~alumni~department~news.js": "/js/chunks/vendors~alumni~department~news.js"
+    "/js/chunks/vendors~alumni.js": "/js/chunks/vendors~alumni.js"
 }

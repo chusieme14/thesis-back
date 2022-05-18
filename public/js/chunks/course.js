@@ -263,13 +263,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    viewCourse: function viewCourse(val) {
-      this.$router.push({
-        name: 'courses-civil-status',
-        params: {
-          course_id: val.id
-        }
-      });
+    viewCourse: function viewCourse(val) {// this.$router.push({ name: 'courses-civil-status', params: { course_id: val.id } })
     },
     addNew: function addNew() {
       this.details.title = 'Add course';

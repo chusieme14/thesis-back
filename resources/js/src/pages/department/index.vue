@@ -133,7 +133,7 @@ export default {
     },
     methods:{
         viewDepartment(val){
-            this.$router.push({ name: 'dep-civil-status', params: { department_id: val.id } })
+            // this.$router.push({ name: 'dep-civil-status', params: { department_id: val.id } })
         },
         cancel(){
             this.clear()

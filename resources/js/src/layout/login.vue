@@ -2,12 +2,14 @@
     <div class="login-main-container">
         <div class="left-container">
             <div class="left-container1">
-                <!-- <img src="/sample/logo.png" alt=""> -->
+                <!-- <img src="/sample/login.png" alt=""> -->
             </div>
         </div>
         <div class="right-container">
-            <div class="right-inner-container">
+            <!-- <div>
                 <img class="test-class" src="/sample/logo.png" alt="">
+            </div> -->
+            <div class="right-inner-container">
                 <h2>Sign in</h2>
                 <v-layout justify-center row>
                     <v-flex md10>
@@ -84,6 +86,6 @@ export default {
 .test-class{
     // position: absolute;
     width: 200px;
-    display: none;
+    // display: none;
 }
 </style>

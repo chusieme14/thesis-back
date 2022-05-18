@@ -1,12 +1,38 @@
 <template>
     <v-card >
-        <v-card-title>Civil Status
-            <v-spacer></v-spacer>
+        <v-card-title class="class-chart-head">Civil Status
+            <v-autocomplete
+                v-model="department_id"
+                :items="departments"
+                item-text="abbreviation"
+                item-value="id"
+                hide-details="auto"
+                label="Department"
+                placeholder="All"
+                class="class-year"
+                @change="getCivilStatus(), getCourses()"
+                filled
+                dense
+            ></v-autocomplete>
+            <v-autocomplete
+                v-model="course_id"
+                :items="courses"
+                item-text="code"
+                item-value="id"
+                hide-details="auto"
+                label="Course"
+                placeholder="All"
+                class="class-year"
+                @change="getCivilStatus"
+                filled
+                dense
+            ></v-autocomplete>
             <v-autocomplete
                 v-model="batch"
                 :items="years"
                 hide-details="auto"
                 label="Year Graduated"
+                placeholder="All"
                 class="class-year"
                 @change="getCivilStatus"
                 filled
@@ -15,7 +41,8 @@
         </v-card-title>
         <v-card-text class="dashboard-main-container">
             <div class="dashboard-inner-container">
-                <apexchart v-if="iscivil" width="800" type="pie" :options="chartOptions" :series="series"></apexchart>
+                <apexchart v-if="iscivil && hasdata" width="800" type="pie" :options="chartOptions" :series="series"></apexchart>
+                <h3 v-if="!hasdata">No data found</h3>
             </div>
         </v-card-text>
     </v-card>
@@ -43,7 +70,7 @@ export default {
                 stroke: {
                     colors: ['#fff']
                 },
-                labels:['Single', 'Married', 'Separated', 'Widowed', 'No data'],
+                labels:['Single', 'Married', 'Separated', 'Widowed'],
                 fill: {
                     opacity: 0.8
                 },
@@ -61,31 +88,63 @@ export default {
             },
             // civil_status:[],
             iscivil:false,
-            batch:null
+            batch:null,
+            department_id:null,
+            course_id:null,
+            courses:[],
+            departments:[],
+            hasdata:false
         }
     },
     methods:{
         async getCivilStatus(){
             this.iscivil = false
+            this.hasdata = false
             let params=''
-            if(this.$route.params.department_id){
-                params = params + '&department_id='+this.$route.params.department_id
+            if(this.department_id){
+                localStorage.setItem('department_id', this.department_id)
+                this.course_id = null
+                localStorage.removeItem('course_id')
+                params = params + '&department_id='+this.department_id
             }
-            if(this.$route.params.course_id){
-                params = params + '&course_id='+this.$route.params.course_id
+            if(this.course_id){
+                localStorage.setItem('course_id', this.course_id)
+                params = params + '&course_id='+this.course_id
             }
             if(this.batch){
+                localStorage.setItem('batch', this.batch)
                 params = params + '&batch='+this.batch
             }
             await axios.get(`/admin/get-civil-statistics?${params}`).then(({data})=>{
                 this.series = data
+                this.series.forEach(element => {
+                    if(element > 0) this.hasdata=true
+                });
                 this.iscivil = true
             })
         },
+        getCourses(){
+            let params = ''
+            if(this.department_id){
+                params = 'department_id=' + this.department_id
+            }
+            axios.get(`/admin/courses?${params}`).then(({data})=>{
+                this.courses = data.data
+            })
+        },
+        getDepartments(){
+            axios.get(`/admin/departments`).then(({data})=>{
+                this.departments = data.data
+            })
+        }
     },
-    created(){
-        this.getCivilStatus()
-        console.log(this.$route.params.department_id,"sajdgsadhjdg")
+    async created(){
+        this.department_id = await parseInt(localStorage.getItem('department_id'))
+        this.course_id = await parseInt(localStorage.getItem('course_id'))
+        this.batch = await localStorage.getItem('batch')
+        await this.getDepartments()
+        await this.getCourses()
+        await this.getCivilStatus()
     },
     computed:{
         years(){

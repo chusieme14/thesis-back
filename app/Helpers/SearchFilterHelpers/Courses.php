@@ -17,6 +17,7 @@ class Courses {
     {
         $this->searchColumns();
         $this->sortBy();
+        $this->byDepartment();
         
         $per_page = Request()->per_page;
         if ($per_page=='-1' || !isset(Request()->per_page)) return $this->model->paginate($this->model->count());
@@ -31,6 +32,13 @@ class Courses {
             foreach ($searchable as $column) {
                 $this->model->orWhere($column, 'like', "%".$keyword."%");
             }
+        }
+    }
+
+    public function byDepartment()
+    {
+        if(Request()->department_id){
+            $this->model->where('department_id', Request()->department_id);
         }
     }
 

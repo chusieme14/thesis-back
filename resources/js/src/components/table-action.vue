@@ -1,27 +1,41 @@
 <template>
     <div>
-        <v-btn
-            color="primary"
-            icon
-            @click.stop="$emit('editItem', item)"
-            :disabled="disable.includes('edit')"
-            v-if="!hide.includes('edit')"
-        >
-            <v-icon small>
-                mdi-pencil
-            </v-icon>
-        </v-btn>
-        <v-btn
-            color="error"
-            icon
-            @click.stop="$emit('deleteItem', item)"
-            :disabled="disable.includes('delete')"
-            v-if="!hide.includes('delete')"
-        >
-            <v-icon small>
-                mdi-delete
-            </v-icon>
-        </v-btn>
+        <v-tooltip color="success" left>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    color="primary"
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                    @click.stop="$emit('editItem', item)"
+                    :disabled="disable.includes('edit')"
+                    v-if="!hide.includes('edit')"
+                >
+                    <v-icon small>
+                        mdi-pencil
+                    </v-icon>
+                </v-btn>
+            </template>
+            Edit
+        </v-tooltip>
+        <v-tooltip color="success" left>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    color="error"
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                    @click.stop="$emit('deleteItem', item)"
+                    :disabled="disable.includes('delete')"
+                    v-if="!hide.includes('delete')"
+                >
+                    <v-icon small>
+                        mdi-delete
+                    </v-icon>
+                </v-btn>
+            </template>
+            Delete
+        </v-tooltip>
     </div>
 </template>
 <script>

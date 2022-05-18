@@ -312,13 +312,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }]), _ref;
   },
   methods: {
-    viewDepartment: function viewDepartment(val) {
-      this.$router.push({
-        name: 'dep-civil-status',
-        params: {
-          department_id: val.id
-        }
-      });
+    viewDepartment: function viewDepartment(val) {// this.$router.push({ name: 'dep-civil-status', params: { department_id: val.id } })
     },
     cancel: function cancel() {
       this.clear();

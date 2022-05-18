@@ -72,24 +72,25 @@
                 <slot name="custom_actions"></slot>
             </div>
             <v-menu offset-y left nudge-bottom="5" :close-on-content-click="false">
-                <template v-slot:activator="{ on, attrs }">
-                    <!-- <v-tooltip top>
-                    <template v-slot:activator="{ on, attrs }"> -->
-                    <v-btn
-                        fab
-                        tile
-                        color="success"
-                        v-bind="attrs"
-                        v-on="on"
-                        @click.stop="drawer = true"
-                        v-if="!hide.includes('filter')"
-                    >
-                        <v-icon>mdi-filter-plus-outline</v-icon>
-                    </v-btn>
-                    <!-- </template> -->
-                    <!-- <span>Filter</span>
-                    </v-tooltip> -->
+                <template v-slot:activator="{ on: menu, attrs }">
+                    <v-tooltip color="success" bottom>
+                        <template v-slot:activator="{ on: tooltip }">
+                            <v-btn
+                                fab
+                                tile
+                                color="success"
+                                v-bind="attrs"
+                                v-on="{ ...tooltip, ...menu }"
+                                @click.stop="drawer = true"
+                                v-if="!hide.includes('filter')"
+                            >
+                                <v-icon>mdi-filter-plus-outline</v-icon>
+                            </v-btn>
+                        </template>
+                        <span>Filter</span>
+                    </v-tooltip>
                 </template>
+                        
                 <v-card min-width="300">
                     <v-card-text>
                         <slot name="custom_filter" />
@@ -113,22 +114,22 @@
                     </v-card-actions>
                 </v-card>
             </v-menu>
-            <v-tooltip top>
-            <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                    v-bind="attrs"
-                    v-on="on"
-                    fab
-                    tile
-                    color="success"
-                    @click.stop="$emit('addNew')"
-                    v-if="!hide.includes('addNew')"
-                    :disabled="disable.includes('addNew')"
-                    class="ml-3"
-                >
-                    <v-icon>mdi-plus</v-icon>
-                </v-btn>
-            </template>
+            <v-tooltip color="success" bottom>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                        v-bind="attrs"
+                        v-on="on"
+                        fab
+                        tile
+                        color="success"
+                        @click.stop="$emit('addNew')"
+                        v-if="!hide.includes('addNew')"
+                        :disabled="disable.includes('addNew')"
+                        class="ml-3"
+                    >
+                        <v-icon>mdi-plus</v-icon>
+                    </v-btn>
+                </template>
                 <span>Add new</span>
             </v-tooltip>
         </div>

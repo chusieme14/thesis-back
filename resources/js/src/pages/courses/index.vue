@@ -130,7 +130,7 @@ export default {
     }, 
     methods:{
         viewCourse(val){
-            this.$router.push({ name: 'courses-civil-status', params: { course_id: val.id } })
+            // this.$router.push({ name: 'courses-civil-status', params: { course_id: val.id } })
         },
         addNew(){
             this.details.title = 'Add course'

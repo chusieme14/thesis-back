@@ -29,7 +29,7 @@
 }
 .left-container{
     width: calc(100% - 450px);
-    /* background-color: #161616; */
+    background-color: #006048;
     display: flex;
     justify-content: center;
 }
@@ -100,4 +100,8 @@
 }
 .class-year{
     max-width: 317px !important;
+}
+.class-chart-head{
+    display: flex;
+    justify-content: space-between;
 }
