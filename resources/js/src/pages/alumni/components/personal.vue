@@ -51,11 +51,9 @@
                             ></v-text-field>
                         </v-col>
                         <v-col class="image-text-field" cols="12" sm="4">
-                            <label><span class="text-danger">*</span> Middle name </label>
+                            <label>Middle name </label>
                             <v-text-field
                                 v-model="payload.middle_name"
-                                :rules="[() => !!payload.middle_name ||  '']"
-
                                 dense
                                 filled
                             ></v-text-field>
@@ -178,7 +176,10 @@ export default {
             ],
             genders:[
                 'Male',
-                'Famale'
+                'Famale',
+                'Transgender',
+                'Non-binary',
+                'Prefer not to respond',
             ],
         }
     },

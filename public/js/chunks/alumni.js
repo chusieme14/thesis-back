@@ -502,8 +502,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     payload: {}
@@ -511,7 +509,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       civil_status: ['Single', 'Married', 'Separated', 'Widowed'],
-      genders: ['Male', 'Famale']
+      genders: ['Male', 'Famale', 'Transgender', 'Non-binary', 'Prefer not to respond']
     };
   },
   methods: {
@@ -5727,23 +5725,10 @@ var render = function () {
                           attrs: { cols: "12", sm: "4" },
                         },
                         [
-                          _c("label", [
-                            _c("span", { staticClass: "text-danger" }, [
-                              _vm._v("*"),
-                            ]),
-                            _vm._v(" Middle name "),
-                          ]),
+                          _c("label", [_vm._v("Middle name ")]),
                           _vm._v(" "),
                           _c("v-text-field", {
-                            attrs: {
-                              rules: [
-                                function () {
-                                  return !!_vm.payload.middle_name || ""
-                                },
-                              ],
-                              dense: "",
-                              filled: "",
-                            },
+                            attrs: { dense: "", filled: "" },
                             model: {
                               value: _vm.payload.middle_name,
                               callback: function ($$v) {
