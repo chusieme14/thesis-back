@@ -264,6 +264,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -775,7 +776,10 @@ var render = function () {
                       "v-row",
                       [
                         _c("table-action", {
-                          attrs: { item: item },
+                          attrs: {
+                            item: item,
+                            disable: item.courses.length ? ["delete"] : [""],
+                          },
                           on: {
                             editItem: _vm.showEdit,
                             deleteItem: _vm.showDelete,

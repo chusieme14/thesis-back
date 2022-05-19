@@ -36,6 +36,7 @@
                     <table-action :item="item" 
                         @editItem="showEdit" 
                         @deleteItem="showDelete"
+                        :disable="item.graduates.length?['delete']:['']"
                     ></table-action>
                 </template>
             </v-data-table>

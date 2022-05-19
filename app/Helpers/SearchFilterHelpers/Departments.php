@@ -14,6 +14,7 @@ class Departments {
 
     public function searchable()
     {
+        $this->model->with('courses');
         $this->searchColumns();
         $this->sortBy();
         

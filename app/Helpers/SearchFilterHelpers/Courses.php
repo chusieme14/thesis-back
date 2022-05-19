@@ -15,6 +15,7 @@ class Courses {
 
     public function searchable()
     {
+        $this->model->with('graduates');
         $this->searchColumns();
         $this->sortBy();
         $this->byDepartment();

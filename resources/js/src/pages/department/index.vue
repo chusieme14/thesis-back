@@ -46,6 +46,7 @@
                         <table-action :item="item" 
                             @editItem="showEdit" 
                             @deleteItem="showDelete"
+                            :disable="item.courses.length?['delete']:['']"
                         ></table-action>
                     </v-row>
                 </template>

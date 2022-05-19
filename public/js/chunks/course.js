@@ -205,6 +205,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -665,7 +666,10 @@ var render = function () {
                   var item = ref.item
                   return [
                     _c("table-action", {
-                      attrs: { item: item },
+                      attrs: {
+                        item: item,
+                        disable: item.graduates.length ? ["delete"] : [""],
+                      },
                       on: {
                         editItem: _vm.showEdit,
                         deleteItem: _vm.showDelete,
