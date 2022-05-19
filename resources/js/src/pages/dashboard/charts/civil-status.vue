@@ -103,7 +103,6 @@ export default {
             let params=''
             if(this.department_id){
                 localStorage.setItem('department_id', this.department_id)
-                this.course_id = null
                 localStorage.removeItem('course_id')
                 params = params + '&department_id='+this.department_id
             }

@@ -2266,7 +2266,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 if (_this.department_id) {
                   localStorage.setItem('department_id', _this.department_id);
-                  _this.course_id = null;
                   localStorage.removeItem('course_id');
                   params = params + '&department_id=' + _this.department_id;
                 }
