@@ -26,7 +26,7 @@
                 @update:options="fetchPage"
                 @click:row="viewCourse"
                 fixed-header
-                class="cursor-pointer"
+                class="cursor-pointer table-fix-height"
             >
                 <template v-slot:item.department="{ item }">
                     {{item.department.name}}

@@ -29,6 +29,7 @@
                 @update:options="fetchPage"
                 fixed-header
                 @click:row="viewGraduate"
+                class="cursor-pointer table-fix-height"
             >
                 <template v-slot:item.image="{ item }">
                     <v-avatar

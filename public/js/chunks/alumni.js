@@ -1636,6 +1636,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -6864,6 +6865,7 @@ var render = function () {
           }),
           _vm._v(" "),
           _c("v-data-table", {
+            staticClass: "cursor-pointer table-fix-height",
             attrs: {
               headers: _vm.headers,
               items: _vm.graduates,

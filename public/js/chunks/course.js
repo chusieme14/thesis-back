@@ -621,7 +621,7 @@ var render = function () {
           }),
           _vm._v(" "),
           _c("v-data-table", {
-            staticClass: "cursor-pointer",
+            staticClass: "cursor-pointer table-fix-height",
             attrs: {
               headers: _vm.headers,
               items: _vm.graduates,
